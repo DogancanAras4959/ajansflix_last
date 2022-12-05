@@ -1,0 +1,83 @@
+﻿@model ajansflix.SERVICES.Dtos.OrdersData.OrdersDto
+
+@{
+    ViewData["Title"] = "siparisduzenle";
+    Layout = "~/Areas/admin/Views/_Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .form-check {
+        position: relative;
+        text-align: left;
+    }
+
+        .form-check .form-check-input {
+            float: left;
+            margin-right: 0.5rem;
+        }
+</style>
+
+<div class="col-xl-8">
+    <div class="card">
+        <div class="card-body">
+            <form method="post" action="/admin/siparis/siparisguncelle" novalidate="" class="needs-validation">
+                @Html.HiddenFor(x => x.Id)
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="validationCustom01" class="form-label">Sipariş Numarası</label>
+                            @Html.TextBoxFor(x => x.OrderNo, new { @class = "form-control", id = "validationCustom01", placeholder = "Sipariş Numarası giriniz", @required = "" })
+                        
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="validationCustom02" class="form-label">Adet</label>
+                            @Html.TextBoxFor(x => x.Quantity, new { @class = "form-control", id = "validationCustom02", placeholder = "Adet giriniz", @required = "" })
+                          
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="validationCustom03" class="form-label">Müşteri</label>
+                            @Html.DropDownListFor(x => x.CustomerId, (SelectList)ViewBag.Customers, "Müşteri Seçiniz", new { @class = "form-select", id = "validationCustom03", @required = "" })
+                          
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="validationCustom04" class="form-label">Toplam Tutar</label>
+                            @Html.TextBoxFor(x => x.TotalPrice, new { @class = "form-control", type = "text", id = "validationCustom04", placeholder = "Toplam tutarı giriniz", @required = "" })
+                         
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="validationCustom03" class="form-label">Durum</label>
+                            @Html.DropDownListFor(x => x.StatusId, (SelectList)ViewBag.Status, "Durum Seçiniz", new { @class = "form-select", id = "validationCustom03", @required = "" })
+                          
+                        </div>
+                    </div>
+                </div>
+                <div class="form-check form-switch mb-3" dir="ltr">
+                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-check-input", id = "customSwitch1" })
+                    <label class="form-check-label" for="customSwitch1">Aktif mi?</label>
+                </div>
+                <div>
+                    <button class="btn btn-primary" type="submit">Sipariş Güncelle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- end card -->
+</div>
+
+
+
+

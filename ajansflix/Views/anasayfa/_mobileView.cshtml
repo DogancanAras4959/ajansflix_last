@@ -1,0 +1,42 @@
+﻿@using ajansflix.SERVICES.Dtos.CategoryData
+
+@{
+    List<CategoryDto> categoryList = ViewBag.CategoryList as List<CategoryDto>;
+}
+
+<style>
+    .product-info .product-title {
+        font-size: 15px;
+        text-transform: capitalize;
+        margin-bottom: 12px;
+    }
+</style>
+
+<div class="container container-240 mobileViewContainer mobile-category-container" style="padding-top: 50px; padding-bottom: 40px;">
+    <div class="e-product">
+        <div class="product-collection-grid spc1">
+            <div class="row" style="margin:0;">
+
+                @foreach (var item in categoryList)
+                {
+                    <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 product-item" style="width: 50%; padding-left: 5px; padding-right: 5px; margin-bottom:10px;">
+                        <div class="pd-bd product-inner" style="padding: 5px;">
+                            <div class="product-img">
+                                <a href="/hizmetler?id=@item.Id">
+                                <img src="@item.CategoryImage.Replace("thumbnail","fullscreen")" 
+                                     style="margin: 0 auto; display: block;" loading="lazy" 
+                                     title="@item.CategoryName" alt="@item.CategoryName" class="img-reponsive"></a>
+                            </div>
+                            <div class="product-info">
+                                <div class="element-list element-list-middle">
+                                    <h3 class="product-title" style="text-align:center;"><a href="/hizmetler?id=@item.Id">@item.CategoryName</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

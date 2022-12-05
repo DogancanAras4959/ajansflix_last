@@ -1,0 +1,81 @@
+﻿@using ajansflix.SERVICES.Dtos.ProductsData
+@using ajansflix.COMMON.Helpers
+@model ajansflix.SERVICES.Dtos.CategoryData.CategoryDto
+ 
+@{
+    ViewData["Title"] = "hizmetler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<ProductDto> products = ViewBag.ProductList as List<ProductDto>;
+
+}
+
+<link href="~/css/custom.css" rel="stylesheet" />
+
+<div class="container container-240 mobile-Container">
+    <div class="ecome-heading style2" style="margin-bottom:0px;">
+        <div class="title-icon e-gradient custom-titlebar-mobile" style="width: 360px; background: #ffed00; color: #000 !important;">
+            @Model.CategoryDescription
+        </div>
+    </div>
+    <div class="e-product mobile-eproduct">
+        <div class="product-collection-grid product-grid spc1" style="padding-top:10px;">
+            <div class="row">
+
+                @foreach (var item2 in products.OrderByDescending(x => x.CreatedTime))
+                {
+                    <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 product-item">
+                        <div class="pd-bd product-inner" style="padding:20px;">
+                            <div class="product-img">
+                                @if (item2.Discount > 0)    
+                                {
+                                    <div class="ribbon-price red"><span>-@item2.Discount% </span></div>
+                                }
+                                <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">
+                                    <img src="@item2.ImagePath" alt="@item2.ProductMetaName" loading="lazy" title="@item2.ProductMetaName" class="img-reponsive card-mobile-height">
+                                </a>
+                            </div>
+                            <div class="product-info" style="margin-top:15px;">
+                                <div class="element-list element-list-middle">
+                                    <h3 class="product-title"><a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">@item2.ProductName</a></h3>
+                                    <div class="product-bottom">
+                                        <div class="product-price">
+                                            @if (item2.Discount > 0)
+                                            {
+
+                                                decimal ilkfiyat = item2.Price;
+                                                decimal indirimOrani = item2.Discount;
+                                                decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
+
+                                                <span class="old" style="font-weight:800; text-decoration:line-through">
+                                                    @Convert.ToInt32(item2.Price) TL
+                                                </span>
+                                                <span style="font-weight: 800; margin-left: 10px;" class="red">@Convert.ToInt32(indirimli_fiyat) TL</span>
+                                                <span style="font-size: 14px; font-weight: 300;"> +KDV</span>
+                                            }
+                                            else if (item2.Discount == 0)
+                                            {
+                                                <span style="font-weight:800;">
+                                                    @Convert.ToInt32(item2.Price) TL
+                                                </span>
+                                                <span style="font-size: 14px; font-weight: 300;"> +KDV</span>
+                                            }
+                                            else
+                                            {
+
+                                            }
+                                        </div>
+                                        <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" class="btn-icon btn-view">
+                                            <span class="icon-bg icon-view"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,356 @@
+﻿@model ajansflix.SERVICES.Dtos.ProductsData.ProductDto
+@using ajansflix.SERVICES.Dtos.ProductsData
+@using ajansflix.SERVICES.Dtos.DetailDataData
+@using ajansflix.SERVICES.Dtos.ProductDetailsData
+
+@{
+    ViewData["Title"] = "detay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<DetailDataDto> detailDatas = ViewBag.DetailData as List<DetailDataDto>;
+    List<ProductDetailDto> productDetails = ViewBag.Details as List<ProductDetailDto>;
+    List<ProductDto> productsRelational = ViewBag.ProductsRelational as List<ProductDto>;
+    ProductDto productCookie = ViewBag.Item as ProductDto;
+
+    //List<DetailDataDto> detailDatasCookie = ViewBag.DetailsCookie as List<DetailDataDto>;
+
+    List<string> images = ViewBag.ImagesGallery as List<string>;
+    decimal price = 0;
+
+    @if (productCookie != null)
+    {
+        price = Convert.ToInt32(productCookie.Price);
+    }
+    else
+    {
+        price = Convert.ToInt32(Model.Price);
+    }
+    int countSlider = 1;
+}
+
+<link href="~/css/custom.css" rel="stylesheet" />
+<link href="~/css/lightboximg.css" rel="stylesheet" />
+<link href="~/css/product.css" rel="stylesheet" />
+
+<div class="container container-240">
+    <div class="single-product-detail product-bundle product-aff" style="margin-bottom:20px;">
+        <ul class="breadcrumb" style="margin-top: 20px; margin-bottom: 20px;">
+            <li><a href="@Url.Action("sayfa","anasayfa")">Ana Sayfa</a></li>
+            <li class="active"><a href="/hizmetler?Id=@Model.CategoryId">@Model.category.CategoryName</a></li>
+            <li class="active" id="name">@Model.ProductName </li>
+        </ul>
+        <div class="row noShowRelational" id="contentRelational">
+            <div class="col-sm-12">
+                <h1 class="cate-title">Bu hizmetlerimize de göz atın!</h1>
+                @foreach (var item in productsRelational)
+                {
+                    <div class="col-xs-12 col-sm-2 col-md-2">
+
+                        <div class="cate-item">
+                            <div class="product-img" style="margin-top:10px;">
+                                <a href="@Url.Action("detay","hizmet", new { id = item.Id, productname = item.GenerateSlug() })" target="_blank">
+                                    <img src="@item.ImagePath.Replace("thumbnail","fullscreen")"
+                                         alt="@item.ProductName" title="@item.ProductName" loading="lazy" class="img-reponsive">
+                                </a>
+                            </div>
+                            <div class="product-info" style="margin-top:15px;">
+                                <h3 class="product-title" style="font-size: 15px; text-align: center; line-height: 18px; margin-bottom:2px;">
+                                    <a href="@Url.Action("detay","hizmet", new { id = item.Id, productname = item.GenerateSlug() })">@item.ProductName </a>
+                                </h3>
+                                <div class="product-price v2" style="text-align:center;">
+                                    @if (item.Discount > 0)
+                                    {
+                                        decimal ilkfiyat = item.Price;
+                                        decimal indirimOrani = item.Discount;
+                                        decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
+
+                                        <span>@Convert.ToInt32(indirimli_fiyat) TL</span>
+                                    }
+                                    else if (item.Discount == 0)
+                                    {
+                                        <span>@item.Price TL</span>
+                                    }
+                                    else
+                                    {
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-3 col-md-3">
+                <div class="slide-fullw" style="margin-top:0px; margin-bottom:0px;">
+                    <div class="js-slider-home2">
+                        <div class="e-slide-img">
+                            <img src="@Model.ImagePath.Replace("thumbnail","fullscreen")" id="imageProduct" style="cursor:pointer;"
+                                 onclick="openModal();currentSlide(1)" alt="@Model.ProductName"
+                                 title="@Model.ProductName" class="hover-shadow mobile-slider-h slide-cover-img" loading="lazy">
+                        </div>
+                        @foreach (var item in images)
+                        {
+                            countSlider++;
+                            <div class="e-slide-img">
+                                <img src="@item.Replace("thumbnail","fullscreen")" style="cursor:pointer;"
+                                     onclick="openModal();currentSlide(@countSlider)" alt="galleryProduct_@countSlider" title="galleryProduct_@countSlider"
+                                     class="hover-shadow mobile-slider-h slide-cover-img" loading="lazy">
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 table-price-padding" style="padding-left:0px; padding-right:0px;">
+                <div class="single-flex" style="width: 100%; max-width: 100%; display: block;">
+                    <div class="single-product-info product-info product-grid-v2">
+                        <div class="shopping-cart">
+                            <div class="table-responsive" style="overflow-x:hidden;">
+
+                                <table class="table table-bordered cart-table" style="empty-cells: hide;" id="productsTable">
+                                    <tbody disabled="true">
+                                        <tr class="item_cart">
+                                            <td colspan="4" class="td-width-mobile">
+                                                <h3 class="product-title td-width-mobile td-title-mobile" style="padding: 10px; margin-bottom: 0px; display: block; vertical-align: middle; text-align: center;">
+                                                    <a href='@Url.Action("detay","hizmet", new { Id = Model.Id, productname = Model.GenerateSlug() })'>@Model.ProductName </a>
+                                                </h3>
+                                            </td>
+                                        </tr>
+                                        <tr class="item_cart">
+                                            <td colspan="4" class="td-width-mobile" style="padding: 8px 10px 0px 10px;">
+                                                <div class="row td-info-mobile m-right-pl" style="padding: 5px 0px;">
+                                                    <div class="col-sm-8">
+                                                        <p>@Html.Raw(Model.ProductAlternateDesc)</p>
+                                                    </div>
+                                                    <div class="col-sm-4 td-info-price-t-a-c" style="margin-right:0;">
+                                                        @if (Model.Discount > 0)
+                                                        {
+                                                            decimal ilkfiyat = Model.Price;
+                                                            decimal indirimOrani = Model.Discount;
+                                                            decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
+
+                                                            <span class="old price-info" margin-left:5px;">@Convert.ToInt32(Model.Price) TL</span>
+                                                            <span class="red price-info">@Convert.ToInt32(indirimli_fiyat) TL</span> 
+                                                            }
+                                                        else if (Model.Discount == 0)
+                                                        {
+                                                            <span class="td-info-text-price price-info">@Convert.ToInt32(Model.Price) TL</span>}
+                                                        else
+                                                        {
+
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @foreach (var item in productDetails.Where(x => x.ProductId == Model.Id))
+                                        {
+                                            <tr class="item_cart table-price-mobile-tr">
+                                                <td class="td-width-mobile" style="vertical-align: middle; padding:0; width:100%; background-color:#ffed00; color:#000; position:relative;">
+                                                    <strong class="td-title-mobile" style="text-align:center; vertical-align:middle; display:block;">@item.detail.DetailName</strong>
+                                                    <div class="cursor-table-variant"><span class="fa fa-play cusor-table-variant-icon"></span></div>
+                                                </td>
+                                                <td class="single-product-detail td-width-mobile table-td-flex-direction" style="display: flex; justify-content: center; padding:0; border:0;">
+                                                 
+                                                        @foreach (var item2 in detailDatas.Where(x => x.DetailId == item.DetailId))
+                                                        {
+                                                            <button class="button-detail btn-calc" onclick="insertCompInValueWithButton(@item2.Id)" id="btn_class_variant_@item2.Id">
+                                                                <span id="value_@item2.Id">@item2.DataName</span>
+                                                                @if (item2.Price == 0)
+                                                                {
+                                                                    <p style="font-weight:800;">Ücretsiz</p> }
+                                                                else
+                                                                {
+                                                                    <p style="font-weight:800;">+ @Convert.ToInt32(item2.Price) TL</p>}
+                                                            </button>
+
+                                                            <input type="hidden" id="price_@item2.Id" value="@Convert.ToInt32(item2.Price)" />
+                                                            <input type="hidden" id="name_@item2.Id" value="@item.detail.DetailName" />
+                                                            <input type="hidden" id="detail_@item2.Id" value="@item.DetailId" />}
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                @*@if (detailDatasCookie != null && detailDatasCookie.Count > 0)
+                                {
+                                    <button id="btn_clear" class="btn_clear"><i class="ionicons ion-android-delete"></i> Seçimleri Temizle</button>
+                                }*@
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-3 col-md-3 cart-relative cart-fixed-bottom" style="padding-left:0px;">
+                <div class="single-flex cart-absolute">
+                    <div class="single-product-feature hidden-sm" id="fixed" style="width:100%; padding-left:15px;">
+                        <div class="hot-line hot-line-mobile" style="margin-top: 0px; border-radius: 0; padding: 1px; background: #b7b7b785;">
+                            <p class="hidden-xs" style="text-align: center;">Toplam Fiyat</p>
+                            <span style="text-align: center; background: #fff; display: block;" class="txt-kdv">KDV Dahil</span>
+                            <div class="flex align-center tele" style="padding:0px;">
+                                <div class="single-feature-box" style="padding:0px; width:100%;">
+                                    <div class="single-feature-info" style="width: 100%;">
+                                        <h2 class="txt-price" style="text-align:center; padding-top:7px; font-weight:600">
+                                            <span id="price">
+                                                @price
+                                            </span> TL
+                                        </h2>
+
+                                        @if (productCookie != null)
+                                        {
+                                            <a id="cartButton" class="btn btn-submit btn-gradient btn-cart-go isDisabled">
+                                                Sepete Eklendi
+                                            </a>
+                                            <a href="/odeme" class="btn btn-submit btn-gradient btn_primary_color btn-cart-go hidden-xs">
+                                                Ödeme Yap
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a onclick="insertCart();" id="cartButton" class="btn btn-submit btn_primary_color btn-gradient btn-cart-go">
+                                                Sepete Ekle
+                                            </a>
+                                        }
+                                        <a id="payButton" href="/odeme" class="btn btn-submit btn-gradient btn_primary_color btn-cart-go hidden-xs">
+                                            Ödeme Yap
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="single-product-tab bd-7 custom-prod-detail">
+        <div class="cmt-title text-center abs">
+            <ul class="nav nav-tabs text-center">
+                <li class="active"><a data-toggle="pill" href="#desc">Hizmet Hakkında</a></li>
+                <li class=""><a data-toggle="pill" href="#quest">Fiyat Politikası</a></li>
+                <li class=""><a data-toggle="pill" href="#order">Çalışma Süreci</a></li>
+                <li class=""><a data-toggle="pill" href="#price">Ödeme Planı</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div id="desc" class="tab-pane fade active in">
+                <div class="entry-content" style="height: fit-content; max-height: fit-content; margin-bottom: 19px;">
+                    <div class="e-text">
+                        <div class="entry-inside v3" style=" padding-left: 23px; padding-right: 23px;">
+                            <p>@Html.Raw(Model.ProductDescription)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="quest" class="tab-pane fade">
+            </div>
+            <div id="order" class="tab-pane fade">
+            </div>
+            <div id="price" class="tab-pane fade">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal">
+    <span class="close cursor" onclick="closeModal()">&times;</span>
+    <div class="modal-content modal-content-mobile">
+        <div class="mySlides">
+            <img src="@Model.ImagePath.Replace("thumbnail","fullscreen")" class="mobile-slider-image" style="width: 100%; height: 84vh; object-fit: cover;">
+        </div>
+        @foreach (var item in images)
+        {
+            <div class="mySlides">
+                <img src="@item.Replace("thumbnail","fullscreen")" style="width:100%">
+            </div>}
+
+        <!-- Next/previous controls -->
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+        <!-- Caption text -->
+        <div class="caption-container">
+            <p id="caption"></p>
+        </div>
+
+    </div>
+</div>
+
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/calculate.js"></script>
+
+<script type="text/javascript">
+
+    let total = document.getElementById("price");
+    let item = document.getElementById("name").innerText;
+    let imageUrl = $("#imageProduct").attr("src");
+    var totalPrice = Number.parseInt(total.innerHTML);
+    var getPrice = 0;
+    var dropCompTdata;
+    var buttonCart = document.getElementById("cartButton");
+    var openCart = document.getElementById("contentRelational");
+    var payButton = document.getElementById("payButton");
+
+    var cartCountEmpty = document.getElementById("cart_count_empty");
+    var cartCountFill = document.getElementById("cart_count");
+    var btn_variant = "";
+
+    var totalCartCount = 0;
+
+    var component = [];
+    var productId = @Model.Id;
+    var productName = '@Model.GenerateSlug()';
+    var productNameReal = '@Model.ProductName';
+
+    var arrayList = '@Html.Raw(ViewBag.JsonCookieListDetails)';
+    var arrayListFree = '@Html.Raw(ViewBag.ItemDataFreeList)';
+    fillDataToCookieList(arrayList, arrayListFree);
+
+    function openModal() {
+        document.getElementById("myModal").style.display = "block";
+    }
+
+    function openCartInsertingModal() {
+        document.getElementById("").style.display = "block";
+    }
+
+    // Close the Modal
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    // Next/previous controls
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    // Thumbnail image controls
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("demo");
+        var captionText = document.getElementById("caption");
+        if (n > slides.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = slides.length }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace("active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+    }
+
+</script>

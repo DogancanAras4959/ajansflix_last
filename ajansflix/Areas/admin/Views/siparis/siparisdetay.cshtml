@@ -1,0 +1,49 @@
+﻿@model ajansflix.SERVICES.Dtos.OrdersData.OrdersDto
+@{
+    ViewData["Title"] = "siparisdetay";
+    Layout = "~/Areas/admin/Views/_Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Ürün</th>
+                                <th>Müşteri</th>
+                                <th>Fiyat</th>
+                                <th>Durum</th>
+                                <th>İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.orderProducts)
+                            {
+                                <tr>
+                                    <td>@Model.OrderNo</td>
+                                    <td>@item.product.ProductName</td>
+                                    <td>@item.product.Price TL</td>
+                                    <td>@item.CreatedTime.ToString("dd MMMM yyyy | HH:MM")</td>
+                                    <td>@item.order.orderStatus.StatusName</td>
+                                    <td>
+                                        <a class="btn btn-outline-secondary btn-sm edit" title="Düzenle" href="/admin/siparis/siparisdetay?Id=@item.Id">
+                                            <i class="fas fa-shopping-cart" title="Edit"></i>
+                                        </a>
+                                        <a class="btn btn-outline-secondary btn-sm deleted" title="Sil" href="/admin/siparis/sparissil?Id=@item.Id">
+                                            <i class="fas fa-trash" title="Delete"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

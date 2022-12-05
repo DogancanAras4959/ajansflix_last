@@ -1,0 +1,298 @@
+﻿@using ajansflix.SERVICES.Dtos.CategoryData
+@using ajansflix.SERVICES.Dtos.ProductsData
+@using ajansflix.CORE.CartModels
+@using System.Security.Claims
+
+@{
+    List<CartItem> cart = ViewBag.Cart as List<CartItem>;
+    List<ProductDto> productList = ViewBag.ProductList as List<ProductDto>;
+
+    var isAuthenticated = User.Identity.IsAuthenticated;
+}
+<style>
+    .cart-btn {
+        width: 130px;
+        height: 50px;
+        line-height: 49px;
+        border-radius: 32px;
+        display: inline-block;
+        text-align: center;
+        -webkit-transition: all 0.3s ease 0s;
+        transition: all 0.3s ease 0s;
+        -o-transition: all 0.3s ease 0s;
+        font-weight: 500;
+        margin-left: 10px;
+    }
+    .price-span {
+        font-size: 25px;
+        text-decoration: underline;
+        font-weight: 600 !important;
+    }
+    .mini-products-list .e-del {
+        font-size: 25px;
+        color: #000000;
+        font-weight: bold;
+    }
+    .ads-group {
+        margin-bottom: 0px;
+        padding-top: 5px !important;
+    }
+    .list-product-search .product-img {
+        width: 11%;
+    }
+    .list-product-search .product-title {
+        width: 80%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        text-align: left;
+        padding-left: 0;
+    }
+    .header-search input {
+        width: 100% !important;
+    }
+    .header-search input {
+        height: 62px;
+        border-radius: 31px;
+        border: 2px solid #b7b7b7;
+        padding-left: 34px;
+        width: 300px;
+        display: table-cell;
+        border-right: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+    .list-product-search {
+        z-index: 8889;
+        list-style-type: none;
+        width: 242px;
+        max-height: 310px;
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        -webkit-box-shadow: 0px 3px 24px 0px rgb(0 0 0 / 8%);
+        box-shadow: 0px 3px 24px 0px rgb(0 0 0 / 8%);
+        border-radius: 7px;
+        min-width: 342px;
+        border: 1px solid #ebebeb;
+        padding-bottom: 4px;
+        padding-top: 1px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.5s ease-out 0s;
+        -webkit-transition: all 0.5s ease-out 0s;
+        margin-top: 32px;
+        position: absolute;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    .mini-products-list .product-details .inner-left {
+        max-width: 265px;
+        line-height: 22px;
+    }
+    .product-info .product-title {
+        font-size: 20px;
+        text-transform: capitalize;
+        margin-bottom: 12px;
+    }
+    .dropdown-cart {
+        -webkit-box-shadow: 0px 3px 24px 0px rgb(0 0 0 / 8%);
+        box-shadow: 0px 3px 24px 0px rgb(0 0 0 / 8%);
+        border-radius: 5px;
+        left: unset;
+        right: 15px;
+        min-width: 439px;
+        border: 1px solid #ebebeb;
+        padding: 15px 28px 37px 22px;
+    }
+    .navbar-nav > li > a {
+        text-transform: capitalize;
+        font-size: 18px;
+        font-weight: 500;
+        font-family: Urbanist Bold;
+        position: relative;
+        color: #666666;
+    }
+    .title-icon.e-gradient, .blog-post-social a.title-icon:hover, .blog-comment-item .cmt-content .title-icon.btn-author:hover, .social a.title-icon:hover {
+        font-size: 18px;
+        width: 319px;
+        height: 63px;
+        font-family: Urbanist Bold;
+        line-height: 63px;
+        letter-spacing: 0.3px;
+    }
+    .product-info .product-cate {
+        color: #999;
+        font-size: 15px;
+        text-transform: capitalize;
+        margin-bottom: 8px;
+    }
+    .product-info .product-price {
+        color: #666;
+        font-size: 20px;
+    }
+    .header-search {
+        padding-left: 40px;
+        padding-top: 10px;
+    }
+    .mini-products-list .product-img-wrap {
+        width: 70px;
+        height: 70px;
+    }
+</style>
+
+<header id="header" class="header-v1">
+    <div class="header-top-banner">
+        <a href="/hizmetler?Id=6"><img src="~/img/banner-top.jpg" alt="" class="img-reponsive banner-mobile"></a>
+    </div>
+    @*<div class="topbar">
+        <div class="container container-240">
+            <div class="row flex">
+                <div class="col-md-6 col-sm-6 col-xs-4 flex-left">
+                    <div class="topbar-left">
+                        <div class="element hidden-xs hidden-sm">
+                            <a href="/yardim">Yardım</a>
+                        </div>
+                        <div class="element hidden-xs hidden-sm">
+                            <a href="/hizmetler"><img src="~/img/icon-phone.png" alt=""><span>Teklif Ver!</span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-8 flex-right">
+
+                </div>
+            </div>
+        </div>
+    </div>*@
+    <div class="header-center header-center-mobile" style="padding:18px 0px 30px 0px;">
+        <div class="container container-240">
+            <div class="row flex">
+                <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 v-center">
+                    <a href="@Url.Action("sayfa","anasayfa")" style="margin-top:10px;"><img src="~/img/logo.svg" alt="logo_reklamlutfen" title="logo_reklamlutfen" style=" width: 225px; max-width: 250px;" class="img-reponsive logo-mobile"></a>
+                </div>
+                <div class="col-lg-8 col-md-8 v-center header-search hidden-xs hidden-sm">
+                    <form method="get" class="searchform ajax-search" action="/search" role="search" style="left:5%;">
+                        <input type="hidden" name="type" value="product">
+                        <input type="text" onkeyup="myFunction()" id="searchTag" class="form-control" placeholder="Hizmetlerimizden arayın...">
+                        <ul id="listSearch" class="list-product-search hidden-xs hidden-sm" style="width: 100%;">
+                          
+                            @foreach (var item in productList)
+                            {
+                                <li>
+                                    <a class="flex align-center" href="@Url.Action("detay","hizmet", new { Id = item.Id, productName= item.GenerateSlug() })">
+                                        <div class="product-img">
+                                            <img src="@item.ImagePath" alt="@item.ProductName" title="@item.ProductName" loading="lazy">
+                                        </div>
+                                        <h3 class="product-title">@item.ProductName</h3>
+                                    </a>
+                                </li>
+                            }
+
+                        </ul>
+
+                        <span class="input-group-btn">
+                            <button class="button_search" type="button"><i class="ion-ios-search-strong"></i></button>
+                        </span>
+                    </form>
+
+                </div>
+                <div class="col-lg-2  col-md-2 col-sm-6 col-xs-6 v-center">
+                    <div class="right-panel" style="margin-top:30px;">
+                        <div class="header-sub-element row">
+                            @if (isAuthenticated)
+                            {
+                                @*<a class="hidden-xs hidden-sm" href="/musteri">
+                                    <img src="~/img/icon-user.png" alt=""> @User.Identity.Name
+                                </a>
+                                <a href="#"><img src="~/img/icon-heart.png" alt=""></a>*@
+                            }
+                            else
+                            {
+                                @*<a class="hidden-xs hidden-sm" href="/girisyap"><img src="~/img/icon-user.png" alt=""> </a>*@
+                            }
+                            <div class="cart" id="cartTop">
+
+                                @if (cart != null)
+                                {
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="label5">
+                                        <img src="~/img/icon-cart.png" alt="cartImage" title="cartImage" loading="lazy">
+                                        <span class="count cart-count" id="cart_count">@cart.Count</span>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-cart">
+                                        <ul class="mini-products-list" id="uniqeListPrice">
+                                            @foreach (var item in cart)
+                                            {
+                                                <li class="item-cart" style="border-bottom:0;" id="listCartItem_@item.Id">
+                                                    <div class="product-img-wrap">
+                                                        <a href="@item.Image.Replace("thumbnail","fullscreen")">
+                                                        <img src="@item.Image" alt="@item.Item" title="@item.Item" class="img-reponsive"></a>
+                                                    </div>
+                                                    <div class="product-details">
+                                                        <div class="inner-left">
+                                                            <div class="product-name"><a style="font-size:17px;" href="@Url.Action("detay","hizmet", new { Id = item.Id, productName= item.GenerateSlug() })">@item.Item </a></div>
+                                                            <div class="product-price">
+                                                                <span id="price_@item.Id">@item.BasePrice</span> TL
+                                                            </div>
+                                                            <hr style="margin-top: 5px; margin-bottom: 5px;"/>
+                                                            <ul class="product-desc-list">
+                                                                @foreach (var item2 in item._compItems)
+                                                                {
+                                                                    <li><strong>@item2.CompName:</strong> @item2.CompValue</li>
+                                                                }
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <a style="cursor:pointer;" onclick="removeFromCartItem(@item.Id);" class="e-del"><i class="ion-ios-close-empty"></i></a>
+                                                </li>
+                                            }
+                                        </ul>
+                                        <div class="bottom-cart">
+                                            <div class="cart-price" style="padding-top: 12px; padding-bottom: 12px;">
+                                                <span style="position: relative; top: 9px;">Ara Toplam</span>
+                                                <span class="price-total price-span"><span id="price_total">@ViewBag.Total</span> TL</span>
+                                            </div>
+                                            <div class="button-cart">
+                                                <a href="/sepet" class="cart-btn btn-viewcart">Sepet</a>
+                                                <a id="clearCart" style="cursor:pointer;" class="cart-btn btn-danger">Temizle</a>
+                                                <a href="/odeme" class="cart-btn e-checkout btn_primary_color btn-gradient">Ödeme</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                else
+                                {
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="label5">
+                                        <img src="~/img/icon-cart.png" alt="cart_icon" title="cart_icon" loading="lazy">
+                                        <span class="count cart-count" id="cart_count_empty">0</span>
+                                    </a>
+                                }
+
+
+                            </div>
+                            <a href="#" class="hidden-md hidden-lg icon-pushmenu js-push-menu">
+                                <i class="fa fa-bars f-15"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script src="~/js/jquery.js"></script>
+<script src="~/js/calculate.js"></script>
+
+<script>
+    let cartDiv = document.getElementById("cartTop");
+    let dropdownMenus = document.querySelector(".dropdown-menu");
+
+    let linkCart = document.getElementById("label5");
+    var totalPriceCart = document.getElementById("price_total");
+    var cartCount = document.getElementById("cart_count");
+
+    let cart = [];
+    var cartList = '@ViewBag.CartSerilize';
+    fillDataCartList(cartList);
+</script>

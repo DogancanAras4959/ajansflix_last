@@ -1,0 +1,161 @@
+﻿@using ajansflix.SERVICES.Dtos.ProductsData
+@using ajansflix.CORE.CartModels
+@model ajansflix.CORE.EmailConfig.CustomerBook
+@using ajansflix.CORE.EmailConfig
+
+@{
+    ViewData["Title"] = "odeme";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<CartItem> cart = ViewBag.Cart as List<CartItem>;
+    List<ProductDto> productList = ViewBag.ProductList as List<ProductDto>;
+}
+
+<style>
+    .co-coupon {
+        padding-bottom: 25px;
+    }
+    .co-pd .co-pd-list .co-name {
+        color: #666666;
+        line-height: 20px;
+        float: left;
+        max-width: 275px;
+    }
+
+    .cart-total .order-total.v2 td {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .cart-total th {
+        padding: 15px 45px;
+        vertical-align: top;
+    }
+
+    .cart-total .order-total td {
+        padding: 0px;
+    }
+
+    .cart-total .order-total th {
+        font-size: 16px;
+        font-weight: 500;
+        padding-top: 22px;
+    }
+
+    .cart-total .cart-total-bottom.v2 {
+        padding: 25px 42px;
+        margin-bottom: 15px;
+    }
+
+    .breadcrumb {
+        margin: 5px 0;
+    }
+    .co-pd .co-title {
+        padding-top: 24px;
+        padding-left: 42px;
+        padding-right: 43px;
+        padding-bottom: 18px;
+        font-size: 16px;
+        font-weight: 500;
+    }
+    .form-customer input {
+        height: 54px;
+        border-radius: 999px;
+        border: 1px solid #b7b7b7;
+        padding-left: 33px;
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="main-content space1">
+    <div class="container container-240">
+        <ul class="breadcrumb">
+            <li><a href="@Url.Action("sayfa","anasayfa")">Ana Sayfa</a></li>
+            <li><a href="/sepet">Sepet</a></li>
+            <li class="active">Ödeme Bitir</li>
+        </ul>
+      
+        <form name="checkout" action="@Url.Action("fiyatformgonder","hizmet")" method="post" class="co">
+            <div class="cart-box-container-ver2" style="margin-top:50px;">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="co-left bd-7">
+                            <div class="cmt-title text-center abs">
+                                <h1 class="page-title v1">Müşteri Bilgileri</h1>
+                            </div>
+                            <div class="row form-customer">
+                                <div class="form-group col-md-6">
+                                    <label for="inputfname_2" class=" control-label">Adınız <span class="f-red">*</span></label>
+                                    <input required type="text" asp-for="Name" class="form-control form-account" placeholder="Adınız">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputlname" class=" control-label">Soyadınız <span class="f-red">*</span></label>
+                                    <input required type="text" asp-for="Surname" class="form-control form-account" placeholder="Soyadınız">
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="inputphone" class=" control-label">Telefon No <span class="f-red">*</span></label>
+                                    <input required type="tel" asp-for="Phone" class="form-control form-account" placeholder="Telefon Numarınızı girin">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputemail" class=" control-label">Email Adresi <span class="f-red">*</span></label>
+                                    <input required type="email" asp-for="Email" class="form-control form-account" placeholder="Email Adresinizi girin">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="inputmessage" class="control-label">Mesajınızı Bırakın</label>
+                                    <textarea name="message" rows="8" asp-for="Content" class="form-control form-note" placeholder="Sipariş notunuzu bize bırakın"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End contact-form -->
+                    <div class="col-md-4">
+                        <div class="cart-total bd-7">
+                            <div class="cmt-title text-center abs">
+                                <h1 class="page-title v3">Siparişiniz</h1>
+                            </div>
+                            <div class="table-responsive">
+                                <div class="co-pd">
+                                    <p class="co-title">
+                                        Ürün<span>Toplam</span>
+                                    </p>
+                                    <ul class="co-pd-list">
+                                        @foreach (var item in cart)
+                                        {
+                                            <li class="clearfix">
+                                                <div class="co-name">
+                                                    <strong>@item.Item</strong>
+                                                </div>
+                                                <div class="co-price" style="margin-bottom:10px;">
+                                                    @item.BasePrice TL
+                                                </div>
+                                            </li>
+                                            @foreach (var item2 in item._compItems)
+                                            {
+                                                <li><strong>@item2.CompValue:</strong> @item2.CompName</li>
+                                            }
+                                            <hr style="margin-top:10px; margin-bottom:10px;" />
+                                        }
+                                    </ul>
+                                </div>
+                                <table class="shop_table" style="width:100%;">
+                                    <tbody>
+                                        <tr class="order-total v2">
+                                            <th>Toplam</th>
+                                            <td style="float: right; padding-right: 30%;">@ViewBag.Total TL</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="cart-total-bottom v2">
+                                <button type="submit" class="btn-gradient btn_primary_color btn-checkout btn-co-order">Ödemeyi Tamamla</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

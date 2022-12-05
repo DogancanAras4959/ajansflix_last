@@ -1,0 +1,79 @@
+﻿@model ajansflix.SERVICES.Dtos.UserData.UserDto
+
+@{
+    ViewData["Title"] = "Kullanıcı Oluştur";
+    Layout = "~/Areas/admin/Views/_Shared/_Layout.cshtml";
+}
+
+<style>
+    .form-check {
+        position: relative;
+        text-align: left;
+    }
+
+        .form-check .form-check-input {
+            float: left;
+            margin-right: 0.5rem;
+        }
+</style>
+
+<div class="col-xl-8">
+    <div class="card">
+        <div class="card-body">
+            <form method="post" action="/admin/hesap/kullaniciekle" novalidate="" class="needs-validation">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="validationCustom01" class="form-label">Kullanıcı Adı</label>
+                            @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", id = "validationCustom01", placeholder = "Kullanıcı adınızı giriniz", @required = "" })
+                            <div class="valid-feedback">
+                                Kullanıcı adı geçerli!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="validationCustom02" class="form-label">Görünen Adı</label>
+                            @Html.TextBoxFor(x => x.DisplayName, new { @class = "form-control", id = "validationCustom02", placeholder = "Görünen adınızı giriniz", @required = "" })
+                            <div class="valid-feedback">
+                                Görünen isim geçerli!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="validationCustom03" class="form-label">Rol</label>
+                            @Html.DropDownListFor(x => x.RoleId, (SelectList)ViewBag.Roller, "Rol Seçiniz", new { @class = "form-select", id = "validationCustom03", @required = "" })
+                            <div class="invalid-feedback">
+                                Seçilen rol geçerli.
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="validationCustom04" class="form-label">Şifre</label>
+                            @Html.TextBoxFor(x => x.Password, new { @class = "form-control", id = "validationCustom04", type = "password", placeholder = "Şifrenizi giriniz", @required = "" })
+                            <div class="invalid-feedback">
+                                Şifreniz geçerli.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-check form-switch mb-3" dir="ltr">
+                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-check-input", id = "customSwitch1" })
+                    <label class="form-check-label" for="customSwitch1">Aktif mi?</label>
+                </div>
+                <div>
+                    <button class="btn btn-primary" type="submit">Kullanıcıyı Oluştur</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- end card -->
+</div>
+
+

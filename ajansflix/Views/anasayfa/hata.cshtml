@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "hata";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container container-240">
+    <div class="error-page bd-7 text-center">
+        <div class="error-img">
+            <img src="~/img/404.png" alt="404 Reklam Lütfen" title="404 Reklam Lütfen" loading="lazy">
+        </div>
+        <h3 class="error-title">Aradığınız sayfa bu web sitesinde bulunamadı!</h3>
+        <a href="@Url.Action("sayfa","anasayfa")" class="btn-back btn-gradient btn_primary_color">Ana Sayfa'ya geri dön<i class="ion-ios-arrow-forward"></i></a>
+    </div>
+</div>
+

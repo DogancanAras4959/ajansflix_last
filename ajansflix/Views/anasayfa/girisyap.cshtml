@@ -1,0 +1,130 @@
+﻿@*@model ajansflix.SERVICES.Dtos.CustomerData.CustomerDto*@
+
+@{
+    ViewData["Title"] = "girisyap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string mesaj = ViewData["sonuc"] as string;
+    int durum = Convert.ToInt32(ViewData["basari"]);
+    string display = ViewData["display"] as string;
+
+    string mesaj2 = ViewData["sonuc2"] as string;
+    int durum2 = Convert.ToInt32(ViewData["basari2"]);
+    string display2 = ViewData["display2"] as string;
+}
+
+<div class="container container-240">
+
+    <div class="myaccount">
+        <ul class="breadcrumb v3">
+            <li><a href="#">Ana Sayfa</a></li>
+            <li class="active">Giriş Yap</li>
+        </ul>
+
+        <div class="row flex pd">
+            <div class="account-element bd-7">
+                <div class="cmt-title text-center abs">
+                    <h1 class="page-title v1">Oturum Aç</h1>
+                </div>
+                <div class="page-content">
+                    <p>Hesabınıza Giriş Yapın</p>
+                    <form class="login-form" method="post" action="@Url.Action("oturumac","anasayfa")">
+
+                        @if (Convert.ToInt32(ViewData["baslangic2"]) > 0)
+                        {
+                            <div style="display:@display2">
+                                @if (mesaj2 != null || mesaj2 != "")
+                                {
+                                    @switch (durum2)
+                                    {
+                                        case 0:
+                                            <div class="alert alert-danger" style="text-align:center;">@mesaj2</div>
+                                            break;
+
+                                        case 1:
+                                            <div class="alert alert-success" style="text-align:center;">@mesaj2</div>
+                                            break;
+
+                                        case 2:
+                                            <div class="alert alert-info" style="text-align:center;">@mesaj2</div>
+                                            break;
+
+                                        default:
+                                            break;
+                                    }
+                                }
+                            </div>
+                        }
+
+                        @*<div class="form-group">
+                            <label>Kullanıcı Adı <span class="f-red">*</span></label>
+                            <input type="text" id="author" class="form-control bdr" asp-for="UserName" name="UserName">
+                            <label>Şifre <span class="f-red">*</span></label>
+                            <input type="password" id="password" class="form-control bdr" asp-for="Password" name="Password">
+                        </div>*@
+                        <div class="flex lr">
+                            <button type="submit" class="btn btn-submit btn-gradient">
+                                Giriş Yap
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="account-element bd-7 e-left">
+                <div class="cmt-title text-center abs">
+                    <h1 class="page-title v1">Kayıt Ol</h1>
+                </div>
+                <div class="page-content">
+
+                    @if (Convert.ToInt32(ViewData["baslangic"]) > 0)
+                    {
+                        <div style="display:@display">
+                            @if (mesaj != null || mesaj != "")
+                            {
+                                @switch (durum)
+                                {
+                                    case 0:
+                                        <div class="alert alert-danger" style="text-align:center;">@mesaj</div>
+                                        break;
+
+                                    case 1:
+                                        <div class="alert alert-success" style="text-align:center;">@mesaj</div>
+                                        break;
+
+                                    case 2:
+                                        <div class="alert alert-info" style="text-align:center;">@mesaj</div>
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+                            }
+                        </div>
+                    }
+
+                    <p>Kendiniz için bir hesap oluşturun</p>
+                    @*<form class="login-form" method="post" action="@Url.Action("kayitol", "anasayfa")">
+                        <div class="form-group">
+                            <label>Adınız Soyadınız <span class="f-red">*</span></label>
+                            <input type="text" asp-for="NameSurname" id="author2" class="form-control bdr" name="NameSurname" required>
+                            <label>Email Adresi</label>
+                            <input type="email" asp-for="EmailAddress" id="email2" class="form-control bdr" name="EmailAddress">
+                            <label>Kullanıcı Adı <span class="f-red">*</span></label>
+                            <input type="text" asp-for="UserName" id="author2" class="form-control bdr" name="UserName" required>
+                            <label>Şifre <span class="f-red">*</span></label>
+                            <input type="password" asp-for="Password" id="password" class="form-control bdr" name="Password" required>
+                            <label>Şifre Tekrar<span class="f-red">*</span></label>
+                            <input type="password" asp-for="RePassword" id="password" class="form-control bdr" name="RePassword" required>
+                        </div>
+                        <div class="flex lr">
+                            <button type="submit" class="btn btn-submit btn-gradient">
+                                Kayıt Ol
+                            </button>
+                        </div>
+                    </form>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

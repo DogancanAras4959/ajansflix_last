@@ -1,0 +1,133 @@
+﻿@using ajansflix.SERVICES.Dtos.ProductsData
+@using ajansflix.COMMON.Helpers
+
+@{
+    ViewData["Title"] = "Ürünler";
+    Layout = "~/Areas/admin/Views/_Shared/_Layout.cshtml";
+    PaginationList<ProductDto> products = ViewBag.Products as PaginationList<ProductDto>;
+    var prevDisabled = !products.HasPrevious ? "disabled" : "";
+    var nextDisabled = !products.HasNextPage ? "disabled" : "";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body pt-4" style="display:flex; max-width:50%; float:left;">
+                  <input type="file" id="fileupload" name="files" class="form-control" style="margin-right:5px;" /> 
+                  <input type="button" name="Upload" value="Ürünleri içe aktar" id="btnupload" class="btn btn-primary" />
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body pt-4">
+                <table id="datatable" class="table table-centered datatable dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Ürün adı</th>
+                            <th>Kategori</th>
+                            <th>Fiyat</th>
+                            <th>Oluşturulma</th>
+                            <th>Durum</th>
+                            <th style="width: 120px;">İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in products)
+                        {
+                            <tr>
+                                <td><a href="javascript: void(0);" class="text-dark fw-bold">#@item.Id</a></td>
+                                <td>@item.ProductName</td>
+                                <td>@item.category.CategoryName</td>
+                                <td>
+                                    @Convert.ToInt32(item.Price) TL
+                                </td>
+                                <td>
+                                    @item.CreatedTime.ToString("dd MMM, yyyy")
+                                </td>
+                                @if (item.IsActive == true)
+                                {
+                                    <td>
+                                        <div class="badge badge-soft-success font-size-12">Aktif</div>
+                                    </td>
+                                }
+
+                                else
+                                {
+                                    <td>
+                                        <div class="badge badge-soft-danger font-size-12">Pasif</div>
+                                    </td>
+                                }
+                                <td>
+                                    <a class="btn btn-outline-secondary btn-sm edit" title="Düzenle" href="/admin/urun/urunduzenle?Id=@item.Id">
+                                        <i class="fas fa-pencil-alt" title="Edit"></i>
+                                    </a>
+                                    <a class="btn btn-outline-secondary btn-sm deleted" title="Sil" href="/admin/urun/urunsil?Id=@item.Id">
+                                        <i class="fas fa-trash" title="Delete"></i>
+                                    </a>
+                                    <a class="btn btn-outline-secondary btn-sm above" title="Aktif/Pasif" href="/admin/urun/urundurumduzenle?Id=@item.Id">
+                                        <i class="fas fa-wifi" title="Aktif/Pasif"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/adminpanel/assets/libs/jquery/jquery.min.js" ></script>
+
+<script>
+     $(function () {
+        $('#btnupload').on('click', function () {
+
+            window.setTimeout(function () {
+                $("#btnupload").attr("disabled", true);
+            }, 500);
+
+            var fileExtension = ['xls', 'xlsx'];
+            var filename = $('#fileupload').val();
+            if (filename.length == 0) {
+                alert("LÜtfen bir dosya seçiniz.");
+                return false;
+            }
+            else {
+                var extension = filename.replace(/^.*\./, '');
+                if ($.inArray(extension, fileExtension) == -1) {
+                    alert("Lütfen uygun formatta bir excel dosyası yükleyiniz.");
+                    return false;
+                }
+            }
+            var fdata = new FormData();
+            var fileUpload = $("#fileupload").get(0);
+            var files = fileUpload.files;
+            fdata.append(files[0].name, files[0]);
+            $.ajax({
+                type: "POST",
+                url: "/admin/urun/iceaktar",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                data: fdata,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.length == 0)
+                        alert('Dosya yüklenirken bir hata oluştu');
+                    else {
+                        alert('Dosyalar yüklendi. İşlem tamamlandı. Eklemek istediğiz başka dosyalar için içe aktarmayı kullanmaya devam edin!');
+                        $('#divPrint').html(response);
+                        window.location.href="/admin/urun/urunler";
+                    }
+                },
+                error: function (e) {
+                    $('#divPrint').html(e.responseText);
+                }
+            });
+        })
+     });
+</script>

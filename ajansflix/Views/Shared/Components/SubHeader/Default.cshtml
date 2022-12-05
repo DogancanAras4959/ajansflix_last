@@ -1,0 +1,23 @@
+﻿@using ajansflix.SERVICES.Dtos.CategoryData
+
+@{ 
+    List<CategoryDto> categories = ViewBag.CategoryList as List<CategoryDto>;
+}
+
+<div class="pushmenu menu-home5">
+    <div class="menu-push">
+        <span class="close-left js-close"><i class="icon-close f-20"></i></span>
+        <div class="clearfix"></div>
+     
+        <ul class="nav-home5 js-menubar">
+           
+            @foreach (var item in categories)
+            {
+                <li class="level1 active dropdown">
+                    <a href="/hizmetler?id=@item.Id" style="text-transform:none">@item.CategoryName</a>
+                </li>
+            }
+
+        </ul>
+    </div>
+</div>

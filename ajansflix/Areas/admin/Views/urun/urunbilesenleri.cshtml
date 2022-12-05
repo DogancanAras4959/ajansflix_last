@@ -1,0 +1,90 @@
+﻿@using ajansflix.SERVICES.Dtos.DetailData
+@model ajansflix.SERVICES.Dtos.DetailData.DetailDto
+@{
+    ViewData["Title"] = "kategoriler";
+    Layout = "~/Areas/admin/Views/_Shared/_Layout.cshtml";
+    List<DetailDto> details = ViewBag.Details as List<DetailDto>;
+}
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Varyant</th>
+                                <th>Tip</th>
+                                <th>Durum</th>
+                                <th>İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in details)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td><a href="/admin/urun/varyantekle?id=@item.Id">@item.DetailName</a></td>
+                                    <td>@item.Type</td>
+                                    @if (item.IsActive == true)
+                                    {
+                                        <td><span class="text-success">Aktif</span></td>
+                                    }
+                                    else
+                                    {
+                                        <td><span class="text-danger">Pasif</span></td>
+                                    }
+                                <td>
+                                    <a class="btn btn-outline-secondary btn-sm edit" title="Düzenle" href="/admin/urun/bilesenduzenle?Id=@item.Id">
+                                        <i class="fas fa-pencil-alt" title="Edit"></i>
+                                    </a>
+                                    <a class="btn btn-outline-secondary btn-sm deleted" title="Sil" href="/admin/urun/bilesensil?Id=@item.Id">
+                                        <i class="fas fa-trash" title="Delete"></i>
+                                    </a>
+                                    <a class="btn btn-outline-secondary btn-sm above" title="Aktif/Pasif" href="/admin/urun/bilesendurumduzenle?Id=@item.Id">
+                                        <i class="fas fa-wifi" title="Aktif/Pasif"></i>
+                                    </a>
+                                </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form method="post" action="/admin/urun/bilesenolustur" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <label>Bileşen Adı *</label>
+                            @Html.TextBoxFor(x => x.DetailName, new { @class = "form-control", @type = "text", @Value = "Deneme", placeholder = "Varyant giriniz...", @required = "required" })
+                        </div>
+                        <div class="mb-4">
+                            <label>Bileşen Seçim Türü *</label>
+                            @Html.TextAreaFor(x => x.Type, new { @class = "form-control", @type = "text", @Value = "Deneme Açıklama", placeholder = "Varyant seçim türü (Dropdown veya List şeklinde.) giriniz..." })
+                        </div>
+                        <div class="mb-4" style="margin-bottom: 55px !important;">
+                            <div class="form-check form-switch mb-3" style="float:left; top:10px;" dir="ltr">
+                                @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-check-input", id = "customSwitch1" })
+                                <label class="form-check-label" for="customSwitch1">Aktif mi?</label>
+                            </div>
+                            <button style="float:right;" class="btn btn-primary" type="submit">Ürün Oluştur</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

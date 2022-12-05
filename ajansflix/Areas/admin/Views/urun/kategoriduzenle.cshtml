@@ -1,0 +1,150 @@
+﻿@model ajansflix.SERVICES.Dtos.CategoryData.CategoryDto
+
+@{
+    ViewData["Title"] = "kategoriekle";
+    Layout = "~/Areas/admin/Views/_Shared/_Layout.cshtml";
+    List<string> images = ViewBag.Images as List<string>;
+
+    int status = Convert.ToInt32(TempData["status"]);
+}
+<style>
+    .form-check {
+        position: relative;
+        text-align: left;
+    }
+
+        .form-check .form-check-input {
+            float: left;
+            margin-right: 0.5rem;
+        }
+
+    .img-dropzone {
+        height: 140px;
+        object-fit: cover;
+        border: 5px solid #dfdfdf;
+        width: 100%;
+    }
+
+    .modal-header .btn-close {
+        padding: 0;
+        margin: 0;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-6" style="margin:0 auto; display:flex;">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form method="post" action="/admin/urun/kategoriguncelle" enctype="multipart/form-data">
+                        @Html.HiddenFor(x => x.Id)
+
+                        @if (Model.CategoryImage != "" || Model.CategoryImage != null)
+                        {
+                            <div class="mb-4">
+                                <img id="img" src="@Model.CategoryImage" style="width:100%; height:300px; object-fit:cover;" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-4">
+                                <img id="img" src="~/adminpanel/assets/images/comingsoon-bg.jpg" style="width:100%; height:300px; object-fit:cover;" />
+                            </div>
+                        }
+
+                        <div class="mb-4">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <button type="button" data-bs-toggle="modal" data-bs-target=".imagemedia" class="btn btn-info waves-effect waves-light">Medyadan Seçiniz (Beta)</button>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="file" class="form-control filestyle" data-input="false" name="file" id="file" accept="image/*" />
+                                </div>
+                            </div>
+                            <span style="position:relative; top:10px;"><em>(Zorunlu )Kare boyutta seçiniz (1000x1000)</em></span>
+                        </div>
+                        <div class="mb-4">
+                            <label>Kategori Adı *</label>
+                            @Html.TextBoxFor(x => x.CategoryName, new { @class = "form-control", @type = "text", @Value = "Deneme", placeholder = "Kategori adı giriniz...", @required = "required" })
+                        </div>
+                        <div class="mb-4">
+                            <label>Kategori Açıklama</label>
+                            @Html.TextAreaFor(x => x.CategoryDescription, new { @class = "form-control", @type = "text", @Value = "Deneme Açıklama", placeholder = "Açıklama giriniz..." })
+                        </div>
+                        <div class="mb-4">
+                            <label>Kategori Durumu </label>
+                            @Html.TextBoxFor(x => x.StatusCode, new { @class = "form-control", @type = "text", @Value = "Normal", placeholder = "Kategori durumunu yazın..." })
+                        </div>
+                        <div class="mb-4">
+                            <label>Kategori Görünüm *</label>
+                            @Html.TextBoxFor(x => x.CategoryStatus, new { @class = "form-control", @type = "text", @Value = "Slide", placeholder = "'Slide' veya 'List' seçenekleriyle görünüm belirleyin ...", @required = "required" })
+                        </div>
+                        <div class="mb-4">
+                            <div class="form-check form-switch mb-3" style="float:left;" dir="ltr">
+                                @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-check-input", id = "customSwitch1" })
+                                <label class="form-check-label" for="customSwitch1">Aktif mi?</label>
+                            </div>
+                            <button style="float:right;" class="btn btn-primary" type="submit">Kategori Güncelle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade imagemedia" tabindex="-1" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display:none">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Önizleme Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    @foreach (var item in images)
+                                    {
+                                        <div class="col-sm-3" style="padding:5px;">
+                                            <a href="@item.Replace("thumbnail","fullscreen")" target="_blank" title="Project 1">
+                                                <img loading="lazy" class="img-fluid img-dropzone" title="@item" alt="@item" src="@item" />
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary waves-effect waves-light">Seç</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<script src="~/js/jquery.js"></script>
+
+<script>
+    $(function () {
+        $('#file').change(function () {
+            var input = this;
+            var url = $(this).val();
+            var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+            if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#img').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+            else {
+                $('#img').attr('src', '~/adminpanel/assets/images/comingsoon-bg.jpg');
+            }
+        });
+    });
+</script>

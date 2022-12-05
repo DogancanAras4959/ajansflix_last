@@ -1,0 +1,42 @@
+﻿@model ajansflix.SERVICES.Dtos.RoleData.RoleDto
+
+@{
+    ViewData["Title"] = "Rol Kayıt";
+    Layout = "~/Areas/admin/Views/_Shared/_Layout.cshtml";
+}
+
+<style>
+    .form-check {
+        position: relative;
+        text-align: left;
+    }
+
+        .form-check .form-check-input {
+            float: left;
+            margin-right: 0.5rem;
+        }
+</style>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form method="post" action="/admin/hesap/rolekle">
+                        <div class="mb-4">
+                            @Html.TextBoxFor(x => x.roleName, new { @class = "form-control", @type = "text", placeholder = "Rol Adı Giriniz..." })
+                        </div>
+                        <div class="form-check form-switch mb-3" dir="ltr">
+                            @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-check-input", id = "customSwitch1" })
+                            <label class="form-check-label" for="customSwitch1">Aktif mi?</label>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" type="submit">Rol Oluştur</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

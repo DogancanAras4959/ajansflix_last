@@ -1,0 +1,237 @@
+﻿.cursor-table-variant {
+    border-radius: 10px;
+    height: 15px;
+    max-width: 15px;
+    background-color: #000;
+    padding: 5px;
+    display: block;
+    position: absolute;
+    right: -16px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.btn-calc {
+    width: 170px;
+    display: table;
+    padding: 5px 0;
+    border-radius: 0;
+    border: 1px solid #7d7d7d47;
+    background-color: #fff;
+}
+
+.price-info {
+    font-weight: 800;
+    float: right;
+    font-size: 20px;
+    vertical-align: middle;
+    position: relative;
+    bottom: 5px;
+}
+
+.hot-line .tele {
+    background: #fff;
+    border-radius: 0;
+    padding: 0px 0px 16px 17px;
+    font-size: 22px;
+    font-weight: 300;
+}
+
+.hot-line > p {
+    background: #fff;
+    display: block;
+    border-radius: 0;
+    padding: 15px 17px 1px 17px;
+    color: #666666;
+}
+
+.product-button-active {
+    border: 2px solid #9316c7 !important;
+    color:#000;
+}
+
+.button-detail:hover {
+    border: 2px solid #9316c7 !important;
+    color:#000;
+}
+
+.product-button-active:after {
+    font-family: fontAwesome;
+    content: '\f00c';
+    color: #9316c7;
+    display: contents;
+}
+
+.custom-prod-detail {
+    max-width: 51%;
+    border-radius: 0;
+    margin: 40px auto;
+    display: grid;
+    justify-content: center;
+}
+
+.cusor-table-variant-icon {
+    color: #fff;
+    font-size: 6px;
+    position: relative;
+    bottom: 9px;
+    left: 1px;
+}
+
+.single-product-tab .nav-tabs {
+    background: #fff;
+    margin: 0 auto;
+    margin-bottom: 0px;
+}
+
+.single-product-tab .nav-tabs {
+    width: 94%;
+    border: 2px solid #f0f0f0;
+    border-radius: 999px;
+    height: 57px;
+    line-height: 57px;
+    padding: 0 20px;
+}
+
+.entry-inside.v3 {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.single-product-tab .tab-content p {
+    font-size: 16px;
+    line-height: 22px;
+    color: #666666;
+}
+
+.single-product-tab .nav-tabs > li > a {
+    border: 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: #999;
+    margin: 0;
+    padding: 10px 20px;
+}
+
+.slide-fullw .slick-arrow i {
+    position: relative;
+    top: 45%;
+    line-height: 0;
+    font-size: 50px;
+    color: #fff;
+}
+
+.single-product-detail .single-product-info .cart-qtt {
+    width: 136px;
+    height: 47px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -moz-justify-content: space-between;
+    -ms-justify-content: space-between;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -ms-flex-pack: space-between;
+    border-radius: 999px;
+    padding-left: 25px;
+    padding-right: 19px;
+}
+
+.btn-cart-go {
+    margin: 15px auto;
+    border: 0;
+    padding: 10px 20px;
+    display: block;
+    width: 88%;
+}
+
+option {
+    text-align: center;
+}
+
+.cart-relative {
+    padding-left: 0px;
+    position: relative;
+    width: 275px;
+    margin: 0 auto;
+}
+
+.cart-absolute {
+    position: absolute;
+    width: 230px;
+    float: right;
+    left: 0px;
+}
+
+.cart-fixed {
+    position: fixed;
+    width: 230px !important;
+    top: 25px;
+    z-index: 500;
+}
+
+    .cart-fixed + .container {
+        padding-top: 100px;
+    }
+
+.breadcrumb > li + li:before {
+    content: "\f105";
+    font-family: 'FontAwesome', sans-serif;
+    padding: 0 5px;
+    color: #ccc;
+}
+
+.single-product-detail .single-product-info .product-desc {
+    color: #666666;
+    line-height: 21.99px;
+    font-size: 17px;
+    margin-bottom: 20px;
+    letter-spacing: 0.8px;
+}
+
+.slide-fullw .slick-arrow:hover {
+    background: none;
+}
+
+.slide-fullw .slick-arrow {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    background: none;
+    -webkit-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+}
+
+.slide-fullw .prev {
+    left: 0%;
+    top: 63%;
+}
+
+.slide-fullw .next {
+    right: 5%;
+    top: 63%;
+}
+
+.slide-cover-img {
+    width: 93%;
+    height: 296px;
+    margin: 0 auto;
+    border: 1px solid #e7e7e7;
+    object-fit: cover;
+}
+
+.item_cart {
+    border-bottom: 0;
+}
+
+.td-b {
+    border: 1px solid #000;
+}

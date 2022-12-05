@@ -1,0 +1,117 @@
+﻿@model List<string>
+
+@{
+    ViewData["Title"] = "fotograflar";
+    Layout = "~/Areas/admin/Views/_Shared/_Layout.cshtml";
+}
+
+<style>
+    .img-dropzone {
+        height: 140px;
+        object-fit: cover;
+        border: 5px solid #dfdfdf;
+        width: 100%;
+    }
+    .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+        margin-left: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        float: right;
+        top: -7px;
+        position: relative;
+    }
+
+    .input-group:not(.has-validation) > .dropdown-toggle:nth-last-child(n+3), .input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        position: fixed;
+    }
+
+    .input-group {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: block;
+        float: right;
+        -ms-flex-wrap: wrap;
+        -webkit-box-align: stretch;
+        -ms-flex-align: stretch;
+        align-items: self-end;
+        width: 100%;
+    }
+</style>
+
+<link href="~/adminpanel/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">Fotoğraflar</h4>
+                <p class="card-title-desc">
+                    DropzoneJS açık kaynak kodlu bir sürükle bırak eklentisidir.
+                    Fotoğraflarınızı sürükledikten sonra sunucuda yüklemesini sağlar ve anlık olarak görürsünüz.
+                </p>
+
+                <div>
+                    <form method="post" enctype="multipart/form-data" action="/admin/medya/upload" class="dropzone">
+                        <div class="fallback">
+                            <input name="file" accept="image/*" type="file" multiple id="files">
+                        </div>
+                        <div class="dz-message needsclick">
+                            <div class="mb-3">
+                                <i class="display-4 text-muted ri-upload-cloud-2-line"></i>
+                            </div>
+
+                            <h4>Fotoğrafı sürükleyin ve yükleyin</h4>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                    <div class="col-sm-2" style="padding:5px;">
+                        <a href="@item.Replace("thumbnail","fullscreen")" target="_blank" title="Project 1">
+                            <img loading="lazy" class="img-fluid img-dropzone" title="@item" alt="@item" src="@item" />
+                        </a>
+                    </div>                  
+                    }
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/adminpanel/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/adminpanel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/adminpanel/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/adminpanel/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/adminpanel/assets/libs/node-waves/waves.min.js"></script>
+
+<script src="~/adminpanel/assets/libs/dropzone/min/dropzone.min.js"></script>
+
+<script src="~/adminpanel/assets/js/app.js"></script>
+
+<script>
+    $(document).ready(function () {
+        Dropzone.options.dropzoneForm = {
+            paramName: "file",
+            maxFilesize: 20,
+            maxFiles: 4,
+            acceptedFiles: "image/*",
+            dictMaxFilesExceeded: "Custom max files msg"
+        }
+    });
+</script>

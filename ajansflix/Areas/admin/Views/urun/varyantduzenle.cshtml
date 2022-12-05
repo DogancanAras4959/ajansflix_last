@@ -1,0 +1,123 @@
+﻿@using ajansflix.SERVICES.Dtos.DetailDataData
+@using ajansflix.SERVICES.Dtos.DetailData
+@model ajansflix.SERVICES.Dtos.DetailDataData.DetailDataDto
+@{
+    ViewData["Title"] = "kategoriler";
+    Layout = "~/Areas/admin/Views/_Shared/_Layout.cshtml";
+    List<DetailDataDto> varyants = ViewBag.Varyants as List<DetailDataDto>;
+    DetailDto bilesen = ViewBag.Bilesen as DetailDto;
+}
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Varyant</th>
+                                <th>Fiyat</th>
+                                <th>Bileşen</th>
+                                <th>Durum</th>
+                                <th>İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in varyants)
+                            {
+                                <tr>
+                                    <td>@item.DataName</td>
+                                    <td>@item.Price TL</td>
+                                    <td>@item.detail.DetailName</td>
+                                    @if (item.IsActive == true)
+                                    {
+                                        <td><span class="text-success">Aktif</span></td>
+                                    }
+                                    else
+                                    {
+                                        <td><span class="text-danger">Pasif</span></td>
+                                    }
+                                    <td>
+                                        <a class="btn btn-outline-secondary btn-sm edit" title="Düzenle" href="/admin/urun/varyantduzenle?Id=@item.Id">
+                                            <i class="fas fa-pencil-alt" title="Edit"></i>
+                                        </a>
+                                        <a class="btn btn-outline-secondary btn-sm deleted" title="Sil" href="/admin/urun/varyantsil?Id=@item.Id">
+                                            <i class="fas fa-trash" title="Delete"></i>
+                                        </a>
+                                        <a class="btn btn-outline-secondary btn-sm above" title="Aktif/Pasif" href="/admin/urun/varyantdurumduzenle?Id=@item.Id">
+                                            <i class="fas fa-wifi" title="Aktif/Pasif"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <form method="post" action="/admin/urun/varyantguncelle" enctype="multipart/form-data">
+                        @Html.HiddenFor(x => x.Id)
+                        <div class="mb-4">
+                            <img id="img" src="@Model.ImagePath" style="width:100%; height:300px; object-fit:cover;" />
+                        </div>
+                        <div class="mb-4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input type="file" class="form-control filestyle" data-input="false" name="file" id="file" accept="image/*" />
+                                </div>
+                            </div>
+                            <span style="position:relative; top:10px;"><em>(Zorunlu )Kare boyutta seçiniz (1000x1000)</em></span>
+                        </div>
+                        <div class="mb-4">
+                            <label>Varyant Adı *</label>
+                            @Html.TextBoxFor(x => x.DataName, new { @class = "form-control", @type = "text", @Value = "Deneme", placeholder = "Varyant giriniz...", @required = "required" })
+                        </div>
+                        <div class="mb-4">
+                            <label>Varyant Fiyat *</label>
+                            @Html.TextAreaFor(x => x.Price, new { @class = "form-control", @type = "text", @Value = "Deneme Açıklama", placeholder = "Varyant seçim türü (Dropdown veya List şeklinde.) giriniz..." })
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check form-switch mb-3" style="float:left; top:10px;" dir="ltr">
+                                @Html.CheckBoxFor(x => x.IsLock, new { @class = "form-check-input", id = "customSwitch1" })
+                                <label class="form-check-label" for="customSwitch1">Kilitli mi?</label>
+                            </div>
+                            <div class="form-check form-switch mb-3" style="float:left; top:10px; left:10px;" dir="ltr">
+                                @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-check-input", id = "customSwitch1" })
+                                <label class="form-check-label" for="customSwitch1">Aktif mi?</label>
+                            </div>
+                            <button style="float:right;" class="btn btn-primary" type="submit">Varyant Güncelle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#file').change(function () {
+            var input = this;
+            var url = $(this).val();
+            var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+            if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#img').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+            else {
+                $('#img').attr('src', '~/adminpanel/assets/images/comingsoon-bg.jpg');
+            }
+        });
+    });
+</script>

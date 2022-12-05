@@ -1,0 +1,71 @@
+﻿@using ajansflix.SERVICES.Dtos.CategoryData
+
+@{
+    ViewData["Title"] = "kategoriler";
+    Layout = "~/Areas/admin/Views/_Shared/_Layout.cshtml";
+    List<CategoryDto> categories = ViewBag.Categories as List<CategoryDto>;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Kategori</th>
+                                <th>Açık Başlık</th>
+                                <th>Görünüm</th>
+                                <th>Kod</th>
+                                <th>Oluşturulma</th>
+                                <th>Durum</th>
+                                <th>İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in categories)
+                            {
+                            <tr>
+                                <th scope="row"><strong>@item.Id</strong></th>
+                                <td>@item.CategoryName</td>
+                                <td>@item.CategoryDescription</td>
+                                <td>@item.CategoryStatus</td>
+                                <td>@item.StatusCode</td>
+                                <td>@item.CreatedTime.ToString("MM/dd/yyyy HH:mm")</td>
+                                @if (item.IsActive == true)
+                                {
+                                    <td><span class="text-success">Aktif</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="text-danger">Pasif</span></td>
+                                } 
+                                <td>
+                                    <a class="btn btn-outline-secondary btn-sm edit" title="Düzenle" href="/admin/urun/kategoriduzenle?Id=@item.Id">
+                                        <i class="fas fa-pencil-alt" title="Edit"></i>
+                                    </a>
+                                    <a class="btn btn-outline-secondary btn-sm deleted" title="Sil" href="/admin/urun/kategorisil?Id=@item.Id">
+                                        <i class="fas fa-trash" title="Delete"></i>
+                                    </a>
+                                    <a class="btn btn-outline-secondary btn-sm above" title="Aktif/Pasif" href="/admin/urun/kategoridurumduzenle?Id=@item.Id">
+                                        <i class="fas fa-wifi" title="Aktif/Pasif"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

@@ -1,0 +1,112 @@
+﻿@using ajansflix.SERVICES.Dtos.ProductsData
+@using ajansflix.CORE.CartModels
+@{
+    ViewData["Title"] = "sepet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<CartItem> cart = ViewBag.Cart as List<CartItem>;
+    List<ProductDto> productList = ViewBag.ProductList as List<ProductDto>;
+}
+
+<style>
+    .cart-total th {
+        padding: 15px 40px;
+        vertical-align: top;
+    }
+    .cart-total .order-total td {
+        padding: 0px;
+    }
+    .item_cart .product-name .product-info {
+        width: 70%;
+        max-width: 70%;
+    }
+        .item_cart .product-name .product-info a {
+            font-size: 18px;
+            font-weight: 500;
+        }
+</style>
+
+<div class="container container-240">
+
+    <div class="checkout">
+        <ul class="breadcrumb v3">
+            <li><a href="@Url.Action("sayfa","anasayfa")">Ana Sayfa</a></li>
+            <li class="active">Sepet</li>
+        </ul>
+        <div class="row">
+            <div class="col-md-8 col-sm-12 col-xs-12">
+                <div class="shopping-cart bd-7">
+                    <div class="cmt-title text-center abs">
+                        <h1 class="page-title v2">Sepet</h1>
+                    </div>
+                    <div class="table-responsive">
+                        @if (cart.Count > 0)
+                        {
+                            <table class="table cart-table">
+
+                                <tbody>
+
+                                    @foreach (var item in cart)
+                                    {
+                                        <tr class="item_cart">
+                                            <td class="product-name flex align-center">
+                                                <a href="/hizmet/sepetcikar?id=@item.Id" class="btn-del"><i class="ion-ios-close-empty"></i></a>
+                                                <div class="product-img">
+                                                    <img src="@item.Image" title="@item.Item" alt="@item.Item" loading="lazy">
+                                                </div>
+                                                <div class="product-info">
+                                                    <a href="@Url.Action("detay","hizmet", new { Id = item.Id, productname = item.GenerateSlug() })" title="">@item.Item</a>
+                                                    <hr style="margin-top:12px; margin-bottom:12px;" />
+                                                    <ul>
+                                                        @foreach (var item2 in item._compItems)
+                                                        {
+                                                            <li><strong>@item2.CompName:</strong> @item2.CompValue</li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                            <td class="total-price">
+                                                <p class="price">@item.BasePrice TL</p>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <p style="text-align:center; width:100%; font-size:22px;">Sepetiniz boş görünüyor!</p>
+                        }
+                    </div>
+
+                    <div class="table-cart-bottom" style="padding-left: 45px; padding-right: 45px;">
+                        <a style="margin: 0 auto;" href="@Url.Action("sayfa","anasayfa")" class="btn btn-update">Alışverişe Dön</a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="cart-total bd-7" style="padding-bottom:25px;">
+                    <div class="cmt-title text-center abs">
+                        <h1 class="page-title v3">Sepet Tutarı</h1>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="shop_table" style="width:100%;">
+                            <tbody>
+                                <tr class="order-total">
+                                    <th>Toplam</th>
+                                    <td>@Convert.ToInt32(ViewBag.Total) TL</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="cart-total-bottom">
+                        <a href="/odeme" class="btn-gradient btn_primary_color btn-checkout">Ödemeyi Bitir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

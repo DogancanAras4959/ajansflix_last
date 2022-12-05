@@ -1,0 +1,101 @@
+﻿@model IEnumerable<ajansflix.SERVICES.Dtos.ProductsData.ProductDto>
+
+@{
+    ViewData["Title"] = "Dışa Aktar";
+    Layout = "~/Areas/admin/Views/_Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body pt-4">
+                <table id="datatable-buttons" class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Id</th>
+                            <th>Ürün adı</th>
+                            <th>Kategori</th>
+                            <th>Fiyat</th>
+                            <th>Ind. Oran</th>
+                            <th>Kısa Açk.</th>
+                            <th>Uzun Açk.</th>
+                            <th>Seo Başlık</th>
+                            <th>Seo Açk.</th>
+                            <th>Görsel Yolu</th>
+                            <th>Bileşenler</th>
+                            <th>Durum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.ProductName</td>
+                                <td>@item.category.CategoryName</td>
+                                <td>
+                                    @Convert.ToInt32(item.Price)
+                                </td>
+                                <td>@Convert.ToInt32(item.Discount)</td>
+                                <td>
+                                    @Html.Raw(item.ProductAlternateDesc)
+                                </td>
+                                <td>
+                                    @Html.Raw(item.ProductDescription)
+                                </td>
+                                <td>@item.ProductMetaName</td>
+                                <td>@item.ProductMetaDescription</td>
+                                <td>@item.ImagePath</td>
+
+                                @{
+
+                                    List<string> arrayList = new List<string>();
+
+                                    foreach (var item2 in item.productDetails)
+                                    {
+                                        arrayList.Add(item2.detail.DetailName);
+                                    }
+                                    if (arrayList.Count > 0)
+                                    {
+                                        string detail = "";
+                                        string[] detailList = arrayList.ToArray();
+
+                                        for (int i = 0; i < detailList.Count(); i++)
+                                        {
+                                            detail += detailList[i] + ",";
+                                        }
+                                        <td>
+                                            <span>@detail</span>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                };
+
+                                @if (item.IsActive == true)
+                                {
+                                    <td>
+                                        <div class="badge badge-soft-success font-size-12">Aktif</div>
+                                    </td>
+                                }
+
+                                else
+                                {
+                                    <td>
+                                        <div class="badge badge-soft-danger font-size-12">Pasif</div>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
