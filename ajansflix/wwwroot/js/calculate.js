@@ -22,19 +22,23 @@ var fillDataToCookieList = function (arrayList, arrayListFree) {
         for (let i = 0; i < component.length; i++) {
             var button = document.getElementById("btn_class_variant_" + component[i].BaseId);
             button.classList.add("product-button-active");
-            buttons.push(button);
+            buttons.push(button);       
         }
+        console.log(component);
     }
-    else if(arrayList.length == 0)
+    if(arrayList.length == 0)
     {
         if (arrayListFree.length > 0) {
             component = JSON.parse(arrayListFree);
 
             for (let i = 0; i < component.length; i++) {
                 var button = document.getElementById("btn_class_variant_" + component[i].BaseId);
-                button.classList.add("product-button-active");
-                buttons.push(button);
+                if (button != null) {
+                    button.classList.add("product-button-active");
+                    buttons.push(button);
+                }             
             }
+            console.log(component);
         }
     }
 }
@@ -158,16 +162,16 @@ function insertToPrice(dropdownTotal) {
 
 function callChangefunc(val) {
 
-    var compId = val;
+    var compDetailId = val;
 
     $.ajax({
         type: 'GET',
-        url: '/hizmet/bilesengetir?id=' + compId,
+        url: '/hizmet/bilesengetir?id=' + compDetailId,
         data: {},
         success: function (result) {
-
+            let dropdown = "dropdown";
             if (Number.parseInt(result.price) > 0) {
-                insertCalculate(result.price, result.compName, result.compValue, result.compId, productId);
+                insertCalculate(result.price, result.compName, result.compValue, productId, compDetailId, result.compId, dropdown);
             }
 
             //total.innerText = insertToPrice(dropdownTotal);
@@ -242,34 +246,72 @@ function kayitdegistir(id, comp, button) {
     const componentNew = component;
     const filteredComponent = [];
     const Id = id;
+    let isCompInsert = false;
 
     for (let i = 0; i < componentNew.length; i++) {
 
-        var compItemNew = {
-            CompName: componentNew[i].CompName,
-            CompValue: componentNew[i].CompValue,
-            Price: Number.parseInt(componentNew[i].Price),
-            CompId: Number.parseInt(componentNew[i].CompId),
-            ProductId: Number.parseInt(componentNew[i].ProductId),
-            Button: button,
-            BaseId: Number.parseInt(componentNew[i].BaseId),
-        };
+        var compItemNew = {};
 
-        if (compItemNew.CompId !== Id) {
-            if (compItemNew.Button != null) {
-                compItemNew.Button.classList.add("product-button-active");
+        if (button == null) {
+            compItemNew = comp;
+            filteredComponent.push(comp);
+            button = "";
+            isCompInsert = true;
+
+            if (componentNew[i].BaseId != comp.BaseId) {
+                compItemNew = {
+                    CompName: componentNew[i].CompName,
+                    CompValue: componentNew[i].CompValue,
+                    Price: Number.parseInt(componentNew[i].Price),
+                    CompId: Number.parseInt(componentNew[i].CompId),
+                    ProductId: Number.parseInt(componentNew[i].ProductId),
+                    Button: button,
+                    BaseId: Number.parseInt(componentNew[i].BaseId),
+                };
                 filteredComponent.push(compItemNew);
             }
+            
         }
 
         else {
-            if (compItemNew.Button != null) {
-                removeClassFromButton(compItemNew.BaseId);
+            compItemNew = {
+                CompName: componentNew[i].CompName,
+                CompValue: componentNew[i].CompValue,
+                Price: Number.parseInt(componentNew[i].Price),
+                CompId: Number.parseInt(componentNew[i].CompId),
+                ProductId: Number.parseInt(componentNew[i].ProductId),
+                Button: button,
+                BaseId: Number.parseInt(componentNew[i].BaseId),
+            };
+
+            if (compItemNew.CompId !== Id) {
+                if (compItemNew.Button != null && compItemNew.Button != "") {
+                    compItemNew.Button.classList.add("product-button-active");
+                    filteredComponent.push(compItemNew);
+                }
+                else {
+                    filteredComponent.push(compItemNew);
+                }
             }
-        }
+
+            else {
+                if (compItemNew.Button != null && compItemNew.Button != "") {
+                    removeClassFromButton(compItemNew.BaseId);
+                    filteredComponent.push(comp);
+                    isCompInsert = true;
+                }
+                else {
+                    filteredComponent.push(comp);
+                    isCompInsert = true;
+                }
+            }
+        }     
     }
 
-    filteredComponent.push(comp);
+    if (isCompInsert == false) {
+        filteredComponent.push(comp);
+    }
+
     return filteredComponent;
 
 }
@@ -285,10 +327,13 @@ function removeClassFromButton(baseId) {
 
 // En son seçilen nesnelerin fiyat hesaplaması
 
-function insertCalculate(price, compName, compValue, productId, compId, baseId) {
+function insertCalculate(price, compName, compValue, productId, compId, baseId, dropdown) {
 
     var totalData = 0;
-    var button = document.getElementById("btn_class_variant_" + baseId);
+
+    if (dropdown != "dropdown") {
+        var button = document.getElementById("btn_class_variant_" + baseId);
+    }
 
     var compItem = {
         CompName: compName,
@@ -338,9 +383,9 @@ function insertCalculate(price, compName, compValue, productId, compId, baseId) 
 
 // En son seçilen nesnelerin fiyat hesaplaması
 
-var removeFromCartItem = function (Id) {
+var removeFromCartItem = function (productId) {
 
-    var price = document.getElementById("price_" + Id);
+    var price = document.getElementById("price_" + productId);
     var sumTotal = totalPriceCart.innerHTML;
     var cartTotal = cartCount.innerHTML;
     var sumPrice = price.innerHTML;
@@ -348,11 +393,11 @@ var removeFromCartItem = function (Id) {
     $.ajax({
         type: "POST",
         url: "/hizmet/sepettencikar/",
-        data: { Id: Id },
+        data: { Id: productId },
         success: function (response) {
             if (response == true) {
                 dropdownMenus.style.display = "block";
-                removeCartItemFromListWithHtml(Id);
+                removeCartItemFromListWithHtml(productId);
                 totalPriceCart.innerText = cutTheTotal(price);
                 cartTotal = Number.parseInt(cartTotal) - 1;
                 cartCount.innerHTML = cartTotal;

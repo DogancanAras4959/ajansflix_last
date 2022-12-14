@@ -4,6 +4,7 @@ using ajansflix.SERVICES.Crud;
 using ajansflix.SERVICES.Dtos.CategoryData;
 using ajansflix.SERVICES.Interface;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace ajansflix.SERVICES.Service
 
         public CategoryDto categoryByName(string name)
         {
-            var entity = _repository.Where(x=> x.CategoryName == name).SingleOrDefault();
+            var entity = _repository.Where(x=> x.CategoryName == name).AsNoTracking().SingleOrDefault();
             var entityDto = _mapper.Map<Categories, CategoryDto>(entity);
             return entityDto;
         }
@@ -32,6 +33,13 @@ namespace ajansflix.SERVICES.Service
             _repository.Save();
             model.Id = entity.Id;
             return model.Id;
+        }
+
+        public List<CategoryDto> listCategoryByWeb()
+        {
+            var entity = _repository.Where(x=> x.IsActive == true).ToList();
+            var entityDto = _mapper.Map<List<Categories>,List<CategoryDto>>(entity);
+            return entityDto;
         }
     }
 }

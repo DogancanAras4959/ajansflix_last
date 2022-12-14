@@ -13,5 +13,6 @@ namespace ajansflix.SERVICES.Interface
     {
         CategoryDto categoryByName(string name);
         int InsertCategoryById(CategoryDto model);
+        List<CategoryDto> listCategoryByWeb();
     }
 }

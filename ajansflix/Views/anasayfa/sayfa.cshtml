@@ -65,11 +65,10 @@
     <div class="row flex lr2">
         <div class="col-lg-12">
             <nav class="main-menu" style="margin-left:0;">
-                <div class="collapse navbar-collapse" style=".navbar-collapse.collapse
-{ display: grid; height: auto !important; padding-bottom: 0; justify-content: center; overflow: visible !important; align-content: center; align-items: center; vertical-align: middle; }" id="myNavbar">
+                <div class="collapse navbar-collapse navbar-middled-menu" id="myNavbar">
                     <ul class="nav navbar-nav js-menubar" style="position: relative; left: 1%;">
 
-                        @foreach (var item in categoryList)
+                        @foreach (var item in categoryList.Where(x=> x.IsActive == true))
                         {
                             <li class="level1 active hassub">
                                 <a href="/hizmetler?id=@item.Id">@item.CategoryName</a>

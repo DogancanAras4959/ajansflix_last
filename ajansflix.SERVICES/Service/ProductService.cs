@@ -36,7 +36,7 @@ namespace ajansflix.SERVICES.Service
 
         public ProductDto getProduct(int Id)
         {
-            var entity = _repository.Where(x => x.Id == Id).Include("category").SingleOrDefault();
+            var entity = _repository.Where(x => x.Id == Id).Include("category").AsNoTracking().SingleOrDefault();
             var entityDto = _mapper.Map<Products, ProductDto>(entity);
             return entityDto;
         }

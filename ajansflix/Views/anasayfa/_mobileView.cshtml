@@ -17,7 +17,7 @@
         <div class="product-collection-grid spc1">
             <div class="row" style="margin:0;">
 
-                @foreach (var item in categoryList)
+                @foreach (var item in categoryList.Where(x=> x.IsActive == true))
                 {
                     <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 product-item" style="width: 50%; padding-left: 5px; padding-right: 5px; margin-bottom:10px;">
                         <div class="pd-bd product-inner" style="padding: 5px;">

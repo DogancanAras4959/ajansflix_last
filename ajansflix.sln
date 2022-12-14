@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32802.440
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ajansflix", "ajansflix\ajansflix.csproj", "{85F93245-0C00-4A07-BDCF-B8C4CFE2951F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ajansflix", "ajansflix\ajansflix.csproj", "{85F93245-0C00-4A07-BDCF-B8C4CFE2951F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CORE", "CORE", "{949264CF-FF7F-4745-9E89-4C2D01611886}"
 EndProject
@@ -11,13 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DOMAIN", "DOMAIN", "{9CCB24
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SERVICES", "SERVICES", "{4BC192E0-14BE-421C-96B8-D092EA00B8B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ajansflix.SERVICES", "ajansflix.SERVICES\ajansflix.SERVICES.csproj", "{05D3AD2C-09BF-4D0D-8D62-B6EB8718FADE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ajansflix.SERVICES", "ajansflix.SERVICES\ajansflix.SERVICES.csproj", "{05D3AD2C-09BF-4D0D-8D62-B6EB8718FADE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ajansflix.DOMAIN", "ajansflix.DOMAIN\ajansflix.DOMAIN.csproj", "{6956E323-FFCF-4ACC-8132-5F719FBF5ED1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ajansflix.DOMAIN", "ajansflix.DOMAIN\ajansflix.DOMAIN.csproj", "{6956E323-FFCF-4ACC-8132-5F719FBF5ED1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ajansflix.CORE", "ajansflix.CORE\ajansflix.CORE.csproj", "{DB9952DA-B0F2-4E35-921F-76C68E09E9F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ajansflix.CORE", "ajansflix.CORE\ajansflix.CORE.csproj", "{DB9952DA-B0F2-4E35-921F-76C68E09E9F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ajansflix.COMMON", "ajansflix.COMMON\ajansflix.COMMON.csproj", "{A5BE17A4-4A9C-4A57-8485-7B742D5688A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ajansflix.COMMON", "ajansflix.COMMON\ajansflix.COMMON.csproj", "{A5BE17A4-4A9C-4A57-8485-7B742D5688A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

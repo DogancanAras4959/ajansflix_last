@@ -45,7 +45,7 @@ namespace ajansflix.CORE.Repository
             return await Table.SingleAsync(x => x.Id == Id);
         }
         public void Update(T entity)
-        {
+        {         
             Table.Update(entity);
         }
         public void Update(IEnumerable<T> entities)
@@ -57,8 +57,9 @@ namespace ajansflix.CORE.Repository
             return Table.Where<T>(expression);
         }
         public void Save()
-        {
+        {         
             _context.SaveChanges();
+            _context.ChangeTracker.Clear();
         }
 
         public T FirstOrDefault(Expression<Func<T, bool>> expression = null)

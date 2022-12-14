@@ -133,8 +133,8 @@
                                                             decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
 
                                                             <span class="old price-info" margin-left:5px;">@Convert.ToInt32(Model.Price) TL</span>
-                                                            <span class="red price-info">@Convert.ToInt32(indirimli_fiyat) TL</span> 
-                                                            }
+                                                            <span class="red price-info">@Convert.ToInt32(indirimli_fiyat) TL</span>
+                                                        }
                                                         else if (Model.Discount == 0)
                                                         {
                                                             <span class="td-info-text-price price-info">@Convert.ToInt32(Model.Price) TL</span>}
@@ -146,7 +146,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        @foreach (var item in productDetails.Where(x => x.ProductId == Model.Id))
+                                        @foreach (var item in productDetails.Where(x => x.ProductId == Model.Id).OrderBy(x => x.Sorted))
                                         {
                                             <tr class="item_cart table-price-mobile-tr">
                                                 <td class="td-width-mobile" style="vertical-align: middle; padding:0; width:100%; background-color:#ffed00; color:#000; position:relative;">
@@ -154,7 +154,9 @@
                                                     <div class="cursor-table-variant"><span class="fa fa-play cusor-table-variant-icon"></span></div>
                                                 </td>
                                                 <td class="single-product-detail td-width-mobile table-td-flex-direction" style="display: flex; justify-content: center; padding:0; border:0;">
-                                                 
+
+                                                    @if (item.detail.Type == "List")
+                                                    {
                                                         @foreach (var item2 in detailDatas.Where(x => x.DetailId == item.DetailId))
                                                         {
                                                             <button class="button-detail btn-calc" onclick="insertCompInValueWithButton(@item2.Id)" id="btn_class_variant_@item2.Id">
@@ -170,15 +172,24 @@
                                                             <input type="hidden" id="price_@item2.Id" value="@Convert.ToInt32(item2.Price)" />
                                                             <input type="hidden" id="name_@item2.Id" value="@item.detail.DetailName" />
                                                             <input type="hidden" id="detail_@item2.Id" value="@item.DetailId" />}
+                                                    }
+
+                                                    @if (item.detail.Type == "Dropdown")
+                                                    {
+                                                        @Html.DropDownList("DataName", new SelectList(detailDatas.Where(x => x.DetailId == item.DetailId).ToList(),
+                                                                     "Id", "DataName"), "Seçiniz", new { @class = "form-control", @style="height:60px", id = "detailDataName", @onChange = "callChangefunc(this.value)" });
+
+                                                   }
+
                                                 </td>
                                             </tr>
                                         }
                                     </tbody>
                                 </table>
                                 @*@if (detailDatasCookie != null && detailDatasCookie.Count > 0)
-                                {
-                                    <button id="btn_clear" class="btn_clear"><i class="ionicons ion-android-delete"></i> Seçimleri Temizle</button>
-                                }*@
+                                    {
+                                        <button id="btn_clear" class="btn_clear"><i class="ionicons ion-android-delete"></i> Seçimleri Temizle</button>
+                                    }*@
                             </div>
 
                         </div>

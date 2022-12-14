@@ -19,11 +19,9 @@ namespace ajansflix.Components
 
         public IViewComponentResult Invoke()
         {
-            var categoryList = _categoryService.GetAll();
+            var categoryList = _categoryService.listCategoryByWeb();
             ViewBag.CategoryList = categoryList;
             return View();
-        }
-
-        
+        }      
     }
 }

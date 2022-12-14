@@ -542,6 +542,7 @@ namespace ajansflix.Areas.admin.Controllers
 
             return Json(true);
         }
+
         [HttpPost]
         public JsonResult removeMergeProduct(int Id, int ProductId)
         {
@@ -554,231 +555,267 @@ namespace ajansflix.Areas.admin.Controllers
         [HttpPost]
         public IActionResult iceaktar()
         {
-
-            IFormFile file = Request.Form.Files[0];
-            string folderName = "files";
-            string webRootPath = _hostingEnvironment.WebRootPath;
-            string newPath = Path.Combine(webRootPath, folderName);
-            StringBuilder sb = new StringBuilder();
-            if (!Directory.Exists(newPath))
-            {
-                Directory.CreateDirectory(newPath);
-            }
-            if (file.Length > 0)
-            {
-                string sFileExt = Path.GetExtension(file.FileName).ToLower();
-                ISheet sheet;
-                string fullPath = Path.Combine(newPath, file.FileName);
-                using (var stream = new FileStream(fullPath, FileMode.Create))
+                IFormFile file = Request.Form.Files[0];
+                string folderName = "files";
+                string webRootPath = _hostingEnvironment.WebRootPath;
+                string newPath = Path.Combine(webRootPath, folderName);
+                StringBuilder sb = new StringBuilder();
+                if (!Directory.Exists(newPath))
                 {
-                    file.CopyTo(stream);
-                    stream.Position = 0;
-                    if (sFileExt == ".xls")
+                    Directory.CreateDirectory(newPath);
+                }
+                if (file.Length > 0)
+                {
+                    string sFileExt = Path.GetExtension(file.FileName).ToLower();
+                    ISheet sheet;
+                    string fullPath = Path.Combine(newPath, file.FileName);
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
                     {
-                        HSSFWorkbook hssfwb = new HSSFWorkbook(stream);
-                        sheet = hssfwb.GetSheetAt(0);
-                    }
-                    else
-                    {
-                        XSSFWorkbook hssfwb = new XSSFWorkbook(stream);
-                        sheet = hssfwb.GetSheetAt(0);
-                    }
-                    IRow headerRow = sheet.GetRow(0);
-                    int cellCount = headerRow.LastCellNum;
-                    for (int i = sheet.FirstRowNum + 2; i <= sheet.LastRowNum; i++)
-                    {
-
-                        IRow row = sheet.GetRow(i);
-                        ProductDto product = new ProductDto();
-
-                        if (row.GetCell(0) != null)
+                        file.CopyTo(stream);
+                        stream.Position = 0;
+                        if (sFileExt == ".xls")
                         {
-                            int getId = Convert.ToInt32(row.GetCell(0).ToString());
-                            var productGet = _productService.getProduct(getId);
+                            HSSFWorkbook hssfwb = new HSSFWorkbook(stream);
+                            sheet = hssfwb.GetSheetAt(0);
+                        }
+                        else
+                        {
+                            XSSFWorkbook hssfwb = new XSSFWorkbook(stream);
+                            sheet = hssfwb.GetSheetAt(0);
+                        }
+                        IRow headerRow = sheet.GetRow(0);
+                        int cellCount = headerRow.LastCellNum;
+                        for (int i = sheet.FirstRowNum; i <= sheet.LastRowNum; i++)
+                        {
 
-                            //Update Ürün
+                            IRow row = sheet.GetRow(i);
+                            ProductDto product = new ProductDto();
 
-                            if (productGet != null)
+                            if (row.GetCell(0) != null)
                             {
-                                productGet.Banner = "";
-                                productGet.UpdatedTime = DateTime.Now;
-                                productGet.ProductName = row.GetCell(1).ToString();
+                                int getId = 0;
+                                ProductDto productGet;
 
-                                if (row.GetCell(2) != null)
+                                if (row.GetCell(0).ToString() != "")
                                 {
-                                    var category = _categoryService.categoryByName(row.GetCell(2).ToString());
-                                    if (category != null)
-                                    {
-                                        productGet.CategoryId = category.Id;
-                                    }
-                                    else
-                                    {
-                                        CategoryDto categoryNew = new CategoryDto
-                                        {
-                                            CategoryName = row.GetCell(2).ToString(),
-                                            CategoryDescription = "",
-                                            CategoryImage = "",
-                                            CategoryStatus = "",
-                                            StatusCode = "",
-                                        };
-                                        int resultCategoryId = _categoryService.InsertCategoryById(categoryNew);
-                                        if (resultCategoryId > 0)
-                                        {
-                                            productGet.CategoryId = resultCategoryId;
-                                        }
-                                    }
-
+                                    getId = Convert.ToInt32(row.GetCell(0).ToString());
+                                    productGet = _productService.getProduct(getId);
+                                }
+                                else
+                                {
+                                    productGet = null;
                                 }
 
-                                if (row.GetCell(3) != null)
-                                    productGet.Price = Convert.ToInt32(row.GetCell(3).ToString());
+                                //Update Ürün
 
-                                if (row.GetCell(4) != null)
-                                    productGet.Discount = Convert.ToInt32(row.GetCell(4).ToString());
-
-                                if (row.GetCell(5) != null)
-                                    productGet.ProductAlternateDesc = row.GetCell(5).ToString();
-
-                                if (row.GetCell(6) != null)
-                                    productGet.ProductDescription = row.GetCell(6).ToString();
-
-                                if (row.GetCell(7) != null)
-                                    productGet.ProductMetaName = row.GetCell(7).ToString();
-
-                                if (row.GetCell(8) != null)
-                                    productGet.ProductMetaDescription = row.GetCell(8).ToString();
-
-                                if (row.GetCell(9) != null)
-                                    productGet.ImagePath = row.GetCell(9).ToString();
-
-                                if (row.GetCell(10) != null)
+                                if (productGet != null)
                                 {
-                                    char[] splitIcon = { ',' };
-                                    string splitData = row.GetCell(10).ToString();
-                                    string[] items = splitData.Split(splitIcon);
+                                    productGet.Banner = "";
+                                    productGet.UpdatedTime = DateTime.Now;
+                                    productGet.ProductName = row.GetCell(1).ToString();
 
-                                    foreach (var item in items)
+                                    if (row.GetCell(2) != null)
                                     {
-                                        var detail = _detailService.detailGet(item);
-
-                                        if (detail == null)
+                                        var category = _categoryService.categoryByName(row.GetCell(2).ToString());
+                                        if (category != null)
                                         {
-                                            DetailDto newDetail = new DetailDto
+                                            productGet.CategoryId = category.Id;
+                                        }
+                                        else
+                                        {
+                                            CategoryDto categoryNew = new CategoryDto
                                             {
-                                                IsActive = true,
-                                                DetailName = item,
-                                                Type = "List",
+                                                CategoryName = row.GetCell(2).ToString(),
+                                                CategoryDescription = "",
+                                                CategoryImage = "",
+                                                CategoryStatus = "",
+                                                StatusCode = "",
                                             };
-
-                                            int resultIdDetail = _detailService.InsertDetailById(newDetail);
-
-                                            if (resultIdDetail > 0)
+                                            int resultCategoryId = _categoryService.InsertCategoryById(categoryNew);
+                                            if (resultCategoryId > 0)
                                             {
-                                                ProductDetailDto newProductDetailDto = new ProductDetailDto
+                                                productGet.CategoryId = resultCategoryId;
+                                            }
+                                        }
+
+                                    }
+
+                                    if (row.GetCell(3) != null)
+                                        productGet.Price = Convert.ToInt32(row.GetCell(3).ToString());
+
+                                    if (row.GetCell(4) != null)
+                                        productGet.Discount = Convert.ToInt32(row.GetCell(4).ToString());
+
+                                    if (row.GetCell(5) != null)
+                                        productGet.ProductAlternateDesc = row.GetCell(5).ToString();
+
+                                    if (row.GetCell(6) != null)
+                                        productGet.ProductDescription = row.GetCell(6).ToString();
+
+                                    if (row.GetCell(7) != null)
+                                        productGet.ProductMetaName = row.GetCell(7).ToString();
+
+                                    if (row.GetCell(8) != null)
+                                        productGet.ProductMetaDescription = row.GetCell(8).ToString();
+
+                                    if (row.GetCell(9) != null)
+                                        productGet.ImagePath = row.GetCell(9).ToString();
+
+                                    if (row.GetCell(10) != null)
+                                    {
+                                        char[] splitIcon = { ',' };
+                                        string splitData = row.GetCell(10).ToString();
+                                        string[] items = splitData.Split(splitIcon);
+
+                                        foreach (var item in items)
+                                        {
+                                            var detail = _detailService.detailGet(item);
+
+                                            if (detail == null)
+                                            {
+                                                DetailDto newDetail = new DetailDto
                                                 {
-                                                    ProductId = productGet.Id,
-                                                    DetailId = resultIdDetail,
                                                     IsActive = true,
+                                                    DetailName = item,
+                                                    Type = "List",
                                                 };
-                                                _productDetailService.Insert(newProductDetailDto);
+
+                                                int resultIdDetail = _detailService.InsertDetailById(newDetail);
+
+                                                if (resultIdDetail > 0)
+                                                {
+                                                    ProductDetailDto newProductDetailDto = new ProductDetailDto
+                                                    {
+                                                        ProductId = productGet.Id,
+                                                        DetailId = resultIdDetail,
+                                                        IsActive = true,
+                                                    };
+                                                    _productDetailService.Insert(newProductDetailDto);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                var detailProduct = _productDetailService.getComponent(detail.Id, getId);
+                                                if (detailProduct == null)
+                                                {
+
+                                                    ProductDetailDto newProductDetailDto = new ProductDetailDto
+                                                    {
+                                                        ProductId = productGet.Id,
+                                                        DetailId = detail.Id,
+                                                        IsActive = true,
+                                                    };
+                                                    _productDetailService.Insert(newProductDetailDto);
+                                                }
                                             }
                                         }
                                     }
-                                }
-                                if (row.GetCell(11).ToString() != null)
-                                {
-                                    if (row.GetCell(11).ToString() == "Aktif")
+                                    if (row.GetCell(11).ToString() != null)
                                     {
-                                        productGet.IsActive = true;
-                                    }
-                                    else if(row.GetCell(11).ToString() == "Pasif"){
-                                        productGet.IsActive = false;
-                                    }
-                                }
-                                _productService.Update(productGet);
-                            }
-
-                            // Insert Urun
-
-                            else
-                            {
-                                if (row.GetCell(1) != null)
-                                    product.ProductName = row.GetCell(1).ToString();
-
-                                if (row.GetCell(2) != null)
-                                {
-                                    var category = _categoryService.categoryByName(row.GetCell(2).ToString());
-                                    if (category != null)
-                                    {
-                                        product.CategoryId = category.Id;
-                                    }
-                                    else
-                                    {
-                                        CategoryDto categoryNew = new CategoryDto
+                                        if (row.GetCell(11).ToString() == "Aktif")
                                         {
-                                            CategoryName = row.GetCell(2).ToString(),
-                                            CategoryDescription = "",
-                                            CategoryImage = "",
-                                            CategoryStatus = "",
-                                            StatusCode = "",
-                                        };
-                                        int resultCategoryId = _categoryService.InsertCategoryById(categoryNew);
-                                        if (resultCategoryId > 0)
+                                            productGet.IsActive = true;
+                                        }
+                                        else if (row.GetCell(11).ToString() == "Pasif")
                                         {
-                                            product.CategoryId = resultCategoryId;
+                                            productGet.IsActive = false;
                                         }
                                     }
+                                    _productService.Update(productGet);
                                 }
-                                if (row.GetCell(3) != null)
-                                    product.Price = Convert.ToDecimal(row.GetCell(3).ToString());
 
-                                if (row.GetCell(4) != null)
-                                    product.Discount = Convert.ToInt32(row.GetCell(4).ToString());
+                                // Insert Urun
 
-                                if (row.GetCell(5) != null)
-                                    product.ProductAlternateDesc = row.GetCell(5).ToString();
-
-                                if (row.GetCell(6) != null)
-                                    product.ProductDescription = row.GetCell(6).ToString();
-
-                                if (row.GetCell(7) != null)
-                                    product.ProductMetaName = row.GetCell(7).ToString();
-
-                                if (row.GetCell(8) != null)
-                                    product.ProductMetaDescription = row.GetCell(8).ToString();
-
-                                if (row.GetCell(9) != null)
-                                    product.ImagePath = row.GetCell(9).ToString();
-
-                                int resultIdProduct = _productService.InsertProductById(product);
-
-                                if (row.GetCell(10) != null)
+                                else
                                 {
-                                    char[] splitIcon = { ',' };
-                                    string splitData = row.GetCell(10).ToString();
-                                    string[] items = splitData.Split(splitIcon);
+                                    if (row.GetCell(1) != null)
+                                        product.ProductName = row.GetCell(1).ToString();
 
-                                    foreach (var item in items)
+                                    if (row.GetCell(2) != null)
                                     {
-                                        var detail = _detailService.detailGet(item);
-
-                                        if (detail == null)
+                                        var category = _categoryService.categoryByName(row.GetCell(2).ToString());
+                                        if (category != null)
                                         {
-                                            DetailDto newDetail = new DetailDto
+                                            product.CategoryId = category.Id;
+                                        }
+                                        else
+                                        {
+                                            CategoryDto categoryNew = new CategoryDto
                                             {
-                                                IsActive = true,
-                                                DetailName = item,
-                                                Type = "List",
+                                                CategoryName = row.GetCell(2).ToString(),
+                                                CategoryDescription = "",
+                                                CategoryImage = "",
+                                                CategoryStatus = "",
+                                                StatusCode = "",
                                             };
+                                            int resultCategoryId = _categoryService.InsertCategoryById(categoryNew);
+                                            if (resultCategoryId > 0)
+                                            {
+                                                product.CategoryId = resultCategoryId;
+                                            }
+                                        }
+                                    }
+                                    if (row.GetCell(3) != null)
+                                        product.Price = Convert.ToDecimal(row.GetCell(3).ToString());
 
-                                            int resultIdDetail = _detailService.InsertDetailById(newDetail);
+                                    if (row.GetCell(4) != null)
+                                        product.Discount = Convert.ToInt32(row.GetCell(4).ToString());
 
-                                            if (resultIdProduct > 0 && resultIdDetail > 0)
+                                    if (row.GetCell(5) != null)
+                                        product.ProductAlternateDesc = row.GetCell(5).ToString();
+
+                                    if (row.GetCell(6) != null)
+                                        product.ProductDescription = row.GetCell(6).ToString();
+
+                                    if (row.GetCell(7) != null)
+                                        product.ProductMetaName = row.GetCell(7).ToString();
+
+                                    if (row.GetCell(8) != null)
+                                        product.ProductMetaDescription = row.GetCell(8).ToString();
+
+                                    if (row.GetCell(9) != null)
+                                        product.ImagePath = row.GetCell(9).ToString();
+
+                                    int resultIdProduct = _productService.InsertProductById(product);
+
+                                    if (row.GetCell(10) != null)
+                                    {
+                                        char[] splitIcon = { ',' };
+                                        string splitData = row.GetCell(10).ToString();
+                                        string[] items = splitData.Split(splitIcon);
+
+                                        foreach (var item in items)
+                                        {
+                                            var detail = _detailService.detailGet(item);
+
+                                            if (detail == null)
+                                            {
+                                                DetailDto newDetail = new DetailDto
+                                                {
+                                                    IsActive = true,
+                                                    DetailName = item,
+                                                    Type = "List",
+                                                };
+
+                                                int resultIdDetail = _detailService.InsertDetailById(newDetail);
+
+                                                if (resultIdProduct > 0 && resultIdDetail > 0)
+                                                {
+                                                    ProductDetailDto newProductDetailDto = new ProductDetailDto
+                                                    {
+                                                        ProductId = resultIdProduct,
+                                                        DetailId = resultIdDetail,
+                                                        IsActive = true,
+                                                    };
+                                                    _productDetailService.Insert(newProductDetailDto);
+                                                }
+                                            }
+                                            else
                                             {
                                                 ProductDetailDto newProductDetailDto = new ProductDetailDto
                                                 {
                                                     ProductId = resultIdProduct,
-                                                    DetailId = resultIdDetail,
+                                                    DetailId = detail.Id,
                                                     IsActive = true,
                                                 };
                                                 _productDetailService.Insert(newProductDetailDto);
@@ -790,8 +827,22 @@ namespace ajansflix.Areas.admin.Controllers
                         }
                     }
                 }
-            }
-            return Redirect("/admin/urun/urunler");
+                return Redirect("/admin/urun/urunler");
+           
+        }
+
+        [HttpPost]
+        public JsonResult siradegistir(int urunId, int detailId, int sortNumber)
+        {
+            var urun = _productService.getProduct(urunId);
+            var detail = _detailService.Get(detailId);
+
+            var productDetail = _productDetailService.getComponent(detail.Id, urun.Id);
+            productDetail.Sorted = sortNumber;
+            _productDetailService.Update(productDetail);
+
+            return Json(true);
+
         }
 
         #endregion

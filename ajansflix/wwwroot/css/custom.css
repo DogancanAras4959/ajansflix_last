@@ -266,3 +266,16 @@
 .mobile-eproduct {
     padding-top: 30px;
 }
+
+.navbar-middled-menu {
+    display: grid;
+    height: auto !important;
+    padding-bottom: 0;
+    justify-content: center;
+    margin: 0 auto;
+    overflow: visible !important;
+    align-content: center;
+    align-items: center;
+    vertical-align: middle;
+    width: 1000px;
+}
