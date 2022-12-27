@@ -37,7 +37,7 @@ namespace ajansflix.SERVICES.Service
 
         public List<CategoryDto> listCategoryByWeb()
         {
-            var entity = _repository.Where(x=> x.IsActive == true).ToList();
+            var entity = _repository.Where(x=> x.IsActive == true).OrderBy(x=> x.CategorySorted).ToList();
             var entityDto = _mapper.Map<List<Categories>,List<CategoryDto>>(entity);
             return entityDto;
         }

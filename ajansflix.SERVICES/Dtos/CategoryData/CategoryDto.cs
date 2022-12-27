@@ -14,6 +14,7 @@ namespace ajansflix.SERVICES.Dtos.CategoryData
         public string CategoryDescription { get; set; }
         public string CategoryStatus { get; set; }
         public string StatusCode { get; set; }
+        public int CategorySorted { get; set; }
 
         public List<ProductDto> products { get; set; }
     }

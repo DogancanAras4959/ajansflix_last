@@ -24,7 +24,6 @@ var fillDataToCookieList = function (arrayList, arrayListFree) {
             button.classList.add("product-button-active");
             buttons.push(button);       
         }
-        console.log(component);
     }
     if(arrayList.length == 0)
     {
@@ -38,7 +37,6 @@ var fillDataToCookieList = function (arrayList, arrayListFree) {
                     buttons.push(button);
                 }             
             }
-            console.log(component);
         }
     }
 }
@@ -111,6 +109,109 @@ var insertCart = function () {
         }
     });
 
+}
+
+function insertCartHomePage(Id) {
+
+    var imageUrl = document.getElementById("image_" + Id).getAttribute("src");
+    var total = document.getElementById("basePrice_" + Id);
+    var item = document.getElementById("itemName_" + Id).innerText;
+    var cartButtons = document.getElementById("cartButton_" + Id);
+
+    var cartHome = { Id: Id, Item: item, BasePrice: Number.parseInt(total.innerText), Image: imageUrl };
+    const foundItem = cart.find(x => x.Id === cartHome.Id);
+
+    $.ajax({
+        type: "POST",
+        url: "/hizmet/sepetekleHome",
+        data: cartHome,
+        success: function (response) {
+            if (response == true) {
+                if (foundItem == null) {
+
+                    totalCartCount += 1;
+
+                    if (cartCountFill != null) {
+                        var countCart = Number.parseInt(cartCountFill.innerText);
+                        if (countCart > 0) {
+                            countCart += totalCartCount;
+                            cartCountFill.innerText = countCart;
+
+                            setTimeout(function () {
+                                $(this).toggleClass('minus');
+                                $(this).parent().find(".dropdown-menu").slideToggle(function () {
+                                    $(this).next().stop(true).toggleClass('open', $(this).is(":visible"));
+                                });
+                                dropdownMenus.style.display = "block";
+                            }, 2000);
+                            totalPriceCart.innerText = Number.parseInt(totalPriceCart.innerText) + cartHome.BasePrice;
+                            cartButtons.classList.add("cart-active");
+
+                            setTimeout(function () {
+                                $('html, body').animate({ scrollTop: $('#cartHeader').offset().top }, 'slow');
+                            }, 1000)
+
+                            insertDynamicListDataToHome(cartHome);
+
+                        }
+                    }
+                    else {
+                        cartCountEmpty.innerText = Number.parseInt(totalCartCount);
+                        linkCart.setAttribute('aria-expanded', 'true');
+                        $(this).toggleClass('minus');
+                        cartDiv.setAttribute('onclick', 'window.location.href="/sepet"');
+                        $(this).parent().find(".dropdown-menu").slideToggle(function () {
+                            $(this).next().stop(true).toggleClass('open', $(this).is(":visible"));
+                        });
+                        cartButtons.classList.add("cart-active");
+
+                        setTimeout(function () {
+                            $('html, body').animate({ scrollTop: $('#cartHeader').offset().top }, 'slow');
+                        }, 1000)
+                        insertDynamicListDataToHome(cartHome);
+                    }
+                }
+                else {
+                    setTimeout(function () {
+                        $('html, body').animate({ scrollTop: $('#cartHeader').offset().top }, 'slow');
+                    }, 100)
+
+                    setTimeout(function () {
+                        alert("Bu ürün zaten sepete eklendi!");
+                    }, 1000)
+                }
+            }
+            else {
+                alert("Sepete eklenirken sorun oluştu!");
+            }
+            
+        }
+    });
+}
+
+function insertDynamicListDataToHome(cart) {
+
+    var listEmpty = document.getElementById("empty_list");
+
+    if (listEmpty != null) {
+        listEmpty.remove();
+    }
+
+    var li = document.createElement('li');
+    li.innerHTML = dynamicelementdataToHome(cart);
+    document.getElementById("uniqeListPrice").appendChild(li);
+}
+
+function dynamicelementdataToHome(cart) {
+
+    return "<li class='item-cart' id='listCartItem_" + cart.Id + "'>" +
+        "<div class='product-img-wrap'>" +
+        "<a href='" + cart.Image + "')'>" +
+        "<img src='" + cart.Image + "' alt='" + cart.Image + "' title='" + cart.Image + "' class='img-reponsive'></a> </div>" +
+        "<div class='product-details'>" +
+        "<div class='inner-left'> <div class='product-name'><a style='font-size:17px;' href='/detay/" + cart.Id + "/" + cart.Item + "'>" + cart.Item + " </a></div> <div class='product-price'> <span id='price_" + cart.Id + "'>" + cart.BasePrice + "</span> TL </div>" +
+        "<hr style='margin-top: 5px; margin-bottom: 5px;' /> </div></div>"+
+        "<a style='cursor:pointer;' onclick='removeFromCartItem(" + cart.Id + ");' class='e-del'><i class='ion-ios-close-empty'></i></a> </li>";
 }
 
 function insertDynamicListData(newComponent, BasePriceCart) {

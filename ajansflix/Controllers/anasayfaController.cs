@@ -132,7 +132,7 @@ namespace ajansflix.Controllers
 
         public void BindDatabaseData(int? pageNumber)
         {
-            var categoryList = _categoryService.GetAll();
+            var categoryList = _categoryService.listCategoryByWeb();
             ViewBag.CategoryList = categoryList;
 
             var products = _productService.listProductToWeb();

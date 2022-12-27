@@ -85,7 +85,7 @@
 }
 
 .single-product-tab .nav-tabs {
-    width: 94%;
+    width: 100%;
     border: 2px solid #f0f0f0;
     border-radius: 999px;
     height: 57px;
@@ -234,4 +234,23 @@ option {
 
 .td-b {
     border: 1px solid #000;
+}
+
+@media only screen and (max-width: 768px){
+    .single-product-tab .nav-tabs {
+        width: 100%;
+        border: 2px solid #f0f0f0;
+        border-radius: 0px;
+        height: 60px;
+        position: relative;
+        bottom: 37px;
+        line-height: 57px;
+        padding: 0 20px;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+        align-items: center;
+        align-content: space-around;
+        flex-direction: row;
+    }
 }

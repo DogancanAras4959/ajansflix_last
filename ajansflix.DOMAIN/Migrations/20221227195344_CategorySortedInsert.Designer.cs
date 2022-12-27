@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ajansflix.DOMAIN;
 
 namespace ajansflix.DOMAIN.Migrations
 {
     [DbContext(typeof(ajansflixdbcontext))]
-    partial class ajansflixdbcontextModelSnapshot : ModelSnapshot
+    [Migration("20221227195344_CategorySortedInsert")]
+    partial class CategorySortedInsert
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,8 +37,8 @@ namespace ajansflix.DOMAIN.Migrations
                     b.Property<string>("CategoryName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CategorySorted")
-                        .HasColumnType("int");
+                    b.Property<string>("CategorySorted")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CategoryStatus")
                         .HasColumnType("nvarchar(max)");

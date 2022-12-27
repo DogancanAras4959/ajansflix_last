@@ -107,6 +107,7 @@ namespace ajansflix.Areas.admin.Controllers
             category.CategoryDescription = model.CategoryDescription;
             category.CategoryImage = model.CategoryImage;
             category.CategoryStatus = model.CategoryStatus;
+            category.CategorySorted = model.CategorySorted;
             category.StatusCode = model.StatusCode;
             category.UpdatedTime = DateTime.Now;
             category.IsActive = model.IsActive;
@@ -555,6 +556,8 @@ namespace ajansflix.Areas.admin.Controllers
         [HttpPost]
         public IActionResult iceaktar()
         {
+            try
+            {
                 IFormFile file = Request.Form.Files[0];
                 string folderName = "files";
                 string webRootPath = _hostingEnvironment.WebRootPath;
@@ -828,6 +831,13 @@ namespace ajansflix.Areas.admin.Controllers
                     }
                 }
                 return Redirect("/admin/urun/urunler");
+            }
+            
+            catch(Exception ex)
+            { 
+                return Redirect("/admin/urun/urunler"); 
+            }
+               
            
         }
 

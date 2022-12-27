@@ -6,91 +6,17 @@
     List<CategoryDto> categoryList = ViewBag.CategoryList as List<CategoryDto>;
 }
 
-@*<div class="container container-240" style=" padding-top: 50px; padding-bottom: 40px;">
-        <div class="e-product">
-            <div class="product-collection-grid product-grid spc1">
-                <div class="row">
-
-                    @foreach (var item in products)
-                    {
-                        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 product-item">
-                            <div class="pd-bd product-inner">
-                                <div class="product-img">
-                                    <a href=""><img src="@item.ImagePath" alt="" class="img-reponsive"></a>
-                                </div>
-                                <div class="product-info">
-                                    <div class="element-list element-list-middle">
-                                        <p class="product-cate">@item.category.CategoryName</p>
-                                        <h3 class="product-title"><a href="#">@item.ProductName</a></h3>
-                                        <div class="product-bottom">
-                                            <div class="product-price"><span>@Convert.ToInt32(item.Price) TL</span><span style="font-size: 14px; font-weight: 300;"> +KDV</span></div>
-                                            <a href="#" class="btn-icon btn-view">
-                                                <span class="icon-bg icon-view"></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-
-                </div>
-            </div>
-        </div>
-    </div>*@
+<style>
+    .cart-active {
+        opacity: 0.1;
+        cursor: unset !important;
+        pointer-events: none;
+    }
+</style>
 
 @foreach (var item in categoryList.Where(x => x.IsActive == true))
 {
 
-    @if (item.CategoryStatus == "Slide")
-    {
-        <div class="top-product-tab" style="padding-top: 40px; padding-bottom:15px;">
-            <div class="container container-240">
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="product-tab spc3">
-                            <div class="ecome-heading style2 spc4" style="margin-bottom: 30px;">
-                                <div class="title-icon e-gradient" style="width: 360px; background: #ffed00; color: #000 !important;">
-                                    @item.CategoryDescription
-                                </div>
-                            </div>
-                            <div class="tab-content">
-                                <div id="feature" class="tab-pane fade in active">
-                                    <div class="product-tab-pd owl-carousel owl-theme js-owl-product2">
-                                        @foreach (var item2 in products.Where(x => x.CategoryId == item.Id).OrderByDescending(x => x.CreatedTime))
-                                        {
-                                            <div class="product-item">
-                                                <div class="pd-bd product-inner" style="padding: 20px;">
-                                                    <div class="product-img">
-                                                        <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })"><img src="@item2.ImagePath.Replace("thumbnail","fullscreen")" alt="@item2.ImagePath" class="img-reponsive"></a>
-                                                    </div>
-                                                    <div class="product-info" style="margin-top:15px;">
-                                                        <div class="element-list element-list-middle">
-                                                            <p class="product-cate">@item.CategoryName</p>
-                                                            <h3 class="product-title"><a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">@item2.ProductName</a></h3>
-                                                            <div class="product-bottom">
-                                                                <div class="product-price"><span style="font-weight:800;">@Convert.ToInt32(item2.Price) TL</span><span style="font-size: 14px; font-weight: 300;"> +KDV</span></div>
-                                                                <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" class="btn-icon btn-view">
-                                                                    <span class="icon-bg icon-view"></span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
-
-    else if (item.CategoryStatus == "List")
-    {
         <div class="container container-240" style=" padding-top: 50px; padding-bottom: 0px;">
             <div class="ecome-heading style2 spc4" style="margin-bottom: 30px;">
                 <div class="title-icon e-gradient" style="width: 360px; background: #ffed00; color: #000 !important;">
@@ -111,13 +37,12 @@
                                             <div class="ribbon-price red"><span>-@item2.Discount% </span></div>
                                         }
                                         <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">
-                                            <img src="@item2.ImagePath" alt="@item2.ProductMetaName" loading="lazy" title="@item2.ProductMetaName" class="img-reponsive">
+                                            <img src="@item2.ImagePath" alt="@item2.ProductMetaName" loading="lazy" title="@item2.ProductMetaName" class="img-reponsive" id="image_@item2.Id">
                                         </a>
                                     </div>
                                     <div class="product-info" style="margin-top: 20px;">
                                         <div class="element-list element-list-middle">
-                                            @*<p class="product-cate">@item.CategoryName</p>*@
-                                            <h3 class="product-title"><a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">@item2.ProductName</a></h3>
+                                            <h3 class="product-title"><a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" id="itemName_@item2.Id">@item2.ProductName</a></h3>
                                             <div class="product-bottom">
 
                                                 <div class="product-price">
@@ -128,17 +53,13 @@
                                                         decimal indirimOrani = item2.Discount;
                                                         decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
 
-                                                        <span class="old" style="font-weight:800; text-decoration:line-through">
-                                                            @Convert.ToInt32(item2.Price) TL
-                                                        </span>
-                                                        <span style="font-weight: 800; margin-left: 10px;" class="red">@Convert.ToInt32(indirimli_fiyat) TL</span>
+                                                        <span class="old" style="font-weight:800; text-decoration:line-through">@Convert.ToInt32(item2.Price)</span> <span>TL</span>
+                                                        <span style="font-weight: 800; margin-left: 10px;" class="red" id="basePrice_@item2.Id">@Convert.ToInt32(indirimli_fiyat)</span> <span>TL</span>
                                                         <span style="font-size: 14px; font-weight: 300;"> +KDV</span>
                                                     }
                                                     else if (item2.Discount == 0)
                                                     {
-                                                        <span style="font-weight:800;">
-                                                            @Convert.ToInt32(item2.Price) TL
-                                                        </span>
+                                                        <span style="font-weight:800;" id="basePrice_@item2.Id">@Convert.ToInt32(item2.Price)</span> <span>TL</span>
                                                         <span style="font-size: 14px; font-weight: 300;"> +KDV</span>
                                                     }
                                                     else
@@ -146,9 +67,14 @@
 
                                                     }
                                                 </div>
-                                                <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" class="btn-icon btn-view">
-                                                    <span class="icon-bg icon-view"></span>
-                                                </a>
+                                                <div style="display: flex; justify-content: space-between; align-items: center; flex-direction: row; width: 60px;">
+                                                    <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" class="btn-icon btn-view">
+                                                        <span class="icon-bg icon-view"></span>
+                                                    </a>
+                                                    <a title="Sepete Ekle" style="cursor:pointer;" onclick="insertCartHomePage(@item2.Id);" id="cartButton_@item2.Id" class="btn-icon btn-view">
+                                                        <span class="icon-bg icon-cart"></span>
+                                                    </a>
+                                                </div>                        
                                             </div>
                                         </div>
                                     </div>
@@ -160,6 +86,5 @@
                 </div>
             </div>
         </div>
-    }
 
 }

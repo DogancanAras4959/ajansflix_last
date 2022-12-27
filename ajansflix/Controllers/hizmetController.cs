@@ -211,6 +211,61 @@ namespace ajansflix.Controllers
 
         }
 
+        [HttpPost]
+        public JsonResult sepetekleHome(CartItem cartHome)
+        {
+            try
+            {
+                var optionsAccess = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                    NumberHandling = JsonNumberHandling.AllowReadingFromString
+                };
+
+                var cookie = Request.Cookies["CartItems"];
+
+                if (cookie != null)
+                {
+                    List<CartItem> cartItemsInCookie = JsonSerializer.Deserialize<List<CartItem>>(cookie);
+
+                    List<CartItem> newCartItemList = new List<CartItem>();
+                    newCartItemList.AddRange(cartItemsInCookie);
+
+                    CartItem findCart = newCartItemList.Find(x => x.Item == cartHome.Item);
+
+                    if (findCart == null)
+                    {
+                        newCartItemList.Add(cartHome);
+                    }
+
+                    else
+                    {
+                        findCart.BasePrice = cartHome.BasePrice;
+                    }
+
+                    string newCartList = JsonSerializer.Serialize(newCartItemList);
+                    Response.Cookies.Append("CartItems", newCartList);
+                }
+                else
+                {
+                    List<CartItem> cartItems = new();
+                    cartItems.Add(cartHome);
+
+                    CookieOptions options = new();
+                    options.Expires = DateTime.Now.AddYears(1);
+                    string cartListCookie = JsonSerializer.Serialize(cartItems);
+                    Response.Cookies.Append("CartItems", cartListCookie, options);
+                }
+
+                return Json(true);
+            }
+            catch (Exception)
+            {
+                return Json(false);
+            }
+
+        }
+
         [Route("odeme")]
         public IActionResult odeme()
         {

@@ -117,26 +117,10 @@
     <script src="~/js/countdown.js"></script>
     <script src="~/js/main.js"></script>
     <script src="~/js/calculate.js"></script>
-
-    <script type="text/javascript">
-        function myFunction() {
-            var input, filter, ul, li, a, i, txtValue;
-            input = document.getElementById("searchTag");
-            filter = input.value.toUpperCase();
-            ul = document.getElementById("listSearch");
-            li = ul.getElementsByTagName("li");
-
-            for (i = 0; i < li.length; i++) {
-                a = li[i].getElementsByTagName("a")[0];
-                txtValue = a.textContent || a.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    li[i].style.display = "";
-                } else {
-                    li[i].style.display = "none";
-                }
-            }
-        }
+    <script>
+        var totalCartCount = 0;
+        var cartCountEmpty = document.getElementById("cart_count_empty");
+        var cartCountFill = document.getElementById("cart_count");
     </script>
-
 </body>
 </html>
