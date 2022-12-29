@@ -26,6 +26,7 @@
                             <th>Ürün adı</th>
                             <th>Kategori</th>
                             <th>Fiyat</th>
+                            <th>Çarpan/Saat</th>
                             <th>Oluşturulma</th>
                             <th>Durum</th>
                             <th style="width: 120px;">İşlem</th>
@@ -41,6 +42,7 @@
                                 <td>
                                     @Convert.ToInt32(item.Price) TL
                                 </td>
+                                <td>@item.Carpan</td>
                                 <td>
                                     @item.CreatedTime.ToString("dd MMM, yyyy")
                                 </td>

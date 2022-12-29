@@ -6,7 +6,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<ProductDto> products = ViewBag.ProductList as List<ProductDto>; }
 
-<link href="~/css/custom.css" rel="stylesheet" />
 
 <div class="container container-240 mobile-Container">
     <div class="ecome-heading style2" style="margin-bottom:0px;">
@@ -54,14 +53,12 @@
 
                                                                     }
                         </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; flex-direction: row; width: 60px;">
                             <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" class="btn-icon btn-view">
                                 <span class="icon-bg icon-view"></span>
                             </a>
-                            <a title="Sepete Ekle" style="cursor:pointer;" onclick="insertCartHomePage(@item2.Id);" id="cartButton_@item2.Id" class="btn-icon btn-view">
+                            @*<a title="Sepete Ekle" style="cursor:pointer;" onclick="insertCartHomePage(@item2.Id);" id="cartButton_@item2.Id" class="btn-icon btn-view">
                                 <span class="icon-bg icon-cart"></span>
-                            </a>
-                        </div>
+                            </a>*@
                     </div>
                 </div>
             </div>

@@ -11800,7 +11800,7 @@ span.star:before {
           height: 14px;
           width: 15px; }
     .product-grid.product-list .product-item .btn-view {
-      display: none; }
+      display: block; }
     .product-grid.product-list .product-item .product-button-group {
       display: none; }
   .product-grid.product-list .row {

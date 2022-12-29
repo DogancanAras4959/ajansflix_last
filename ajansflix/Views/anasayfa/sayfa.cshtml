@@ -10,57 +10,6 @@
 
 }
 
-<style>
-    .slide-fullw .slick-arrow:hover {
-        background: none;
-    }
-
-    .slide-fullw .slick-arrow {
-        width: 30px;
-        height: 30px;
-        border-radius: 5px;
-        text-align: center;
-        cursor: pointer;
-        background: none;
-        -webkit-transition: all 0.3s ease 0s;
-        transition: all 0.3s ease 0s;
-        -o-transition: all 0.3s ease 0s;
-    }
-
-    .ads-group .slide {
-        border-radius: 10px;
-        overflow: hidden;
-        height: 335px;
-    }
-
-    .product-tab {
-        padding-bottom: 5px;
-    }
-
-    .ads-group {
-        margin-bottom: 0px;
-        padding-top: 25px;
-    }
-
-    .owl-carousel .owl-item {
-        min-height: 1px;
-        float: left;
-        -webkit-backface-visibility: hidden;
-        -webkit-touch-callout: none;
-        width: 295px !important;
-    }
-
-    .slide-fullw .prev {
-        left: 5%;
-    }
-
-    .slide-fullw .next {
-        right: 5%;
-    }
-</style>
-
-<link href="~/css/custom.css" rel="stylesheet" />
-
 <div class="container container-240 hidden-xs">
     <div class="row flex lr2">
         <div class="col-lg-12">
@@ -124,33 +73,6 @@
         </div>
     </div>
 </div>
-@*<div class="ads-group v3">
-        <div class="container container-240">
-            <div class="row">
-                <div class="col-lg-12 col-md-12">
-                    <div class="slide">
-                        <div class="e-slide v2 js-slider-3items">
-                            <div class="e-slide-img v2">
-                                <a href="#"><img style="object-fit: cover; height: 357px;" src="~/img/shop-banner_2.jpg" alt=""></a>
-                                <div class="box-center slide-content v3">
-                                </div>
-                            </div>
-                            <div class="e-slide-img v2">
-                                <a href="#"><img style="object-fit: cover; height: 357px;" src="~/img/o-banner2.jpg" alt=""></a>
-                                <div class="box-center slide-content v3">
-                                </div>
-                            </div>
-                            <div class="e-slide-img v2">
-                                <a href="#"><img style="object-fit: cover; height: 357px;" src="~/img/single/iphone_info_1.jpg" alt=""></a>
-                                <div class="box-center slide-content v3">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>*@
 
 <div class="desktopView">
     @{await Html.RenderPartialAsync("_desktopView");}

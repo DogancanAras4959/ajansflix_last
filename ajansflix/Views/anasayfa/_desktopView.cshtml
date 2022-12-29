@@ -6,85 +6,74 @@
     List<CategoryDto> categoryList = ViewBag.CategoryList as List<CategoryDto>;
 }
 
-<style>
-    .cart-active {
-        opacity: 0.1;
-        cursor: unset !important;
-        pointer-events: none;
-    }
-</style>
-
 @foreach (var item in categoryList.Where(x => x.IsActive == true))
 {
 
-        <div class="container container-240" style=" padding-top: 50px; padding-bottom: 0px;">
-            <div class="ecome-heading style2 spc4" style="margin-bottom: 30px;">
-                <div class="title-icon e-gradient" style="width: 360px; background: #ffed00; color: #000 !important;">
+    <div class="container container-240" style=" padding-top: 50px; padding-bottom: 0px;">
+        <div class="ecome-heading style2 spc4" style="margin-bottom: 30px;">
+            <h1>
+                <div class="title-icon e-gradient" style="width: 360px; font-size: 25px; background: #ffed00; color: #000 !important;">
                     @item.CategoryDescription
                 </div>
-            </div>
-            <div class="e-product">
-                <div class="product-collection-grid product-grid spc1">
-                    <div class="row">
+            </h1>       
+        </div>
+        <div class="e-product">
+            <div class="product-collection-grid product-grid spc1">
+                <div class="row">
 
-                        @foreach (var item2 in products.Where(x => x.CategoryId == item.Id).OrderByDescending(x => x.CreatedTime))
-                        {
-                            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 product-item">
-                                <div class="pd-bd product-inner">
-                                    <div class="product-img">
-                                        @if (item2.Discount > 0)
-                                        {
-                                            <div class="ribbon-price red"><span>-@item2.Discount% </span></div>
-                                        }
-                                        <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">
-                                            <img src="@item2.ImagePath" alt="@item2.ProductMetaName" loading="lazy" title="@item2.ProductMetaName" class="img-reponsive" id="image_@item2.Id">
-                                        </a>
-                                    </div>
-                                    <div class="product-info" style="margin-top: 20px;">
-                                        <div class="element-list element-list-middle">
-                                            <h3 class="product-title"><a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" id="itemName_@item2.Id">@item2.ProductName</a></h3>
-                                            <div class="product-bottom">
+                    @foreach (var item2 in products.Where(x => x.CategoryId == item.Id).OrderByDescending(x => x.CreatedTime))
+                    {
+                        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 product-item">
+                            <div class="pd-bd product-inner">
+                                <div class="product-img">
+                                    @if (item2.Discount > 0)
+                                    {
+                                        <div class="ribbon-price red"><span>-@item2.Discount% </span></div>
+                                    }
+                                    <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">
+                                        <img src="@item2.ImagePath" alt="@item2.ProductMetaName" loading="lazy" title="@item2.ProductMetaName" class="img-reponsive" id="image_@item2.Id">
+                                    </a>
+                                </div>
+                                <div class="product-info" style="margin-top: 20px;">
+                                    <div class="element-list element-list-middle">
+                                        <h3 class="product-title"><a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" id="itemName_@item2.Id">@item2.ProductName</a></h3>
+                                        <div class="product-bottom">
 
-                                                <div class="product-price">
-                                                    @if (item2.Discount > 0)
-                                                    {
+                                            <div class="product-price">
+                                                @if (item2.Discount > 0)
+                                                {
 
-                                                        decimal ilkfiyat = item2.Price;
-                                                        decimal indirimOrani = item2.Discount;
-                                                        decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
+                                                    decimal ilkfiyat = item2.Price;
+                                                    decimal indirimOrani = item2.Discount;
+                                                    decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
 
-                                                        <span class="old" style="font-weight:800; text-decoration:line-through">@Convert.ToInt32(item2.Price)</span> <span>TL</span>
-                                                        <span style="font-weight: 800; margin-left: 10px;" class="red" id="basePrice_@item2.Id">@Convert.ToInt32(indirimli_fiyat)</span> <span>TL</span>
-                                                        <span style="font-size: 14px; font-weight: 300;"> +KDV</span>
-                                                    }
-                                                    else if (item2.Discount == 0)
-                                                    {
-                                                        <span style="font-weight:800;" id="basePrice_@item2.Id">@Convert.ToInt32(item2.Price)</span> <span>TL</span>
-                                                        <span style="font-size: 14px; font-weight: 300;"> +KDV</span>
-                                                    }
-                                                    else
-                                                    {
+                                                    <span class="old" style="font-weight:800; text-decoration:line-through">@Convert.ToInt32(item2.Price)</span> <span>TL</span>
+                                                    <span style="font-weight: 800; margin-left: 10px;" class="red" id="basePrice_@item2.Id">@Convert.ToInt32(indirimli_fiyat)</span> <span>TL</span>
+                                                    <span style="font-size: 14px; font-weight: 300;"> +KDV</span>
+                                                }
+                                                else if (item2.Discount == 0)
+                                                {
+                                                    <span style="font-weight:800;" id="basePrice_@item2.Id">@Convert.ToInt32(item2.Price)</span> <span>TL</span>
+                                                    <span style="font-size: 14px; font-weight: 300;"> +KDV</span>
+                                                }
+                                                else
+                                                {
 
-                                                    }
-                                                </div>
-                                                <div style="display: flex; justify-content: space-between; align-items: center; flex-direction: row; width: 60px;">
-                                                    <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" class="btn-icon btn-view">
-                                                        <span class="icon-bg icon-view"></span>
-                                                    </a>
-                                                    <a title="Sepete Ekle" style="cursor:pointer;" onclick="insertCartHomePage(@item2.Id);" id="cartButton_@item2.Id" class="btn-icon btn-view">
-                                                        <span class="icon-bg icon-cart"></span>
-                                                    </a>
-                                                </div>                        
+                                                }
                                             </div>
+                                            <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" class="btn-icon btn-view">
+                                                <span class="icon-bg icon-view"></span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        }
+                        </div>
+                    }
 
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
 }

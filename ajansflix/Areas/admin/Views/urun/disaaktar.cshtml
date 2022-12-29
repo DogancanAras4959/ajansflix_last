@@ -24,6 +24,7 @@
                             <th>Görsel Yolu</th>
                             <th>Bileşenler</th>
                             <th>Durum</th>
+                            <th>Çarpan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,7 +73,7 @@
                                     {
                                         <td></td>
                                     }
-                                };
+                                }
 
                                 @if (item.IsActive == true)
                                 {
@@ -87,6 +88,7 @@
                                         <div class="badge badge-soft-danger font-size-12">Pasif</div>
                                     </td>
                                 }
+                                <td>@item.Carpan</td>
                             </tr>
                         }
                     </tbody>

@@ -395,7 +395,7 @@
 
 .btn-view {
     @media(max-width: $screen-sm-max) {
-        display:none;
+        display:block;
     }
 }
 

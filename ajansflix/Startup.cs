@@ -16,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
@@ -114,6 +115,22 @@ namespace ajansflix
 
                     headers.Expires = new DateTimeOffset(DateTime.UtcNow.AddDays(30));
                 }
+            });
+
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path.StartsWithSegments("/robots.txt"))
+                {
+                    var robotsTxtPath = Path.Combine(env.ContentRootPath, "robots.txt");
+                    string output = "User-agent: *  \nallow: /";
+                    if (File.Exists(robotsTxtPath))
+                    {
+                        output = await File.ReadAllTextAsync(robotsTxtPath);
+                    }
+                    context.Response.ContentType = "text/plain";
+                    await context.Response.WriteAsync(output);
+                }
+                else await next();
             });
 
             app.UseStatusCodePagesWithReExecute("/anasayfa/hata/{0}");

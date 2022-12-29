@@ -12,8 +12,6 @@
     List<ProductDto> productsRelational = ViewBag.ProductsRelational as List<ProductDto>;
     ProductDto productCookie = ViewBag.Item as ProductDto;
 
-    //List<DetailDataDto> detailDatasCookie = ViewBag.DetailsCookie as List<DetailDataDto>;
-
     List<string> images = ViewBag.ImagesGallery as List<string>;
     decimal price = 0;
 
@@ -28,11 +26,11 @@
     int countSlider = 1;
 }
 
-<link href="~/css/custom.css" rel="stylesheet" />
 <link href="~/css/lightboximg.css" rel="stylesheet" />
 <link href="~/css/product.css" rel="stylesheet" />
 
 <div class="container container-240">
+
     <div class="single-product-detail product-bundle product-aff" style="margin-bottom:20px;">
         <ul class="breadcrumb" style="margin-top: 20px; margin-bottom: 20px;">
             <li><a href="@Url.Action("sayfa","anasayfa")">Ana Sayfa</a></li>
@@ -177,19 +175,15 @@
                                                     @if (item.detail.Type == "Dropdown")
                                                     {
                                                         @Html.DropDownList("DataName", new SelectList(detailDatas.Where(x => x.DetailId == item.DetailId).ToList(),
-                                                                     "Id", "DataName"), "Seçiniz", new { @class = "form-control", @style="height:60px", id = "detailDataName", @onChange = "callChangefunc(this.value)" });
+                                                                     "Id", "DataName"), "Seçiniz", new { @class = "form-control", @style = "height:60px", id = "detailDataName", @onChange = "callChangefunc(this.value)" });
 
-                                                   }
+                                                    }
 
                                                 </td>
                                             </tr>
                                         }
                                     </tbody>
                                 </table>
-                                @*@if (detailDatasCookie != null && detailDatasCookie.Count > 0)
-                                    {
-                                        <button id="btn_clear" class="btn_clear"><i class="ionicons ion-android-delete"></i> Seçimleri Temizle</button>
-                                    }*@
                             </div>
 
                         </div>
@@ -238,16 +232,21 @@
             </div>
         </div>
     </div>
-    <div class="single-product-tab bd-7 custom-prod-detail">
+
+    <div class="single-product-tab bd-7 custom-prod-detail desktopView">
+
         <div class="cmt-title text-center abs">
             <ul class="nav nav-tabs text-center">
-                <li class="active"><a data-toggle="pill" href="#desc">Hizmet Hakkında</a></li>
-                <li class=""><a data-toggle="pill" href="#quest">Fiyat Politikası</a></li>
+                <li class="active"><a data-toggle="pill" href="#quest">Fiyat Politikası</a></li>
+                <li class=""><a data-toggle="pill" href="#desc">Hizmet Hakkında</a></li>
                 <li class=""><a data-toggle="pill" href="#order">Çalışma Süreci</a></li>
                 <li class=""><a data-toggle="pill" href="#price">Ödeme Planı</a></li>
             </ul>
         </div>
         <div class="tab-content">
+
+            <div id="quest" class="tab-pane fade">
+            </div>
             <div id="desc" class="tab-pane fade active in">
                 <div class="entry-content" style="height: fit-content; max-height: fit-content; margin-bottom: 19px;">
                     <div class="e-text">
@@ -257,29 +256,96 @@
                     </div>
                 </div>
             </div>
-            <div id="quest" class="tab-pane fade">
-            </div>
             <div id="order" class="tab-pane fade">
             </div>
             <div id="price" class="tab-pane fade">
             </div>
 
         </div>
+
     </div>
+
+    <div class="single-product-tab bd-7 mobileView">
+        <div class="wrapper center-block">
+            <div class="panel-group" style="margin-bottom:0px;" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingTwo">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Fiyat Politikası
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="panel-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading active" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Hizmet Hakkında
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingThree">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Çalışma Süreci
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div class="panel-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingfour">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                Ödeme Planı
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfour">
+                        <div class="panel-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="padding-t-b mobileView"></div>
+
 </div>
 
 <div id="myModal" class="modal">
     <span class="close cursor" onclick="closeModal()">&times;</span>
     <div class="modal-content modal-content-mobile">
         <div class="mySlides">
-            <img src="@Model.ImagePath.Replace("thumbnail","fullscreen")" class="mobile-slider-image" style="width: 100%; height: 84vh; object-fit: cover;">
+            <img src="@Model.ImagePath.Replace("thumbnail","fullscreen")" alt="image_slider" title="imag_e_slider" class="mobile-slider-image" style="width: 100%; height: 84vh; object-fit: cover;">
         </div>
         @foreach (var item in images)
         {
+            countSlider = countSlider + 1;
+
             <div class="mySlides">
-                <img src="@item.Replace("thumbnail","fullscreen")" style="width:100%">
+                <img src="@item.Replace("thumbnail","fullscreen")" alt="image_slider_@countSlider" style="width:100%">
             </div>
-            }
+        }
 
         <!-- Next/previous controls -->
         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -324,7 +390,6 @@
         document.getElementById("").style.display = "block";
     }
 
-    // Close the Modal
     function closeModal() {
         document.getElementById("myModal").style.display = "none";
     }
@@ -332,12 +397,10 @@
     var slideIndex = 1;
     showSlides(slideIndex);
 
-    // Next/previous controls
     function plusSlides(n) {
         showSlides(slideIndex += n);
     }
 
-    // Thumbnail image controls
     function currentSlide(n) {
         showSlides(slideIndex = n);
     }

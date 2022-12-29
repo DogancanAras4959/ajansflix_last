@@ -724,6 +724,10 @@ namespace ajansflix.Areas.admin.Controllers
                                             productGet.IsActive = false;
                                         }
                                     }
+                                    if(row.GetCell(12).ToString() != null)
+                                    {
+                                        productGet.Carpan = Convert.ToInt32(row.GetCell(12).ToString());
+                                    }
                                     _productService.Update(productGet);
                                 }
 
@@ -824,6 +828,23 @@ namespace ajansflix.Areas.admin.Controllers
                                                 _productDetailService.Insert(newProductDetailDto);
                                             }
                                         }
+                                    }
+
+                                    //if (row.GetCell(11).ToString() != null)
+                                    //{
+                                    //    if (row.GetCell(11).ToString() == "Aktif")
+                                    //    {
+                                    //        productGet.IsActive = true;
+                                    //    }
+                                    //    else if (row.GetCell(11).ToString() == "Pasif")
+                                    //    {
+                                    //        productGet.IsActive = false;
+                                    //    }
+                                    //}
+
+                                    if (row.GetCell(12).ToString() != null)
+                                    {
+                                        productGet.Carpan = Convert.ToInt32(row.GetCell(12).ToString());
                                     }
                                 }
                             }

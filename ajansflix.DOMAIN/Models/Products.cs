@@ -27,6 +27,7 @@ namespace ajansflix.DOMAIN.Models
         public int Discount { get; set; }
         public string Banner { get; set; }
         public string ImagePath { get; set; }
+        public int Carpan { get; set; }
 
         [ForeignKey("category")]
         public int CategoryId { get; set; }

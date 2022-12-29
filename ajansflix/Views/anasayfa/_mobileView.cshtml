@@ -4,14 +4,6 @@
     List<CategoryDto> categoryList = ViewBag.CategoryList as List<CategoryDto>;
 }
 
-<style>
-    .product-info .product-title {
-        font-size: 15px;
-        text-transform: capitalize;
-        margin-bottom: 12px;
-    }
-</style>
-
 <div class="container container-240 mobileViewContainer mobile-category-container" style="padding-top: 50px; padding-bottom: 40px;">
     <div class="e-product">
         <div class="product-collection-grid spc1">
@@ -29,7 +21,7 @@
                             </div>
                             <div class="product-info">
                                 <div class="element-list element-list-middle">
-                                    <h3 class="product-title" style="text-align:center;"><a href="/hizmetler?id=@item.Id">@item.CategoryName</a></h3>
+                                    <h3 class="product-title product-middle" style="text-align:center;"><a href="/hizmetler?id=@item.Id">@item.CategoryName</a></h3>
                                 </div>
                             </div>
                         </div>
