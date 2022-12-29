@@ -53,7 +53,7 @@ var fillDataCartList = function (data) {
 
 var insertCart = function () {
 
-    var cartItem = { Id: productId, Item: item, BasePrice: Number.parseInt(total.innerText), Image: imageUrl };
+    var cartItem = { Id: productId, Item: item, BasePrice: Number.parseInt(total.innerText), Image: imageUrl, Discount: discount };
     const newComponent = essizKayitlar(component, 'CompName');
 
     const foundItem = cart.find(x => x.Id === cartItem.Id);

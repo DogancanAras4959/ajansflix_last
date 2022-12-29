@@ -17,6 +17,7 @@ namespace ajansflix.CORE.CartModels
 
         public int Id { get; set; }
         public string Item { get; set; }
+        public decimal Discount { get; set; }
         public decimal BasePrice { get; set; }
         public string Image { get; set; }
         public List<ComponentItem> _compItems { get; set; }

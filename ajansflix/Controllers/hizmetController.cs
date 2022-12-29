@@ -82,14 +82,18 @@ namespace ajansflix.Controllers
             #endregion
 
             #region Meta
-            MetaViewModel meta = new MetaViewModel();
-            meta.Image = "https://reklamlutfen.com"+ product.ImagePath;
-            meta.Title = product.ProductMetaName;
-            meta.ogDescription = product.ProductMetaDescription;
-            meta.Description = product.ProductMetaDescription;
-            meta.ogTitle = product.ProductMetaName;
-            meta.Url = "https://reklamlutfen.com/detay/"+product.Id+"/"+product.GenerateSlug();
+            MetaViewModel meta = new()
+            {
+                Image = "https://reklamlutfen.com" + product.ImagePath,
+                Title = product.ProductMetaName,
+                ogDescription = product.ProductMetaDescription,
+                Description = product.ProductMetaDescription,
+                ogTitle = product.ProductMetaName,
+                Url = "https://reklamlutfen.com/detay/" + product.Id + "/" + product.GenerateSlug()
+            };
+
             ViewBag.Meta = meta;
+
             #endregion
 
 
@@ -149,14 +153,16 @@ namespace ajansflix.Controllers
 
                 foreach (var item in compItems)
                 {
-                    ComponentItem compItem = new ComponentItem();
+                    ComponentItem compItem = new()
+                    {
+                        CompName = item.CompName,
+                        CompValue = item.CompValue,
+                        Price = item.Price,
+                        ProductId = item.ProductId,
+                        CompId = item.CompId,
+                        BaseId = item.BaseId
+                    };
 
-                    compItem.CompName = item.CompName;
-                    compItem.CompValue = item.CompValue;
-                    compItem.Price = item.Price;
-                    compItem.ProductId = item.ProductId;
-                    compItem.CompId = item.CompId;
-                    compItem.BaseId = item.BaseId;
                     cartItem._compItems.Add(compItem);
                 }
 
@@ -166,7 +172,7 @@ namespace ajansflix.Controllers
                 {
                     List<CartItem> cartItemsInCookie = JsonSerializer.Deserialize<List<CartItem>>(cookie);
 
-                    List<CartItem> newCartItemList = new List<CartItem>();
+                    List<CartItem> newCartItemList = new();
                     newCartItemList.AddRange(cartItemsInCookie);
 
                     CartItem findCart = newCartItemList.Find(x => x.Item == cartItem.Item);           
@@ -228,7 +234,7 @@ namespace ajansflix.Controllers
                 {
                     List<CartItem> cartItemsInCookie = JsonSerializer.Deserialize<List<CartItem>>(cookie);
 
-                    List<CartItem> newCartItemList = new List<CartItem>();
+                    List<CartItem> newCartItemList = new();
                     newCartItemList.AddRange(cartItemsInCookie);
 
                     CartItem findCart = newCartItemList.Find(x => x.Item == cartHome.Item);
@@ -310,7 +316,7 @@ namespace ajansflix.Controllers
             {
                 List<CartItem> cartItemsInCookie = JsonSerializer.Deserialize<List<CartItem>>(cookie);
 
-                List<CartItem> newCartItemList = new List<CartItem>();
+                List<CartItem> newCartItemList = new();
                 newCartItemList.AddRange(cartItemsInCookie);
 
                 CartItem findCart = newCartItemList.Find(x => x.Item == cartItem.Item);
@@ -348,7 +354,7 @@ namespace ajansflix.Controllers
         {
             var response = _detailDataService.getDataObject(id);
 
-            ComponentItem item = new ComponentItem
+            ComponentItem item = new()
             {
                 CompName = response.detail.DetailName,
                 CompValue = response.DataName,
@@ -383,8 +389,8 @@ namespace ajansflix.Controllers
             var detailsInProduct = _productDetailService.listDetails(Id);
             ViewBag.Details = detailsInProduct;
 
-            List<DetailDataDto> datas = new List<DetailDataDto>();
-            List<ComponentItem> itemsPriceFree = new List<ComponentItem>();
+            List<DetailDataDto> datas = new();
+            List<ComponentItem> itemsPriceFree = new();
 
             foreach (var item in detailsInProduct)
             {
@@ -395,7 +401,7 @@ namespace ajansflix.Controllers
                     {
                         if (item2.Price == 0)
                         {
-                            ComponentItem itemData = new ComponentItem
+                            ComponentItem itemData = new()
                             {
                                 CompName = item2.detail.DetailName,
                                 CompValue = item2.DataName,
@@ -415,7 +421,7 @@ namespace ajansflix.Controllers
 
             if (cookieCart != null)
             {            
-                List<ComponentItem> component = new List<ComponentItem>();
+                List<ComponentItem> component = new();
 
                 if (cart != null)
                 {
@@ -505,7 +511,7 @@ namespace ajansflix.Controllers
             }
             else
             {
-                CookieOptions cookieNew = new CookieOptions();
+                CookieOptions cookieNew = new();
                 cookieNew.Expires = DateTime.Now.AddYears(1);
                 string componentList = JsonSerializer.Serialize(result);
                 Response.Cookies.Append("CartItems", componentList, cookieNew);
@@ -597,7 +603,7 @@ namespace ajansflix.Controllers
                     items += $"<tr><td style='border: 1px solid black; border-collapse: collapse; padding: 15px;'>{item.Item}<ul>{li}</ul></td><td style='border: 1px solid black; border-collapse: collapse; padding: 5px;'>{Convert.ToInt32(item.BasePrice)} TL</td></tr>";
                 }
 
-                CustomerBook contactMessage = new CustomerBook();
+                CustomerBook contactMessage = new();
                 contactMessage.Email = contact.Email;
                 contactMessage.Subject = contact.Name + " teklifmatik üzerinden sipariş oluşturdu";
                 contactMessage.Phone = contact.Phone;
@@ -612,10 +618,10 @@ namespace ajansflix.Controllers
                 //contactMessage.Content = $@"<p>{contactMessage.NameSurname} iletişim formunu doldurdu. (Bu form https://ikifikir.net/fiyatpaketleri üzerinden gelmiştir.) <p> <hr/> <p><strong>Email Adresi:</strong> {contactMessage.EmailAdress}</p> <hr/> <p>{contactMessage.Message}</p> <hr/> <p><strong>Telefon: </strong>{contactMessage.PhoneNumber}</p> <hr/> <p><strong>Toplam Teklif:</strong> {contactMessage.Total}TL</p> <hr/> <p><strong>Hizmetler:</strong></p> <table style='table-layout: auto; width: 215px;'><thead><tr><th style='text-align:center; border: 1px solid black; border-collapse: collapse; padding:5px;'>Hizmet Adı</th><th style='text-align:left; border: 1px solid black; padding:5px; border-collapse: collapse;'>Fiyat</th></tr></thead><tbody>{items}</tbody></table>";
 
                 result = await _emailSender.SendEmailAsync(contactMessage);
-                Random code = new Random();
+                Random code = new();
                 string numberCode = code.Next(50000, 70000).ToString();
 
-                CustomerDto cust = new CustomerDto()
+                CustomerDto cust = new()
                 {
                     EmailAddress = contactMessage.Email,
                     Messagess = contactMessage.Content,
@@ -626,7 +632,7 @@ namespace ajansflix.Controllers
 
                 int resultCustomer = _customerService.InsertCustomer(cust);
 
-                OrdersDto newOrder = new OrdersDto
+                OrdersDto newOrder = new()
                 {
                     StatusId = 2,
                     Quantity = count,
@@ -655,7 +661,7 @@ namespace ajansflix.Controllers
 
         private void Meta(string title)
         {
-            MetaViewModel meta = new MetaViewModel();
+            MetaViewModel meta = new();
             meta.Image = "https://reklamlutfen.com/img/logo.png";
             meta.Title = title;
             meta.ogDescription = "Reklam Lütfen ile markanıza uygun hizmetleri inceleyip teklif oluşturun! Markanızın neye ihtiyacı varsa bütün işleri bizde! Hemen teklif oluşturun!";

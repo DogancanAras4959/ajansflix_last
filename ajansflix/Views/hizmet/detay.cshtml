@@ -15,6 +15,10 @@
     List<string> images = ViewBag.ImagesGallery as List<string>;
     decimal price = 0;
 
+    decimal ilkfiyat = Model.Price;
+    decimal indirimOrani = Model.Discount;
+    decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
+
     @if (productCookie != null)
     {
         price = Convert.ToInt32(productCookie.Price);
@@ -58,10 +62,6 @@
                                 <div class="product-price v2" style="text-align:center;">
                                     @if (item.Discount > 0)
                                     {
-                                        decimal ilkfiyat = item.Price;
-                                        decimal indirimOrani = item.Discount;
-                                        decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
-
                                         <span>@Convert.ToInt32(indirimli_fiyat) TL</span>
                                     }
                                     else if (item.Discount == 0)
@@ -118,20 +118,21 @@
                                             </td>
                                         </tr>
                                         <tr class="item_cart">
-                                            <td colspan="4" class="td-width-mobile" style="padding: 8px 10px 0px 10px;">
-                                                <div class="row td-info-mobile m-right-pl" style="padding: 5px 0px;">
+                                            <td colspan="4" class="td-width-mobile">
+                                                <div class="row td-info-mobile m-right-pl" style=" display: flex; flex-direction: row; align-content: space-around; align-items: center;">
                                                     <div class="col-sm-8">
-                                                        <p>@Html.Raw(Model.ProductAlternateDesc)</p>
+                                                        <p>@*@Html.Raw(Model.ProductAlternateDesc)*@ Teklif oluşturman için sana uygun hizmet fiyatı</p>
                                                     </div>
-                                                    <div class="col-sm-4 td-info-price-t-a-c" style="margin-right:0;">
+                                                    <div class="col-sm-4 td-info-price-t-a-c" style="margin-right:0; padding-right:5px;">
                                                         @if (Model.Discount > 0)
                                                         {
-                                                            decimal ilkfiyat = Model.Price;
-                                                            decimal indirimOrani = Model.Discount;
-                                                            decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
-
-                                                            <span class="old price-info" margin-left:5px;">@Convert.ToInt32(Model.Price) TL</span>
-                                                            <span class="red price-info">@Convert.ToInt32(indirimli_fiyat) TL</span>
+                                                            <input type="hidden" value="@Model.Discount" id="discount_@Model.Id" />
+                                                            <div class="product-info">
+                                                                <div class="product-price" style="margin:0;">
+                                                                    <span class="old" margin-left:5px;">@Convert.ToInt32(Model.Price) TL</span>
+                                                                    <span class="red" style="color:#ff2929;">@Convert.ToInt32(indirimli_fiyat) TL</span>
+                                                                </div>
+                                                            </div>
                                                         }
                                                         else if (Model.Discount == 0)
                                                         {
@@ -199,11 +200,34 @@
                             <div class="flex align-center tele" style="padding:0px;">
                                 <div class="single-feature-box" style="padding:0px; width:100%;">
                                     <div class="single-feature-info" style="width: 100%;">
-                                        <h2 class="txt-price" style="text-align:center; padding-top:7px; font-weight:600">
-                                            <span id="price">
-                                                @price
-                                            </span> TL
-                                        </h2>
+
+                                        @if (Model.Discount == 0)
+                                        {
+                                            <h2 class="txt-price" style="text-align:center; padding-top:7px; font-weight:600">
+                                                <span id="price">
+                                                    @price
+                                                </span> TL
+                                            </h2>
+                                        }
+                                        else if (Model.Discount > 0)
+                                        {
+                                            <div class="product-info">
+                                                <div class="product-price">
+                                                    <h2 class="txt-price old" style="text-align:center; padding-top:7px; font-weight:600">
+                                                        <span>
+                                                            @price
+                                                        </span> TL
+                                                    </h2>
+                                                    <h2 class="txt-price red" style="text-align:center; padding-top:7px; font-weight:600">
+                                                        <span id="price">
+                                                            @Convert.ToInt32(indirimli_fiyat)
+                                                        </span> TL
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                           
+                                        }
+
 
                                         @if (productCookie != null)
                                         {
@@ -370,13 +394,13 @@
     var buttonCart = document.getElementById("cartButton");
     var openCart = document.getElementById("contentRelational");
     var payButton = document.getElementById("payButton");
-
     var btn_variant = "";
-
     var component = [];
     var productId = @Model.Id;
+    var discountId = "discount_" + productId;
     var productName = '@Model.GenerateSlug()';
     var productNameReal = '@Model.ProductName';
+    var discount = document.getElementById(discountId).value;
 
     var arrayList = '@Html.Raw(ViewBag.JsonCookieListDetails)';
     var arrayListFree = '@Html.Raw(ViewBag.ItemDataFreeList)';
