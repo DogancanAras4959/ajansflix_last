@@ -119,11 +119,11 @@
                                         </tr>
                                         <tr class="item_cart">
                                             <td colspan="4" class="td-width-mobile">
-                                                <div class="row td-info-mobile m-right-pl" style=" display: flex; flex-direction: row; align-content: space-around; align-items: center;">
+                                                <div class="row td-info-mobile m-right-pl" >
                                                     <div class="col-sm-8">
                                                         <p>@*@Html.Raw(Model.ProductAlternateDesc)*@ Teklif oluşturman için sana uygun hizmet fiyatı</p>
                                                     </div>
-                                                    <div class="col-sm-4 td-info-price-t-a-c" style="margin-right:0; padding-right:5px;">
+                                                    <div class="col-sm-4 td-info-price-t-a-c">
                                                         @if (Model.Discount > 0)
                                                         {
                                                             <input type="hidden" value="@Model.Discount" id="discount_@Model.Id" />
@@ -400,7 +400,7 @@
     var discountId = "discount_" + productId;
     var productName = '@Model.GenerateSlug()';
     var productNameReal = '@Model.ProductName';
-    var discount = document.getElementById(discountId).value;
+    var discount = document.getElementById(discountId);
 
     var arrayList = '@Html.Raw(ViewBag.JsonCookieListDetails)';
     var arrayListFree = '@Html.Raw(ViewBag.ItemDataFreeList)';

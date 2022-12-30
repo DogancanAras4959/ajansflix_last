@@ -47,8 +47,8 @@
                                                     decimal indirimOrani = item2.Discount;
                                                     decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
 
-                                                    <span class="old" style="font-weight:800; text-decoration:line-through">@Convert.ToInt32(item2.Price)</span> <span>TL</span>
-                                                    <span style="font-weight: 800; margin-left: 10px;" class="red" id="basePrice_@item2.Id">@Convert.ToInt32(indirimli_fiyat)</span> <span>TL</span>
+                                                    <span class="old" style="font-weight:800; text-decoration:line-through">@Convert.ToInt32(item2.Price)</span>
+                                                    <span style="font-weight: 800; margin-left: 10px;" class="red" id="basePrice_@item2.Id">@Convert.ToInt32(indirimli_fiyat)</span> <span class="red">TL</span>
                                                     <span style="font-size: 14px; font-weight: 300;"> +KDV</span>
                                                 }
                                                 else if (item2.Discount == 0)

@@ -53,7 +53,14 @@ var fillDataCartList = function (data) {
 
 var insertCart = function () {
 
-    var cartItem = { Id: productId, Item: item, BasePrice: Number.parseInt(total.innerText), Image: imageUrl, Discount: discount };
+    var cartItem = {};
+
+    if (discount.value == 0 || discount.value == null) {
+        cartItem = { Id: productId, Item: item, BasePrice: Number.parseInt(total.innerText), Image: imageUrl };
+    }
+    else {
+        cartItem = { Id: productId, Item: item, BasePrice: Number.parseInt(total.innerText), Image: imageUrl, Discount: discount.value };
+    }
     const newComponent = essizKayitlar(component, 'CompName');
 
     const foundItem = cart.find(x => x.Id === cartItem.Id);
