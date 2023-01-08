@@ -32,6 +32,8 @@
 
   <ItemGroup>
     <Folder Include="Areas\admin\Models\" />
+    <Folder Include="wwwroot\img\brand\" />
+    <Folder Include="wwwroot\img\feature\" />
   </ItemGroup>
 
   <ItemGroup>

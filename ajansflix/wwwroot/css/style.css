@@ -106,6 +106,13 @@
     src: url('Urbanist-Regular.ttf') format('truetype');
 }
 
+@font-face {
+    font-family: 'MadeTommy Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: url('MadeTommy-Bold.otf') format('opentype');
+}
+
 /** 1.1.3. Vendor library **/
 /* EX: @import url('components/Vendor/owlcarousel/owlcarousel.css'); */
 /** 1.2. Bootstrap **/
@@ -15448,15 +15455,15 @@ span.star:before {
   .header-search .input-group-btn {
     padding: 0;
     width: 50px;
-    top: 6px;
-    right: 5px; }
+    top: 0px;
+    right: 0px; }
     .header-search .input-group-btn .button_search {
       color: #fff;
       width: 50px;
       height: 50px;
       line-height: 50px;
       font-size: 20px;
-      border-radius: 100%;
+      border-radius: 0;
       background: #333333;
       -webkit-transition: all 0.3s ease 0s;
       transition: all 0.3s ease 0s;

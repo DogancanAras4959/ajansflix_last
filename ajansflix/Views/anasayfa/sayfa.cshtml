@@ -22,11 +22,11 @@
                             <li class="level1 active hassub">
                                 <a href="/hizmetler?id=@item.Id">@item.CategoryName</a>
                                 <span class="plus js-plus-icon"></span>
-                                <div class="menu-level-1 ver2 dropdown-menu">
+                                <div class="menu-level-1 ver2 dropdown-menu" style="width:100%;">
                                     <div class="row">
                                         @foreach (var item2 in productList.Where(x => x.CategoryId == item.Id))
                                         {
-                                            <div class="cate-item col-md-3 col-sm-12">
+                                            <div class="cate-item col-md-2 col-sm-12">
                                                 <div class="demo-img">
                                                     <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">
                                                         <img src="@item2.ImagePath.Replace("thumbnail","fullscreen")"
