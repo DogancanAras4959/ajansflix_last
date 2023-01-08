@@ -59,17 +59,20 @@
                                         <div class="badge badge-soft-danger font-size-12">Pasif</div>
                                     </td>
                                 }
-                                <td>
-                                    <a class="btn btn-outline-secondary btn-sm edit" title="Düzenle" href="/admin/urun/urunduzenle?Id=@item.Id">
-                                        <i class="fas fa-pencil-alt" title="Edit"></i>
-                                    </a>
-                                    <a class="btn btn-outline-secondary btn-sm deleted" title="Sil" href="/admin/urun/urunsil?Id=@item.Id">
-                                        <i class="fas fa-trash" title="Delete"></i>
-                                    </a>
-                                    <a class="btn btn-outline-secondary btn-sm above" title="Aktif/Pasif" href="/admin/urun/urundurumduzenle?Id=@item.Id">
-                                        <i class="fas fa-wifi" title="Aktif/Pasif"></i>
-                                    </a>
-                                </td>
+                            <td>
+                                <a class="btn btn-outline-secondary btn-sm edit" title="Düzenle" href="/admin/urun/urunduzenle?Id=@item.Id">
+                                    <i class="fas fa-pencil-alt" title="Edit"></i>
+                                </a>
+                                <a class="btn btn-outline-secondary btn-sm deleted" title="Sil" href="/admin/urun/urunsil?Id=@item.Id">
+                                    <i class="fas fa-trash" title="Delete"></i>
+                                </a>
+                                <a class="btn btn-outline-secondary btn-sm above" title="Aktif/Pasif" href="/admin/urun/urundurumduzenle?Id=@item.Id">
+                                    <i class="fas fa-wifi" title="Aktif/Pasif"></i>
+                                </a>
+                                <a class="btn btn-outline-secondary btn-sm above" title="Çoğalt" href="/admin/urun/urunkopyala?Id=@item.Id">
+                                    <i class="fas fa-copy" title="Çoğalt"></i>
+                                </a>
+                            </td>
                             </tr>
                         }
                     </tbody>

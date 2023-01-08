@@ -14,6 +14,7 @@ namespace ajansflix.SERVICES.Dtos.ProductsData
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
         public string ProductMetaName { get; set; }
+        public string UrunNot { get; set; }
         public string ProductMetaDescription { get; set; }
         public decimal Price { get; set; }
         public string ProductAlternateDesc { get; set; }

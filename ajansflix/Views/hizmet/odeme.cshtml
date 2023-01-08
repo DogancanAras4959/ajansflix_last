@@ -3,13 +3,12 @@
 @model ajansflix.CORE.EmailConfig.CustomerBook
 @using ajansflix.CORE.EmailConfig
 
-@{
-    ViewData["Title"] = "odeme";
+@{ ViewData["Title"] = "odeme";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     List<CartItem> cart = ViewBag.Cart as List<CartItem>;
     List<ProductDto> productList = ViewBag.ProductList as List<ProductDto>;
-}
+    int totalDiscountPrice = 0; }
 
 <div class="main-content space1">
     <div class="container container-240">
@@ -18,7 +17,7 @@
             <li><a href="/sepet">Sepet</a></li>
             <li class="active">Ödeme Bitir</li>
         </ul>
-      
+
         <form name="checkout" action="@Url.Action("fiyatformgonder","hizmet")" method="post" class="co">
             <div class="cart-box-container-ver2" style="margin-top:50px;">
                 <div class="row">
@@ -62,38 +61,66 @@
                             <div class="table-responsive">
                                 <div class="co-pd">
                                     <p class="co-title">
-                                        Ürün<span>Toplam</span>
+                                        Ürün<span>Tutar</span>
                                     </p>
                                     <ul class="co-pd-list">
                                         @foreach (var item in cart)
                                         {
-                                            <li class="clearfix">
-                                                <div class="co-name">
-                                                    <strong>@item.Item</strong>
-                                                </div>
-                                                <div class="co-price" style="margin-bottom:10px;">
-                                                    @item.BasePrice TL
-                                                </div>
-                                            </li>
+                                            totalDiscountPrice += Convert.ToInt32(item.BasePrice - (item.BasePrice - (item.BasePrice * (item.Discount / 100))));
+                            <li class="clearfix">
+                                <div class="co-name">
+                                    <strong>@item.Item</strong>
+                                </div>
+                                @if (item.Discount > 0)
+                                {
+                <div class="product-info">
+                    <div class="product-price">
+                        <div class="co-price old" style="text-decoration:none; font-size:16px;">
+                            @Convert.ToInt32(item.BasePrice - (item.BasePrice * (item.Discount / 100))) TL
+                        </div>
+                        <div class="co-price old" style="margin-bottom:10px; font-size:16px;">
+                            @item.BasePrice TL
+                        </div>
+                    </div>
+                </div> }
+            else
+            {
+<div class="co-price" style="margin-bottom:10px;">
+    @item.BasePrice TL
+</div>}
+
+                            </li>
                                             @foreach (var item2 in item._compItems)
                                             {
-                                                <li><strong>@item2.CompValue:</strong> @item2.CompName</li>
-                                            }
-                                            <hr style="margin-top:10px; margin-bottom:10px;" />
-                                        }
+                            <li><strong>@item2.CompValue:</strong> @item2.CompName</li>
+}
+                                                            <hr style="margin-top:10px; margin-bottom:10px;" />
+}
                                     </ul>
                                 </div>
                                 <table class="shop_table" style="width:100%;">
                                     <tbody>
+                                        @if (totalDiscountPrice > 0)
+                                        {
+                                    <tr class="order-total v2">
+                                        <th>Ana Tutar</th>
+                                        <td style="float: right; padding-right: 30%;">
+                                            @Convert.ToInt32(ViewBag.Total) TL
+                                        </td>
+                                    </tr>
+                                                    <tr class="order-total v2">
+                                                        <th>İndirim</th>
+                                                        <td style="float: right; padding-right: 30%;">-@totalDiscountPrice TL</td>
+                                                    </tr>}
                                         <tr class="order-total v2">
-                                            <th>Toplam</th>
-                                            <td style="float: right; padding-right: 30%;">@ViewBag.Total TL</td>
+                                            <th>Toplam Tutar</th>
+                                            <td style="float: right; padding-right: 30%;">@Convert.ToInt32(ViewBag.Total - totalDiscountPrice) TL</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div class="cart-total-bottom v2">
-                                <button type="submit" class="btn-gradient btn_primary_color btn-checkout btn-co-order">Ödemeyi Tamamla</button>
+                                <button type="submit" class="btn-gradient btn_primary_color btn-checkout btn-co-order">Siparişi Tamamla</button>
                             </div>
                         </div>
                     </div>

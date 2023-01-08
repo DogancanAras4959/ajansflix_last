@@ -15,9 +15,9 @@
         <div class="col-lg-12">
             <nav class="main-menu" style="margin-left:0;">
                 <div class="collapse navbar-collapse navbar-middled-menu" id="myNavbar">
-                    <ul class="nav navbar-nav js-menubar" style="position: relative; left: 1%;">
+                    <ul class="nav navbar-nav js-menubar" style="width: 100%; display: flex; flex-direction: row; justify-content: center; align-items: center;">
 
-                        @foreach (var item in categoryList.Where(x=> x.IsActive == true))
+                        @foreach (var item in categoryList.Where(x=> x.IsActive == true).OrderBy(x=> x.Id))
                         {
                             <li class="level1 active hassub">
                                 <a href="/hizmetler?id=@item.Id">@item.CategoryName</a>
@@ -47,7 +47,7 @@
         </div>
     </div>
 </div>
-<div class="slide-fullw" style="margin-top:10px; margin-bottom:0px;">
+<div class="slide-fullw" style="margin-top:10px; margin-bottom:8px;">
     <div class="js-slider-home2">
         <div class="e-slide-img">
             <a href="/hizmetler?id=2">

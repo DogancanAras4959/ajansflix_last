@@ -63,6 +63,10 @@
                         @Html.TextBoxFor(x => x.Price, new { @class = "form-control", @type = "text", @Value = "Normal", placeholder = "Ürün fiyatı yazın...", @required = "required" })
                     </div>
                     <div class="mb-4">
+                        <label>Çarpan / Saat *</label>
+                        @Html.TextBoxFor(x => x.Carpan, new { @class = "form-control", @type = "text", @Value = "Normal", placeholder = "Çarpan/Saat yazın...", @required = "required" })
+                    </div>
+                    <div class="mb-4">
                         <label>Fiyat İndirimi</label>
                         @Html.TextBoxFor(x => x.Discount, new { @class = "form-control", @type = "text", placeholder = "İnidirm oranı giriniz. (Örn: 15)..." })
                     </div>

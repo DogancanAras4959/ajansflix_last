@@ -260,11 +260,14 @@ namespace ajansflix.Areas.admin.Controllers
                 }
 
                 product.Price = Convert.ToInt32(model.Price);
+                product.CreatedTime = model.CreatedTime;
                 product.ProductMetaName = model.ProductMetaName;
                 product.ProductMetaDescription = model.ProductMetaDescription;
                 product.CategoryId = model.CategoryId;
                 product.ProductDescription = model.ProductDescription;
                 product.Discount = model.Discount;
+                product.UrunNot = model.UrunNot;
+                product.Carpan = model.Carpan;
                 product.IsActive = model.IsActive;
                 product.ProductAlternateDesc = model.ProductAlternateDesc;
                 product.Banner = model.Banner;
@@ -304,6 +307,39 @@ namespace ajansflix.Areas.admin.Controllers
             _productService.Insert(model);
 
             return Redirect("/admin/urun/urunler");
+        }
+
+        public IActionResult urunkopyala(int Id)
+        {
+            try
+            {
+                var urun = _productService.Get(Id);
+
+                ProductDto newProduct = new ProductDto();
+                newProduct.ProductName = urun.ProductName;
+                newProduct.ProductMetaName = urun.ProductMetaName;
+                newProduct.ProductAlternateDesc = urun.ProductAlternateDesc;
+                newProduct.ProductDescription = urun.ProductDescription;
+                newProduct.ProductMetaDescription = urun.ProductMetaDescription;
+                newProduct.IsActive = urun.IsActive;
+                newProduct.Banner = urun.Banner;
+                newProduct.CategoryId = urun.CategoryId;
+                newProduct.Discount = urun.Discount;
+                newProduct.CreatedTime = urun.CreatedTime;
+                newProduct.UpdatedTime = urun.UpdatedTime;
+                newProduct.Price = urun.Price;
+                newProduct.ImagePath = urun.ImagePath;
+                newProduct.Carpan = urun.Carpan;
+                newProduct.UrunNot = urun.UrunNot;
+
+                _productService.Insert(newProduct);
+
+                return Redirect("/admin/urun/urunler");
+            }
+            catch (Exception ex)
+            {
+                return Redirect("/admin/urun/urunler");
+            }
         }
 
         [HttpGet]

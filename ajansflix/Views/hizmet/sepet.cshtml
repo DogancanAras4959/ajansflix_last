@@ -1,27 +1,25 @@
 ﻿@using ajansflix.SERVICES.Dtos.ProductsData
 @using ajansflix.CORE.CartModels
-@{
-    ViewData["Title"] = "sepet";
+
+@{ ViewData["Title"] = "sepet";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     List<CartItem> cart = ViewBag.Cart as List<CartItem>;
     List<ProductDto> productList = ViewBag.ProductList as List<ProductDto>;
-
-}
+    int totalDiscountPrice = 0; }
 
 <style>
     .cart-total th {
         padding: 15px 40px;
         vertical-align: top;
     }
-
 </style>
 
 <div class="container container-240">
 
     <div class="checkout">
         <ul class="breadcrumb v3">
-            <li><a href="@Url.Action("sayfa","anasayfa")">Ana Sayfa</a></li>
+            <li><a href="@Url.Action("sayfa", "anasayfa")">Ana Sayfa</a></li>
             <li class="active">Sepet</li>
         </ul>
         <div class="row">
@@ -31,44 +29,57 @@
                         <h1 class="page-title v2">Sepet</h1>
                     </div>
                     <div class="table-responsive">
+
                         @if (cart.Count > 0)
                         {
-                            <table class="table cart-table">
+            <table class="table cart-table">
+                <tbody>
+                    @foreach (var item in cart)
+                    {
+                        totalDiscountPrice += Convert.ToInt32(item.BasePrice - (item.BasePrice - (item.BasePrice * (item.Discount / 100))));
 
-                                <tbody>
+    <tr class="item_cart">
+        <td class="product-name flex align-center">
+            <a href="/hizmet/sepetcikar?id=@item.Id" class="btn-del"><i class="ion-ios-close-empty"></i></a>
+            <div class="product-img">
+                <img src="@item.Image" title="@item.Item" alt="@item.Item" loading="lazy">
+            </div>
+            <div class="product-info">
+                <a href="@Url.Action("detay", "hizmet", new { Id = item.Id, productname = item.GenerateSlug() })" title="">@item.Item</a>
+                <hr style="margin-top:12px; margin-bottom:12px;" />
+                <ul>
+                    @foreach (var item2 in item._compItems)
+                    {
 
-                                    @foreach (var item in cart)
-                                    {
-                                        <tr class="item_cart">
-                                            <td class="product-name flex align-center">
-                                                <a href="/hizmet/sepetcikar?id=@item.Id" class="btn-del"><i class="ion-ios-close-empty"></i></a>
-                                                <div class="product-img">
-                                                    <img src="@item.Image" title="@item.Item" alt="@item.Item" loading="lazy">
-                                                </div>
-                                                <div class="product-info">
-                                                    <a href="@Url.Action("detay","hizmet", new { Id = item.Id, productname = item.GenerateSlug() })" title="">@item.Item</a>
-                                                    <hr style="margin-top:12px; margin-bottom:12px;" />
-                                                    <ul>
-                                                        @foreach (var item2 in item._compItems)
-                                                        {
-                                                            <li><strong>@item2.CompName:</strong> @item2.CompValue</li>
-                                                        }
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                            <td class="total-price">
-                                                <p class="price">@item.BasePrice TL</p>
-                                            </td>
-                                        </tr>
-                                    }
+<li><strong>@item2.CompName:</strong> @item2.CompValue</li>
+}
+                </ul>
+            </div>
+        </td>
+        <td class="total-price">
+            @if (item.Discount > 0)
+            {
+<div class="product-info">
+    <div class="product-price">
+        <p class="price old">@item.BasePrice TL</p>
+        <p class="price">@Convert.ToInt32(item.BasePrice - (item.BasePrice * (item.Discount / 100))) TL</p>
+    </div>
+</div> }
+else
+{
+<p class="price">@item.BasePrice TL</p>}
 
-                                </tbody>
-                            </table>
-                        }
-                        else
-                        {
-                            <p style="text-align:center; width:100%; font-size:22px;">Sepetiniz boş görünüyor!</p>
-                        }
+        </td>
+    </tr>
+}
+                </tbody>
+
+            </table> }
+        else
+        {
+<p style="text-align:center; width:100%; font-size:22px;">Sepetiniz boş görünüyor!</p>}
+
+
                     </div>
 
                     <div class="table-cart-bottom" style="padding-left: 45px; padding-right: 45px;">
@@ -85,9 +96,22 @@
                     <div class="table-responsive">
                         <table class="shop_table" style="width:100%;">
                             <tbody>
+                                @if (totalDiscountPrice > 0)
+                                {
+                    <tr class="order-total">
+                        <th>Ana Tutar</th>
+                        <td>
+                            @Convert.ToInt32(ViewBag.Total) TL
+                        </td>
+                    </tr>
+                                    <tr class="order-total">
+                                        <th>İndirim</th>
+                                        <td>-@totalDiscountPrice TL</td>
+                                    </tr>
+                                    }
                                 <tr class="order-total">
-                                    <th>Toplam</th>
-                                    <td>@Convert.ToInt32(ViewBag.Total) TL</td>
+                                    <th>Toplam Tutar</th>
+                                    <td style="font-weight:800">@Convert.ToInt32(ViewBag.Total - totalDiscountPrice) TL</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -99,5 +123,6 @@
             </div>
         </div>
     </div>
+
 </div>
 

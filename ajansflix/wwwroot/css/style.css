@@ -6547,12 +6547,21 @@ section.all-s {
 .tab-content {
   position: relative; }
 
-.tab-pane:not(:first-child) {
+/*.tab-pane:not(:first-child) {
   position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
-  left: 0; }
+  left: 0; 
+
+}*/
+
+.tab-pane:not(:first-child) {
+    position: relative;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
 
 /*
     2. Reset

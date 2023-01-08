@@ -22,11 +22,12 @@ namespace ajansflix.Areas.admin.Controllers
     {
         private readonly IUserService _userService;
         private readonly IOrderService _orderService;
-     
-        public editorController(IUserService userService, IOrderService orderService)
+        private readonly IProductService _productService;
+        public editorController(IUserService userService, IOrderService orderService, IProductService productService)
         {
             _userService = userService;
             _orderService = orderService;
+            _productService = productService;
         }
 
         [CheckLogin]

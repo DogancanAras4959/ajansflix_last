@@ -119,24 +119,24 @@
                                         </tr>
                                         <tr class="item_cart">
                                             <td colspan="4" class="td-width-mobile">
-                                                <div class="row td-info-mobile m-right-pl" >
+                                                <div class="row td-info-mobile m-right-pl" style=" display: flex; flex-direction: row; flex-wrap: wrap; align-content: space-around; align-items: center; margin-right: 0; margin-left: 0;">
                                                     <div class="col-sm-8">
-                                                        <p>@*@Html.Raw(Model.ProductAlternateDesc)*@ Teklif oluşturman için sana uygun hizmet fiyatı</p>
+                                                        <p>@Html.Raw(Model.ProductAlternateDesc)</p>
                                                     </div>
                                                     <div class="col-sm-4 td-info-price-t-a-c">
                                                         @if (Model.Discount > 0)
                                                         {
                                                             <input type="hidden" value="@Model.Discount" id="discount_@Model.Id" />
                                                             <div class="product-info">
-                                                                <div class="product-price" style="margin:0;">
-                                                                    <span class="old" margin-left:5px;">@Convert.ToInt32(Model.Price) TL</span>
-                                                                    <span class="red" style="color:#ff2929;">@Convert.ToInt32(indirimli_fiyat) TL</span>
+                                                                <div class="product-price" style="margin:0; float:right;">
+                                                                    <span class="old" style="font-size:20px;">@Convert.ToInt32(Model.Price) TL</span>
+                                                                    <span class="red" style="color: #ff2929; font-weight: 600; font-size:25px;">@Convert.ToInt32(indirimli_fiyat) TL</span>
                                                                 </div>
                                                             </div>
                                                         }
                                                         else if (Model.Discount == 0)
                                                         {
-                                                            <span class="td-info-text-price price-info">@Convert.ToInt32(Model.Price) TL</span>}
+                                                            <span class="td-info-text-price price-info" style="font-weight:600">@Convert.ToInt32(Model.Price) TL</span>}
                                                         else
                                                         {
 
@@ -190,44 +190,64 @@
                         </div>
                     </div>
                 </div>
+                <div class="single-product-tab bd-7 custom-prod-detail desktopView">
+
+                    <div class="cmt-title text-center abs">
+                        <ul class="nav nav-tabs text-center">
+                            <li class="active"><a data-toggle="pill" href="#quest">Fiyat Politikası</a></li>
+                            <li class=""><a data-toggle="pill" href="#desc">Hizmet Hakkında</a></li>
+                            <li class=""><a data-toggle="pill" href="#order">Çalışma Süreci</a></li>
+                            <li class=""><a data-toggle="pill" href="#price">Ödeme Planı</a></li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+
+                        <div id="quest" class="tab-pane fade">
+                        </div>
+                        <div id="desc" class="tab-pane fade active in">
+                            <div class="entry-content" style="margin-bottom: 19px;">
+                                <div class="e-text">
+                                    <div class="entry-inside v3" style=" padding-left: 23px; padding-right: 23px;">
+                                        <p>@Html.Raw(Model.ProductDescription)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="order" class="tab-pane fade">
+                        </div>
+                        <div id="price" class="tab-pane fade">
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
             <div class="col-xs-12 col-sm-3 col-md-3 cart-relative cart-fixed-bottom" style="padding-left:0px;">
                 <div class="single-flex cart-absolute">
                     <div class="single-product-feature hidden-sm" id="fixed" style="width:100%; padding-left:15px;">
+                        @if (Model.Discount > 0)
+                        {
+                            <div class="ribbon-price red"><span>-@Model.Discount% </span></div>
+                        }
                         <div class="hot-line hot-line-mobile" style="margin-top: 0px; border-radius: 0; padding: 1px; background: #b7b7b785;">
                             <p class="hidden-xs" style="text-align: center;">Toplam Fiyat</p>
-                            <span style="text-align: center; background: #fff; display: block;" class="txt-kdv">KDV Dahil</span>
+                            <span style="text-align: center; background: #fff; display: block;" class="txt-kdv">+KDV Dahil</span>
                             <div class="flex align-center tele" style="padding:0px;">
                                 <div class="single-feature-box" style="padding:0px; width:100%;">
                                     <div class="single-feature-info" style="width: 100%;">
 
-                                        @if (Model.Discount == 0)
-                                        {
-                                            <h2 class="txt-price" style="text-align:center; padding-top:7px; font-weight:600">
-                                                <span id="price">
-                                                    @price
-                                                </span> TL
-                                            </h2>
-                                        }
-                                        else if (Model.Discount > 0)
-                                        {
-                                            <div class="product-info">
-                                                <div class="product-price">
-                                                    <h2 class="txt-price old" style="text-align:center; padding-top:7px; font-weight:600">
-                                                        <span>
-                                                            @price
-                                                        </span> TL
-                                                    </h2>
-                                                    <h2 class="txt-price red" style="text-align:center; padding-top:7px; font-weight:600">
-                                                        <span id="price">
-                                                            @Convert.ToInt32(indirimli_fiyat)
-                                                        </span> TL
-                                                    </h2>
-                                                </div>
-                                            </div>
-                                           
-                                        }
+                                        <h2 class="txt-price" style="text-align:center; padding-top:7px; font-weight:600">
+                                            <span id="price">
+                                                @price
+                                            </span> TL
 
+                                        </h2>
+                                        @if (Model.Discount > 0)
+                                        {
+                                            <span style="font-size:15px;">
+                                                <em style="display: block; text-align: center;">(Sepette indirim var!)</em>
+                                            </span>
+                                        }
 
                                         @if (productCookie != null)
                                         {
@@ -253,40 +273,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>          
         </div>
-    </div>
-
-    <div class="single-product-tab bd-7 custom-prod-detail desktopView">
-
-        <div class="cmt-title text-center abs">
-            <ul class="nav nav-tabs text-center">
-                <li class="active"><a data-toggle="pill" href="#quest">Fiyat Politikası</a></li>
-                <li class=""><a data-toggle="pill" href="#desc">Hizmet Hakkında</a></li>
-                <li class=""><a data-toggle="pill" href="#order">Çalışma Süreci</a></li>
-                <li class=""><a data-toggle="pill" href="#price">Ödeme Planı</a></li>
-            </ul>
-        </div>
-        <div class="tab-content">
-
-            <div id="quest" class="tab-pane fade">
-            </div>
-            <div id="desc" class="tab-pane fade active in">
-                <div class="entry-content" style="height: fit-content; max-height: fit-content; margin-bottom: 19px;">
-                    <div class="e-text">
-                        <div class="entry-inside v3" style=" padding-left: 23px; padding-right: 23px;">
-                            <p>@Html.Raw(Model.ProductDescription)</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="order" class="tab-pane fade">
-            </div>
-            <div id="price" class="tab-pane fade">
-            </div>
-
-        </div>
-
+   
     </div>
 
     <div class="single-product-tab bd-7 mobileView">

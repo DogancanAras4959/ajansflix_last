@@ -55,7 +55,7 @@ var insertCart = function () {
 
     var cartItem = {};
 
-    if (discount.value == 0 || discount.value == null) {
+    if (discount == null) {
         cartItem = { Id: productId, Item: item, BasePrice: Number.parseInt(total.innerText), Image: imageUrl };
     }
     else {
@@ -243,17 +243,17 @@ function dynamicelementdata(newComponent, BasePriceCart) {
         liPlus += "<li><strong>" + newComponent[i].CompName + ":</strong> " + newComponent[i].CompValue + "</li>";
     }
 
-    return "<li class='item-cart' id='listCartItem_" + newComponent[i].ProductId + "'>" +
+    return "<li class='item-cart' id='listCartItem_" + newComponent.ProductId + "'>" +
         "<div class='product-img-wrap'>" +
         "<a href='" + imageUrl + "')'>" +
         "<img src='" + imageUrl + "' alt='" + imageUrl + "' title='" + imageUrl + "' class='img-reponsive'></a> </div>" +
         "<div class='product-details'>" +
         "<div class='inner-left'>" +
-        "<div class='product-name'><a style='font-size:17px;' href='/detay/" + newComponent[i].ProductId + "/" + productName + "'>" + productNameReal + " </a></div>" +
-        "<div class='product-price'> <span id='price_" + newComponent[i].ProductId + "'>" + BasePriceCart + "</span> TL </div>" +
+        "<div class='product-name'><a style='font-size:17px;' href='/detay/" + newComponent.ProductId + "/" + productName + "'>" + productNameReal + " </a></div>" +
+        "<div class='product-price'> <span id='price_" + newComponent.ProductId + "'>" + BasePriceCart + "</span> TL </div>" +
         "<hr style='margin-top: 5px; margin-bottom: 5px;' />" +
         "<ul class='product-desc-list'>" + liPlus + " </ul> </div> </div>" +
-        "<a style='cursor:pointer;' onclick='removeFromCartItem(" + newComponent[i].ProductId + ");' class='e-del'><i class='ion-ios-close-empty'></i></a> </li>";
+        "<a style='cursor:pointer;' onclick='removeFromCartItem(" + newComponent.ProductId + ");' class='e-del'><i class='ion-ios-close-empty'></i></a> </li>";
 }
 
 function insertToPrice(dropdownTotal) {

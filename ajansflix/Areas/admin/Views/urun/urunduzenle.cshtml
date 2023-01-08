@@ -93,11 +93,19 @@
                     </div>
                     <div class="mb-4">
                         <label>Fiyat *</label>
-                        @Html.TextBoxFor(x => x.Price, new { @class = "form-control", @type = "text", placeholder = "Ürün fiyatı yazın...", @required = "required" })
+                        @Html.TextBoxFor(x => x.Price, new { @class = "form-control", type="text", placeholder = "Ürün fiyatı yazın...", @required = "required" })
                     </div>
                     <div class="mb-4">
                         <label>Fiyat İndirimi</label>
-                        @Html.TextBoxFor(x => x.Discount, new { @class = "form-control", @type = "text", placeholder = "İnidirm oranı giriniz. (Örn: 15)..." })
+                        @Html.TextBoxFor(x => x.Discount, new { @class = "form-control", type="datetime", placeholder = "İnidirm oranı giriniz. (Örn: 15)..." })
+                    </div>
+                    <div class="mb-4">
+                        <label>Çarpan / Saat *</label>
+                        @Html.TextBoxFor(x => x.Carpan, new { @class = "form-control", @type = "text", placeholder = "Çarpan/Saat yazın...", @required = "required" })
+                    </div>
+                    <div class="mb-4">
+                        <label>Oluşturulma Tarihi</label>
+                        @Html.TextBoxFor(x => x.CreatedTime, new { @class = "form-control", @type = "text", placeholder = "Zamanı düzenleyin...", @required = "required" })
                     </div>
                     <div class="mb-4">
                         <label>Ürün Kısa Açıklama *</label>
@@ -120,10 +128,14 @@
                         @Html.TextBoxFor(x => x.ProductMetaDescription, new { @class = "form-control", @type = "text", @Value = "Normal", placeholder = "SEO Açıklama yazın...", @required = "required" })
                     </div>
                     <div class="mb-4">
-                        <div class="form-check form-switch mb-3" style="float:left; top:10px;" dir="ltr">
+                        <div class="form-check form-switch mb-3" style="top:10px;" dir="ltr">
                             @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-check-input", id = "customSwitch1" })
                             <label class="form-check-label" for="customSwitch1">Aktif mi?</label>
                         </div>
+                    </div>
+                    <div class="mb-4">
+                        <label>Ürün Not *</label>
+                        <textarea asp-for="UrunNot" class="ckeditor"></textarea>
                     </div>
                 </div>
             </div>
@@ -177,6 +189,14 @@
                 </a>
             </div>}
                     </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <label class="card-title">Ürün Düzenleme Notları</label>
+                </div>
+                <div class="card-body">
+                    @Html.Raw(Model.UrunNot)
                 </div>
             </div>
         </div>
