@@ -4,6 +4,10 @@
 @{
     List<ProductDto> products = ViewBag.Products as List<ProductDto>;
     List<CategoryDto> categoryList = ViewBag.CategoryList as List<CategoryDto>;
+    ProductDto product1 = ViewBag.Product1 as ProductDto;
+    ProductDto product2 = ViewBag.Product2 as ProductDto;
+    ProductDto product3 = ViewBag.Product3 as ProductDto;
+    ProductDto product4 = ViewBag.Product4 as ProductDto;
 }
 
 <style>
@@ -56,6 +60,88 @@
 
     .content-slider-prg {
         padding: 0 25px 0 45px;
+    }
+
+    .pn01, .pn02, .pn03, .pn04 {
+        position: absolute;
+    }
+
+    a.pn01 {
+        left: 0px;
+        top: 110px;
+    }
+
+    a.pn02 {
+        right: 30px;
+        top: 120px;
+    }
+
+    a.pn03 {
+        bottom: 90px;
+        left: 0;
+    }
+
+    a.pn04 {
+        right: 0;
+        bottom: 60px;
+    }
+
+    .product-flex {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 300px;
+        padding: 10px;
+        flex-wrap: nowrap;
+        align-content: space-around;
+    }
+
+    .bg-img-campaign {
+        background-image: url(/img/seasonal-main.png);
+        background-origin: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: relative;
+        height: 570px;
+    }
+    .container-left {
+        position: absolute;
+        width: 620px;
+        height: 447px;
+        background: transparent url(/img/numune-kutusu-image.png) 0 0 no-repeat padding-box;
+        left: -40px;
+        top: -65px;
+    }
+    .container-right {
+        width: 550px;
+        float: right;
+        color: #000;
+    }
+    .container-info {
+        margin: 0 auto;
+        width: 500px;
+        text-align: center;
+        position: relative;
+        transform: translate(-50%, 5%);
+        left: 50%;
+        right: 50%;
+    }
+    .ctn-spacer{
+        width:100px;
+        height:2px;
+        background-color:#000;
+        margin:20px auto;
+        display:block;
+    }
+    .btn-group-container {
+        margin: 15px auto;
+        width: 80%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-evenly;
+        align-items: center;
     }
 </style>
 
@@ -130,6 +216,189 @@
     </div>
 
 }
+
+<div class="feature" style="background: #fff; width: 100%; margin: 0px auto; padding: 30px;">
+    <div class="container container-240">
+        <div class="ecome-heading style2 spc4" style="margin-bottom:30px;">
+            <div class="title-icon t-inline t-line">
+                <h1>Sezonluk Kampanya</h1>
+            </div>
+        </div>
+        <div class="bg-img-campaign">
+            <a href="#" class="pn01">
+                <div class="pd-bd product-inner product-flex">
+                    <div class="product-img">
+                        @if (product1.Discount > 0)
+                        {
+                            <div class="ribbon-price red"><span>-@product1.Discount% </span></div>
+                        }
+                        <img src="@product1.ImagePath" style="width: 110px; padding: 10px 15px 10px 8px; " alt="@product1.ProductMetaName" loading="lazy" title="@product1.ProductMetaName" class="img-reponsive" id="image_@product1.Id">
+                    </div>
+                    <div class="product-info">
+                        <div class="element-list element-list-middle">
+                            <h5 style="font-size:16px; margin-bottom:5px;" class="product-title">@product1.ProductName</h5>
+                            <div class="product-bottom">
+
+                                <div class="product-price" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                    @if (product1.Discount > 0)
+                                    {
+                                        decimal ilkfiyat = product1.Price;
+                                        decimal indirimOrani = product1.Discount;
+                                        decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
+
+                                        <span style="font-weight: 800; color:#000;" class="red" id="basePrice_@product1.Id">@Convert.ToInt32(indirimli_fiyat) TL <span style="font-weight:800; font-size:17px;">+KDV</span> </span>
+                                        <span class="old" style="font-weight:500; font-size:17px; margin-left:0; text-decoration:line-through">@Convert.ToInt32(product1.Price) TL</span>}
+                                    else if (product1.Discount == 0)
+                                    {
+                                        <span style="font-weight:800;" id="basePrice_@product1.Id">@Convert.ToInt32(product1.Price) TL <span style="font-size: 14px; font-weight: 300;"> +KDV</span> </span>
+                                    }
+                                    else
+                                    {
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="pn02">
+                <div class="pd-bd product-inner product-flex">
+                    <div class="product-img">
+                        @if (product2.Discount > 0)
+                        {
+                            <div class="ribbon-price red"><span>-@product2.Discount% </span></div>
+                        }
+                        <img src="@product2.ImagePath" style="width: 110px; padding: 10px 15px 10px 8px; " alt="@product2.ProductMetaName" loading="lazy" title="@product2.ProductMetaName" class="img-reponsive" id="image_@product1.Id">
+                    </div>
+                    <div class="product-info">
+                        <div class="element-list element-list-middle">
+                            <h5 style="font-size:16px; margin-bottom:5px;" class="product-title">@product2.ProductName</h5>
+                            <div class="product-bottom">
+
+                                <div class="product-price" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                    @if (product2.Discount > 0)
+                                    {
+                                        decimal ilkfiyat = product2.Price;
+                                        decimal indirimOrani = product2.Discount;
+                                        decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
+
+                                        <span style="font-weight: 800; color:#000;" class="red" id="basePrice_@product2.Id">@Convert.ToInt32(indirimli_fiyat) TL <span style="font-weight:800; font-size:17px;">+KDV</span> </span>
+                                        <span class="old" style="font-weight:500; font-size:17px; margin-left:0; text-decoration:line-through">@Convert.ToInt32(product2.Price) TL</span>}
+                                    else if (product2.Discount == 0)
+                                    {
+                                        <span style="font-weight:800;" id="basePrice_@product2.Id">@Convert.ToInt32(product2.Price) TL <span style="font-size: 14px; font-weight: 300;"> +KDV</span> </span>
+                                    }
+                                    else
+                                    {
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="pn03">
+                <div class="pd-bd product-inner product-flex">
+                    <div class="product-img">
+                        @if (product3.Discount > 0)
+                        {
+                            <div class="ribbon-price red"><span>-@product3.Discount% </span></div>
+                        }
+                        <img src="@product3.ImagePath" style="width: 110px; padding: 10px 15px 10px 8px; " alt="@product3.ProductMetaName" loading="lazy" title="@product3.ProductMetaName" class="img-reponsive" id="image_@product1.Id">
+                    </div>
+                    <div class="product-info">
+                        <div class="element-list element-list-middle">
+                            <h5 style="font-size:16px; margin-bottom:5px;" class="product-title">@product3.ProductName</h5>
+                            <div class="product-bottom">
+
+                                <div class="product-price" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                    @if (product3.Discount > 0)
+                                    {
+                                        decimal ilkfiyat = product3.Price;
+                                        decimal indirimOrani = product3.Discount;
+                                        decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
+
+                                        <span style="font-weight: 800; color:#000;" class="red" id="basePrice_@product3.Id">@Convert.ToInt32(indirimli_fiyat) TL <span style="font-weight:800; font-size:17px;">+KDV</span> </span>
+                                        <span class="old" style="font-weight:500; font-size:17px; margin-left:0; text-decoration:line-through">@Convert.ToInt32(product3.Price) TL</span>}
+                                    else if (product3.Discount == 0)
+                                    {
+                                        <span style="font-weight:800;" id="basePrice_@product3.Id">@Convert.ToInt32(product3.Price) TL <span style="font-size: 14px; font-weight: 300;"> +KDV</span> </span>
+                                    }
+                                    else
+                                    {
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="pn04">
+                <div class="pd-bd product-inner product-flex">
+                    <div class="product-img">
+                        @if (product4.Discount > 0)
+                        {
+                            <div class="ribbon-price red"><span>-@product4.Discount% </span></div>
+                        }
+                        <img src="@product4.ImagePath" style="width: 110px; padding: 10px 15px 10px 8px; " alt="@product4.ProductMetaName" loading="lazy" title="@product4.ProductMetaName" class="img-reponsive" id="image_@product1.Id">
+                    </div>
+                    <div class="product-info">
+                        <div class="element-list element-list-middle">
+                            <h5 style="font-size:16px; margin-bottom:5px;" class="product-title">@product4.ProductName</h5>
+                            <div class="product-bottom">
+
+                                <div class="product-price" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                    @if (product4.Discount > 0)
+                                    {
+                                        decimal ilkfiyat = product4.Price;
+                                        decimal indirimOrani = product4.Discount;
+                                        decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
+
+                                        <span style="font-weight: 800; color:#000;" class="red" id="basePrice_@product4.Id">@Convert.ToInt32(indirimli_fiyat) TL <span style="font-weight:800; font-size:17px;">+KDV</span> </span>
+                                        <span class="old" style="font-weight:500; font-size:17px; margin-left:0; text-decoration:line-through">@Convert.ToInt32(product1.Price) TL</span>}
+                                    else if (product4.Discount == 0)
+                                    {
+                                        <span style="font-weight:800;" id="basePrice_@product4.Id">@Convert.ToInt32(product4.Price) TL <span style="font-size: 14px; font-weight: 300;"> +KDV</span> </span>
+                                    }
+                                    else
+                                    {
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="feature" style="background: #ffed00; height: 368px; width: 100%; margin: 0px auto; padding: 30px; ">
+    <div class="container container-240" style="max-width:1136px; position:relative; height:100%; margin:0 auto;">
+        <div class="container-left"></div>
+        <div class="container-right">
+            <div class="container-info">
+                <h2 style="font-family:Urbanist Bold;">Web Tasarım ve Kodlama</h2>
+                <div class="ctn-spacer"></div>
+                <p style="font-size: 20px; margin-bottom:5px; line-height: 25px;">Markanız ve işiniz için istediğiniz web sayfalarını sizler için hazırlıyoruz! Şimdi hizmetimizi inceleyin</p>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
+                    molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
+                    numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
+                    optio, eaque rerum! Provident similique accusantium nemo autem.
+                </p>
+                <div class="btn-group-container">
+                    <a href="#" class="btn btn-add-cart" style="background:transparent; border:2px solid #000; width:100%;">Hizmeti İncele</a>
+                    <a href="#" class="btn btn-add-cart" style="width: 100%; border: 2px solid #000; margin: 0 5px;">Ürüne Git</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="container container-240">
     <div class="brand">
