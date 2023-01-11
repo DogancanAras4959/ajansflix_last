@@ -47,7 +47,7 @@
                         <input type="text" onkeyup="myFunction()" id="searchTag" class="form-control" placeholder="Hizmetlerimizden arayın...">
                         <ul id="listSearch" class="list-product-search hidden-xs hidden-sm" style="width: 100%;">
                           
-                            @foreach (var item in productList)
+                            @foreach (var item in productList.Where(x => x.IsActive == true).OrderByDescending(x=> x.CreatedTime))
                             {
                                 <li>
                                     <a class="flex align-center" href="@Url.Action("detay","hizmet", new { Id = item.Id, productName= item.GenerateSlug() })">

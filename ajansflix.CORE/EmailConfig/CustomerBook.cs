@@ -17,6 +17,7 @@ namespace ajansflix.CORE.EmailConfig
         public string To { get; set; }
         public string Subject { get; set; }
         public string Content { get; set; }
+        public string Company { get; set; }
         public string Phone { get; set; }
         public decimal Total  { get; set; }
         public string Email { get; set; }

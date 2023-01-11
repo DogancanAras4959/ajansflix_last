@@ -295,9 +295,35 @@ namespace ajansflix.Controllers
             else
             {
                 return RedirectToAction("sayfa", "anasayfa");
-            }
-          
+            }         
         }
+
+        [Route("odemebitir")]
+        public IActionResult odemebitir()
+        {
+            Meta("Reklam Lütfen | Ödeme");
+            var cookieCart = Request.Cookies["CartItems"];
+            decimal total = 0;
+
+            if (cookieCart != null)
+            {
+                List<CartItem> cart = JsonSerializer.Deserialize<List<CartItem>>(cookieCart);
+
+                if (cart != null)
+                {
+
+                    total = Convert.ToInt32(cart.Sum(x => x.BasePrice));
+                    ViewBag.Total = total;
+                    ViewBag.Cart = cart;
+                }
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("sayfa", "anasayfa");
+            }
+        }
+
 
         [Route("favori")]
         public IActionResult favoriler()
@@ -460,10 +486,9 @@ namespace ajansflix.Controllers
                       
                     }
                 }
-
-                #endregion
-
             }
+
+            #endregion
 
             ViewBag.DetailDataSelectList = new SelectList(datas.Where(x => x.detail.Type == "Dropdown"), "Id", "DataName");
             ViewBag.DetailData = datas;
@@ -583,6 +608,7 @@ namespace ajansflix.Controllers
             string items = "";
             string li = "";
             int count = 0;
+      
             try
             {
                 decimal total = 0;
@@ -610,10 +636,11 @@ namespace ajansflix.Controllers
                 contactMessage.Name = contact.Name;
                 contactMessage.Surname = contact.Surname;
                 contactMessage.Content = contact.Content;
+                contactMessage.Company = contact.Company;
                 contactMessage.To = "dogancanaras49@gmail.com";
                 contactMessage.Total = Convert.ToInt32(total);
                 contactMessage.cartResult = resultList;
-                contactMessage.Content = $@"<p>{contactMessage.Name} {contactMessage.Surname} iletişim formunu doldurdu. (Bu form https://reklamlutfen.com üzerinden gelmiştir.) <p><strong>Telefon: </strong>{contactMessage.Phone}</p> <hr/> <p><strong>Email Adresi:</strong> {contactMessage.Email}</p> <hr/> <p><strong>Toplam Teklif:</strong> {contactMessage.Total} TL</p> <hr/> <p><strong style='text-align:left;'>Hizmetler:</strong></p> <table style='table-layout: auto; width: 330px;'><thead><tr><th style='text-align:center; border: 1px solid black; border-collapse: collapse; padding:5px;'>Hizmet Adı</th><th style='text-align:left; border: 1px solid black; padding:5px; border-collapse: collapse;'>Fiyat</th></tr></thead><tbody>{items}</tbody></table>";
+                contactMessage.Content = $@"<p>{contactMessage.Name} {contactMessage.Surname} iletişim formunu doldurdu. (Bu form https://reklamlutfen.com üzerinden gelmiştir.) <p><strong>Telefon: </strong>{contactMessage.Phone}</p> <hr/> <p><strong>Firma: </strong>{contactMessage.Company}</p> <hr/> <p><strong>Email Adresi:</strong> {contactMessage.Email}</p> <hr/> <p><strong>Toplam Teklif:</strong> {contactMessage.Total} TL</p> <hr/> <p><strong style='text-align:left;'>Hizmetler:</strong></p> <table style='table-layout: auto; width: 330px;'><thead><tr><th style='text-align:center; border: 1px solid black; border-collapse: collapse; padding:5px;'>Hizmet Adı</th><th style='text-align:left; border: 1px solid black; padding:5px; border-collapse: collapse;'>Fiyat</th></tr></thead><tbody>{items}</tbody></table>";
 
                 //contactMessage.Content = $@"<p>{contactMessage.NameSurname} iletişim formunu doldurdu. (Bu form https://ikifikir.net/fiyatpaketleri üzerinden gelmiştir.) <p> <hr/> <p><strong>Email Adresi:</strong> {contactMessage.EmailAdress}</p> <hr/> <p>{contactMessage.Message}</p> <hr/> <p><strong>Telefon: </strong>{contactMessage.PhoneNumber}</p> <hr/> <p><strong>Toplam Teklif:</strong> {contactMessage.Total}TL</p> <hr/> <p><strong>Hizmetler:</strong></p> <table style='table-layout: auto; width: 215px;'><thead><tr><th style='text-align:center; border: 1px solid black; border-collapse: collapse; padding:5px;'>Hizmet Adı</th><th style='text-align:left; border: 1px solid black; padding:5px; border-collapse: collapse;'>Fiyat</th></tr></thead><tbody>{items}</tbody></table>";
 
@@ -656,8 +683,9 @@ namespace ajansflix.Controllers
 
             }
 
-            #endregion
         }
+
+        #endregion
 
         private void Meta(string title)
         {

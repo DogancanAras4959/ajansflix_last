@@ -2,9 +2,11 @@
 @using ajansflix.COMMON.Helpers
 @model ajansflix.SERVICES.Dtos.CategoryData.CategoryDto
 
-@{ ViewData["Title"] = "hizmetler";
+@{
+    ViewData["Title"] = "hizmetler";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<ProductDto> products = ViewBag.ProductList as List<ProductDto>; }
+    List<ProductDto> products = ViewBag.ProductList as List<ProductDto>;
+}
 
 <style>
     .title-rotated {
@@ -39,7 +41,7 @@
 <div class="container container-240 mobile-Container">
     <div class="head-title">
         <div class="title-ecome">
-            <span class="title-rotated">@Model.CategoryDescription</span>
+            <span class="title-rotated">@Html.Raw(Model.CategoryDescription)</span>
             <div class="title-icon e-gradient title-home" style="margin-bottom:0;">
             </div>
         </div>
@@ -48,51 +50,55 @@
         <div class="product-collection-grid product-grid spc1" style="padding-top:10px;">
             <div class="row">
 
-                @foreach (var item2 in products.OrderByDescending(x => x.CreatedTime))
+                @foreach (var item2 in products.OrderByDescending(x => x.CreatedTime).Where(x=> x.IsActive == true))
                 {
-    <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 product-item">
-        <div class="pd-bd product-inner" style="padding:20px;">
-            <div class="product-img">
-                @if (item2.Discount > 0)
-                {
-<div class="ribbon-price red"><span>-@item2.Discount% </span></div>}
-                <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">
-                    <img src="@item2.ImagePath" alt="@item2.ProductMetaName" loading="lazy" title="@item2.ProductMetaName" id="image_@item2.Id" class="img-reponsive card-mobile-height">
-                </a>
-            </div>
-            <div class="product-info" style="margin-top:15px;">
-                <div class="element-list element-list-middle">
-                    <h3 class="product-title"><a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" id="itemName_@item2.Id">@item2.ProductName</a></h3>
-                    <div class="product-bottom">
-                        <div class="product-price" style="display: flex; flex-direction: column; align-items: flex-start;">
-                            @if (item2.Discount > 0)
-                            {
-                                decimal ilkfiyat = item2.Price;
-                                decimal indirimOrani = item2.Discount;
-                                decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
+                    <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 product-item">
+                        <div class="pd-bd product-inner" style="padding:20px;">
+                            <div class="product-img">
+                                @if (item2.Discount > 0)
+                                {
+                                    <div class="ribbon-price red"><span>-@item2.Discount% </span></div>
+                                }
+                                <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">
+                                    <img src="@item2.ImagePath" alt="@item2.ProductMetaName" loading="lazy" title="@item2.ProductMetaName" id="image_@item2.Id" class="img-reponsive card-mobile-height">
+                                </a>
+                            </div>
+                            <div class="product-info" style="margin-top:15px;">
+                                <div class="element-list element-list-middle">
+                                    <h3 class="product-title"><a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" id="itemName_@item2.Id">@item2.ProductName</a></h3>
+                                    <div class="product-bottom">
+                                        <div class="product-price" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                            @if (item2.Discount > 0)
+                                            {
+                                                decimal ilkfiyat = item2.Price;
+                                                decimal indirimOrani = item2.Discount;
+                                                decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
 
-            <span style="font-weight: 800; color:#000;" class="red" id="basePrice_@item2.Id">@Convert.ToInt32(indirimli_fiyat) TL <span style="font-weight:800; font-size:17px;">+KDV</span> </span> 
-                                <span class="old" style="font-weight:500; font-size:17px; margin-left:0; text-decoration:line-through">@Convert.ToInt32(item2.Price) TL</span>}
-                            else if (item2.Discount == 0)
-                            {
-            <span style="font-weight:800;" id="basePrice_@item2.Id">@Convert.ToInt32(item2.Price) TL</span>
-                                <span style="font-size: 14px; font-weight: 300;"> +KDV</span>}
-                            else
-                            {
+                                                <span style="font-weight: 800; color:#000;" class="red" id="basePrice_@item2.Id">@Convert.ToInt32(indirimli_fiyat) TL <span style="font-weight:800; font-size:17px;">+KDV</span> </span>
+                                                <span class="old" style="font-weight:500; font-size:17px; margin-left:0; text-decoration:line-through">@Convert.ToInt32(item2.Price) TL</span>
+                                            }
+                                            else if (item2.Discount == 0)
+                                            {
+                                                <span style="font-weight:800;" id="basePrice_@item2.Id">@Convert.ToInt32(item2.Price) TL</span>
+                                                <span style="font-size: 14px; font-weight: 300;"> +KDV</span>
+                                            }
+                                            else
+                                            {
 
-                            }
+                                            }
+                                        </div>
+                                        <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" class="btn-icon btn-view">
+                                            <span class="icon-bg icon-view"></span>
+                                        </a>
+                                        @*<a title="Sepete Ekle" style="cursor:pointer;" onclick="insertCartHomePage(@item2.Id);" id="cartButton_@item2.Id" class="btn-icon btn-view">
+                                    <span class="icon-bg icon-cart"></span>
+                                    </a>*@
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" class="btn-icon btn-view">
-                            <span class="icon-bg icon-view"></span>
-                        </a>
-                        @*<a title="Sepete Ekle" style="cursor:pointer;" onclick="insertCartHomePage(@item2.Id);" id="cartButton_@item2.Id" class="btn-icon btn-view">
-                                <span class="icon-bg icon-cart"></span>
-                            </a>*@
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>}
+                }
 
             </div>
         </div>

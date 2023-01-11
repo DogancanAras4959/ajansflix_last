@@ -113,6 +113,20 @@
     src: url('MadeTommy-Bold.otf') format('opentype');
 }
 
+@font-face {
+    font-family: 'Allust';
+    font-style: normal;
+    font-weight: normal;
+    src: url('Allust-Demo.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'BRLNDSB';
+    font-style: normal;
+    font-weight: normal;
+    src: url('BRLNSDB.TTF') format('truetype');
+}
+
 /** 1.1.3. Vendor library **/
 /* EX: @import url('components/Vendor/owlcarousel/owlcarousel.css'); */
 /** 1.2. Bootstrap **/
@@ -15916,7 +15930,7 @@ span.star:before {
     @media (min-width: 1199px) {
       .navbar-nav > li > a {
         line-height: 18px;
-        padding: 24px 20px 24px 20px; }
+        padding: 12px 20px 10px 20px; }
         .navbar-nav > li > a:before {
           border-right: 1px solid #dadada;
           content: "";

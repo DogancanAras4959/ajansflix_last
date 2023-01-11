@@ -15,7 +15,8 @@
         <div class="col-lg-12">
             <nav class="main-menu" style="margin-left:0;">
                 <div class="collapse navbar-collapse navbar-middled-menu" id="myNavbar">
-                    <ul class="nav navbar-nav js-menubar" style="width: 100%; display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                    <ul class="nav navbar-nav js-menubar" style="width: 100%; display: flex; flex-direction: row; justify-content: center;
+                                           align-items: center; padding: 20px 0px; flex-wrap: wrap; align-content: space-around;">
 
                         @foreach (var item in categoryList.Where(x=> x.IsActive == true).OrderBy(x=> x.Id))
                         {
@@ -24,7 +25,7 @@
                                 <span class="plus js-plus-icon"></span>
                                 <div class="menu-level-1 ver2 dropdown-menu" style="width:100%;">
                                     <div class="row">
-                                        @foreach (var item2 in productList.Where(x => x.CategoryId == item.Id))
+                                        @foreach (var item2 in productList.Where(x => x.CategoryId == item.Id).OrderByDescending(x=> x.CreatedTime).Take(8))
                                         {
                                             <div class="cate-item col-md-2 col-sm-12">
                                                 <div class="demo-img">

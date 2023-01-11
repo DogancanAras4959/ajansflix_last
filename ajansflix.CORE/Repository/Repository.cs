@@ -59,7 +59,7 @@ namespace ajansflix.CORE.Repository
         public void Save()
         {         
             _context.SaveChanges();
-            _context.ChangeTracker.Clear();
+            //_context.ChangeTracker.Clear();
         }
 
         public T FirstOrDefault(Expression<Func<T, bool>> expression = null)

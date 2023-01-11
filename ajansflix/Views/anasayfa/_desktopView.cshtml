@@ -23,9 +23,9 @@
 
     .title-home {
         border-radius: 0 !important;
-        rotate: -4deg;
+        rotate: -3deg;
         height: 45px !important;
-        width: 215px !important;
+        width: 240px !important;
         background: #ffed00;
         margin-bottom: 45px;
         color: #000 !important;
@@ -145,16 +145,20 @@
     }
 </style>
 
+@*1-Başlangı Web Sitesi
+2-Premium Web Sitesi
+3-E-Ticaret Sitesi
+4-CRM Tasarım Kodlama*@
+
 <link rel="stylesheet" type="text/css" href="~/css/slick.css">
 <link rel="stylesheet" type="text/css" href="~/css/slick-theme.css">
 
 @foreach (var item in categoryList.Where(x => x.IsActive == true))
 {
-
     <div class="container container-240" style=" padding-top: 10px; padding-bottom: 0px;">
         <div class="head-title">
             <div class="title-ecome">
-                <span class="title-rotated">@item.CategoryDescription</span>
+                <span class="title-rotated">@Html.Raw(item.CategoryDescription)</span>
                 <div class="title-icon e-gradient title-home">
                 </div>
             </div>
@@ -164,7 +168,7 @@
             <div class="product-collection-grid product-grid spc1">
                 <div class="row">
 
-                    @foreach (var item2 in products.Where(x => x.CategoryId == item.Id).OrderByDescending(x => x.CreatedTime).Take(4))
+                    @foreach (var item2 in products.Where(x => x.CategoryId == item.Id && x.IsActive == true).OrderByDescending(x => x.CreatedTime).Take(4))
                     {
                         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 product-item">
                             <div class="pd-bd product-inner">
@@ -586,44 +590,3 @@
         </div>
     </div>
 </div>
-
-<script src="~/js/jquery.js"></script>
-<script src="~/js/slick.js"></script>
-
-<script>
-    $('.brand-slick').slick({
-        dots: false,
-        infinite: false,
-        speed: 300,
-        slidesToShow: 7,
-        slidesToScroll: 4,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true,
-                    dots: false
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-            // You can unslick at a given breakpoint now by adding:
-            // settings: "unslick"
-            // instead of a settings object
-        ]
-    });
-</script>

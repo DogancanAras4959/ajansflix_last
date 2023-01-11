@@ -247,7 +247,7 @@ namespace ajansflix.Areas.admin.Controllers
             try
             {
                 var product = _productService.getProduct(model.Id);
-
+                var category = _categoryService.Get(model.CategoryId);
                 if (file != null)
                 {
                     string path = await _imageService.ProcessFile(new ImageInputModel
@@ -269,6 +269,7 @@ namespace ajansflix.Areas.admin.Controllers
                 product.UrunNot = model.UrunNot;
                 product.Carpan = model.Carpan;
                 product.IsActive = model.IsActive;
+                product.category = category;
                 product.ProductAlternateDesc = model.ProductAlternateDesc;
                 product.Banner = model.Banner;
                 product.ProductName = model.ProductName;
