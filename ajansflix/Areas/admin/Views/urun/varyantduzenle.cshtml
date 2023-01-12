@@ -42,7 +42,7 @@
                                         <a class="btn btn-outline-secondary btn-sm edit" title="Düzenle" href="/admin/urun/varyantduzenle?Id=@item.Id">
                                             <i class="fas fa-pencil-alt" title="Edit"></i>
                                         </a>
-                                        <a class="btn btn-outline-secondary btn-sm deleted" title="Sil" href="/admin/urun/varyantsil?Id=@item.Id">
+                                        <a class="btn btn-outline-secondary btn-sm deleted" onclick="return confirm('Bu varyantı silmek istiyor musunuz?')" title="Sil" href="/admin/urun/varyantsil?Id=@item.Id">
                                             <i class="fas fa-trash" title="Delete"></i>
                                         </a>
                                         <a class="btn btn-outline-secondary btn-sm above" title="Aktif/Pasif" href="/admin/urun/varyantdurumduzenle?Id=@item.Id">

@@ -63,7 +63,7 @@
                                 <a class="btn btn-outline-secondary btn-sm edit" title="Düzenle" href="/admin/urun/urunduzenle?Id=@item.Id">
                                     <i class="fas fa-pencil-alt" title="Edit"></i>
                                 </a>
-                                <a class="btn btn-outline-secondary btn-sm deleted" title="Sil" href="/admin/urun/urunsil?Id=@item.Id">
+                                    <a onclick="return confirm('Bu hizmeti silmek istiyor musunuz?')" class="btn btn-outline-secondary btn-sm deleted" title="Sil" href="/admin/urun/urunsil?Id=@item.Id">
                                     <i class="fas fa-trash" title="Delete"></i>
                                 </a>
                                 <a class="btn btn-outline-secondary btn-sm above" title="Aktif/Pasif" href="/admin/urun/urundurumduzenle?Id=@item.Id">

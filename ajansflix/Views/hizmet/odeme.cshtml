@@ -10,6 +10,9 @@
     List<CartItem> cart = ViewBag.Cart as List<CartItem>;
     List<ProductDto> productList = ViewBag.ProductList as List<ProductDto>;
     int totalDiscountPrice = 0;
+    decimal KDV = 0;
+    decimal totalKDV = 0;
+    decimal discountKDV = 0;
 }
 
 <div class="main-content space1">
@@ -73,6 +76,19 @@
                                         @foreach (var item in cart)
                                         {
                                             totalDiscountPrice += Convert.ToInt32(item.BasePrice - (item.BasePrice - (item.BasePrice * (item.Discount / 100))));
+
+                                            if (item.Discount > 0)
+                                            {
+                                                discountKDV = item.BasePrice - totalDiscountPrice;
+                                                KDV = discountKDV + (discountKDV * (18M / 100M));
+                                                totalKDV += KDV;
+                                            }
+                                            else
+                                            {
+                                                KDV = item.BasePrice + (item.BasePrice * (18M / 100M));
+                                                totalKDV += KDV;
+                                            }
+
                                             <li class="clearfix">
                                                 <div class="co-name">
                                                     <strong>@item.Item</strong>
@@ -122,8 +138,16 @@
                                             </tr>
                                         }
                                         <tr class="order-total v2">
-                                            <th>Toplam Tutar</th>
+                                            <th>Ara Tutar</th>
                                             <td style="float: right; padding-right: 30%;">@Convert.ToInt32(ViewBag.Total - totalDiscountPrice) TL</td>
+                                        </tr>
+                                        <tr class="order-total v2">
+                                            <th>KDV</th>
+                                            <td style="float: right; padding-right: 30%;">%18</td>
+                                        </tr>
+                                        <tr class="order-total v2">
+                                            <th>Toplam Tutar</th>
+                                            <td style="float: right; padding-right: 30%; font-weight:800;">@Convert.ToInt32(totalKDV) TL</td>
                                         </tr>
                                     </tbody>
                                 </table>

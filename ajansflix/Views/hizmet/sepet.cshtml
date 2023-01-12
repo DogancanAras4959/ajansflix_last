@@ -8,6 +8,10 @@
     List<CartItem> cart = ViewBag.Cart as List<CartItem>;
     List<ProductDto> productList = ViewBag.ProductList as List<ProductDto>;
     int totalDiscountPrice = 0;
+    decimal KDV = 0;
+    decimal totalKDV = 0;
+    decimal discountKDV = 0;
+
 }
 
 <style>
@@ -38,7 +42,20 @@
                                 <tbody>
                                     @foreach (var item in cart)
                                     {
+
                                         totalDiscountPrice += Convert.ToInt32(item.BasePrice - (item.BasePrice - (item.BasePrice * (item.Discount / 100))));
+
+                                        if (item.Discount > 0)
+                                        {
+                                            discountKDV = item.BasePrice - totalDiscountPrice;
+                                            KDV = discountKDV + (discountKDV * (18M / 100M));
+                                            totalKDV += KDV;
+                                        }
+                                        else
+                                        {
+                                            KDV = item.BasePrice + (item.BasePrice * (18M / 100M));
+                                            totalKDV += KDV;
+                                        }
 
                                         <tr class="item_cart">
                                             <td class="product-name flex align-center">
@@ -116,14 +133,28 @@
                                     </tr>
                                 }
                                 <tr class="order-total">
+                                    <th>Ara Tutar</th>
+                                    <td>@Convert.ToInt32(ViewBag.Total - totalDiscountPrice) TL</td>
+                                </tr>
+                                <tr class="order-total">
+                                    <th>KDV</th>
+                                    <td>%18</td>
+                                </tr>
+                                <tr class="order-total">
                                     <th>Toplam Tutar</th>
-                                    <td style="font-weight:800">@Convert.ToInt32(ViewBag.Total - totalDiscountPrice) TL</td>
+                                    <td style="font-weight:800">@Convert.ToInt32(totalKDV) TL</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="cart-total-bottom">
-                        <a href="/odeme" class="btn-gradient btn_primary_color btn-checkout">Ödemeyi Bitir</a>
+                    <div style="max-width: 280px; margin: 0 auto;" class="cart-total-bottom">
+                        <a style="width:100%;" href="/odeme" class="btn-gradient btn_primary_color btn-checkout">Sipariş Oluştur</a>
+                    </div>
+                    <div class="sign-in-divider">
+                        <span>veya</span>
+                    </div>
+                    <div class="cart-total-bottom pp-checkout">
+                        <a href="/odemebitir"><img src="~/img/checkoutpp.jpg" alt="" class="img-responsive"></a>
                     </div>
                 </div>
             </div>

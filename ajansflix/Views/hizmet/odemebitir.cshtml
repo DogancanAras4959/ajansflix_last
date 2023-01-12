@@ -10,6 +10,9 @@
     List<CartItem> cart = ViewBag.Cart as List<CartItem>;
     List<ProductDto> productList = ViewBag.ProductList as List<ProductDto>;
     int totalDiscountPrice = 0;
+    decimal KDV = 0;
+    decimal totalKDV = 0;
+    decimal discountKDV = 0;
 }
 
 <div class="main-content space1">
@@ -20,50 +23,127 @@
             <li class="active">Ödemeyi Tamamla</li>
         </ul>
 
-        <form name="checkout" action="@Url.Action("fiyatformgonder","hizmet")" method="post" class="co">
-            <div class="cart-box-container-ver2" style="margin-top:50px;">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="co-left bd-7">
-                            <div class="cmt-title text-center abs">
-                                <h1 class="page-title v1">Müşteri Bilgileri</h1>
-                            </div>
-                            <div class="row form-customer">
-                                <div class="form-group col-md-6">
-                                    <label for="inputfname_2" class=" control-label">Adınız <span class="f-red">*</span></label>
-                                    <input required type="text" asp-for="Name" class="form-control form-account" placeholder="Adınız">
+        <div class="cart-box-container-ver2" style="margin-top:20px;">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="tab_container" style="width:100%; margin:0 auto;">
+
+                        <input id="tab4" type="radio" name="tabs" checked>
+
+                        <section id="content4" class="tab-content">
+                            <form action="" method="post">
+
+                                <div class="pymt-radio">
+
+                                    <div class="row-payment-method payment-row-last">
+                                        <div class="select-icon hr">
+                                            <input type="radio" id="radio2" name="radios" value="pp" checked>
+                                            <label for="radio2"></label>
+                                        </div>
+                                        <div class="select-txt hr">
+                                            <p class="pymt-type-name">Banka / Kredi Kartı ile Ödeme</p>
+                                            <p class="pymt-type-desc">Banka hesabınızı kullanarak güvenli para transferi. Çevrimiçi güvenli ödeme. Kredi kartı gerekli. Visa, Maestro, Keşfet, American Express</p>
+                                        </div>
+                                        <div class="select-logo">
+                                            <div class="select-logo-sub logo-spacer">
+                                                <img src="https://www.dropbox.com/s/by52qpmkmcro92l/logo-visa.png?raw=1" alt="Visa" />
+                                            </div>
+                                            <div class="select-logo-sub">
+                                                <img src="https://www.dropbox.com/s/6f5dorw54xomw7p/logo-mastercard.png?raw=1" alt="MasterCard" />
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="inputlname" class=" control-label">Soyadınız <span class="f-red">*</span></label>
-                                    <input required type="text" asp-for="Surname" class="form-control form-account" placeholder="Soyadınız">
+                                <div class="form-cc">
+                                    <div class="row-cc">
+                                        <div class="cc-field">
+                                            <div class="cc-title">
+                                                Kart Sahibi
+                                            </div>
+                                            <input type="text" class="input cc-txt" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row-cc">
+                                        <div class="cc-field">
+                                            <div class="cc-title">
+                                                Kredi Kartı Numarası
+                                            </div>
+                                            <input type="text" class="input cc-txt" placeholder="**** **** **** ****" />
+                                        </div>
+                                    </div>
+                                    <div class="row-cc">
+                                        <div class="cc-field">
+                                            <div class="cc-title">
+                                                Son Kullanma Tarihi
+                                            </div>
+                                            <select class="input cc-ddl">
+                                                <option selected>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <option>10</option>
+                                                <option>11</option>
+                                                <option>12</option>
+                                            </select>
+                                            <select class="input cc-ddl">
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <option>10</option>
+                                                <option>11</option>
+                                                <option>12</option>
+                                                <option>13</option>
+                                                <option>14</option>
+                                                <option>15</option>
+                                                <option selected>16</option>
+                                                <option>17</option>
+                                                <option>18</option>
+                                                <option>19</option>
+                                                <option>20</option>
+                                                <option>21</option>
+                                                <option>22</option>
+                                                <option>23</option>
+                                                <option>24</option>
+                                                <option>25</option>
+                                                <option>26</option>
+                                                <option>27</option>
+                                                <option>28</option>
+                                                <option>29</option>
+                                                <option>30</option>
+                                                <option>31</option>
+                                            </select>
+                                        </div>
+                                        <div class="cc-field">
+                                            <div class="cc-title">
+                                                CVV Kodu<span class="numberCircle">?</span>
+                                            </div>
+                                            <input type="text" class="input cc-txt" />
+                                        </div>
+                                    </div>
+
                                 </div>
 
-                                <div class="form-group col-md-6">
-                                    <label for="inputphone" class=" control-label">Telefon No <span class="f-red">*</span></label>
-                                    <input required type="tel" asp-for="Phone" class="form-control form-account" placeholder="Telefon Numarınızı girin">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="inputemail" class=" control-label">Email Adresi <span class="f-red">*</span></label>
-                                    <input required type="email" asp-for="Email" class="form-control form-account" placeholder="Email Adresinizi girin">
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <label for="inputphone" class=" control-label">Firma <span class="f-red">*</span></label>
-                                    <input required type="text" asp-for="Company" class="form-control form-account" placeholder="Firma adınızı girin">
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <label for="inputmessage" class="control-label">Mesajınızı Bırakın</label>
-                                    <textarea name="message" rows="8" asp-for="Content" class="form-control form-note" placeholder="Sipariş notunuzu bize bırakın"></textarea>
-                                </div>
-                            </div>
-                        </div>
-
+                            </form>
+                        </section>
                     </div>
-                    <!-- End contact-form -->
-                    <div class="col-md-4">
-                        <div class="cart-total bd-7">
-                            <div class="cmt-title text-center abs">
-                                <h1 class="page-title v3">Siparişiniz</h1>
-                            </div>
+                </div>
+                <!-- End contact-form -->
+                <div class="col-md-4">
+                    <div class="cart-total" style="border: 1px solid #e3e3e3b0; border-radius: 7px;">
+                        <form name="checkout" action="@Url.Action("fiyatformgonder","hizmet")" method="post" class="co">
                             <div class="table-responsive">
                                 <div class="co-pd">
                                     <p class="co-title">
@@ -73,6 +153,19 @@
                                         @foreach (var item in cart)
                                         {
                                             totalDiscountPrice += Convert.ToInt32(item.BasePrice - (item.BasePrice - (item.BasePrice * (item.Discount / 100))));
+
+                                            if (item.Discount > 0)
+                                            {
+                                                discountKDV = item.BasePrice - totalDiscountPrice;
+                                                KDV = discountKDV + (discountKDV * (18M / 100M));
+                                                totalKDV += KDV;
+                                            }
+                                            else
+                                            {
+                                                KDV = item.BasePrice + (item.BasePrice * (18M / 100M));
+                                                totalKDV += KDV;
+                                            }
+
                                             <li class="clearfix">
                                                 <div class="co-name">
                                                     <strong>@item.Item</strong>
@@ -122,8 +215,18 @@
                                             </tr>
                                         }
                                         <tr class="order-total v2">
-                                            <th>Toplam Tutar</th>
+                                            <th>Ara Tutar</th>
                                             <td style="float: right; padding-right: 30%;">@Convert.ToInt32(ViewBag.Total - totalDiscountPrice) TL</td>
+                                        </tr>
+                                        <tr class="order-total v2">
+                                            <th>KDV</th>
+                                            <td style="float: right; padding-right: 30%;">%18</td>
+                                        </tr>
+                                        <tr class="order-total v2">
+                                            <th>Toplam Tutar</th>
+                                            <td style="float: right; padding-right: 30%; font-weight: bold; font-family: 'FontAwesome', sans-serif;">
+                                                @Convert.ToInt32(totalKDV) TL
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -131,11 +234,12 @@
                             <div class="cart-total-bottom v2">
                                 <button type="submit" class="btn-gradient btn_primary_color btn-checkout btn-co-order">Siparişi Tamamla</button>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
+<link href="~/css/credit.css" rel="stylesheet" />

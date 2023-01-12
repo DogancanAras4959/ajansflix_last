@@ -38,7 +38,7 @@
                                         <a class="btn btn-outline-secondary btn-sm edit" title="Düzenle" href="/admin/urun/bilesenduzenle?Id=@item.Id">
                                             <i class="fas fa-pencil-alt" title="Edit"></i>
                                         </a>
-                                        <a class="btn btn-outline-secondary btn-sm deleted" title="Sil" href="/admin/urun/bilesensil?Id=@item.Id">
+                                        <a class="btn btn-outline-secondary btn-sm deleted" title="Sil" onclick="return confirm('Bu bileşeni silmek istiyor musunuz?')" href="/admin/urun/bilesensil?Id=@item.Id">
                                             <i class="fas fa-trash" title="Delete"></i>
                                         </a>
                                         <a class="btn btn-outline-secondary btn-sm above" title="Aktif/Pasif" href="/admin/urun/bilesendurumduzenle?Id=@item.Id">

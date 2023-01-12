@@ -66,7 +66,7 @@
                                     }
                                     else if (item.Discount == 0)
                                     {
-                                        <span>@item.Price TL</span>
+                                        <span>@item.Price TL</span> <span> +KDV</span>
                                     }
                                     else
                                     {
@@ -124,24 +124,7 @@
                                                         <p>@Html.Raw(Model.ProductAlternateDesc)</p>
                                                     </div>
                                                     <div class="col-sm-4 td-info-price-t-a-c">
-                                                        @if (Model.Discount > 0)
-                                                        {
-                                                            <input type="hidden" value="@Model.Discount" id="discount_@Model.Id" />
-                                                            <div class="product-info">
-                                                                <div class="product-price" style="margin:0; float:right;">
-                                                                    <span class="old" style="font-size:20px;">@Convert.ToInt32(Model.Price) TL</span>
-                                                                    <span class="red" style="color: #ff2929; font-weight: 600; font-size:25px;">@Convert.ToInt32(indirimli_fiyat) TL</span>
-                                                                </div>
-                                                            </div>
-                                                        }
-                                                        else if (Model.Discount == 0)
-                                                        {
-                                                            <span class="td-info-text-price price-info" style="font-weight:600">@Convert.ToInt32(Model.Price) TL</span>
-                                                        }
-                                                        else
-                                                        {
-
-                                                        }
+                                                        <span class="td-info-text-price price-info" style="font-weight:600">@Convert.ToInt32(Model.Price) TL</span>
                                                     </div>
                                                 </div>
                                             </td>
@@ -236,7 +219,6 @@
                         }
                         <div class="hot-line hot-line-mobile" style="margin-top: 0px; border-radius: 0; padding: 1px; background: #b7b7b785;">
                             <p class="hidden-xs" style="text-align: center;">Toplam Fiyat</p>
-                            <span style="text-align: center; background: #fff; display: block;" class="txt-kdv">+KDV Dahil</span>
                             <div class="flex align-center tele" style="padding:0px;">
                                 <div class="single-feature-box" style="padding:0px; width:100%;">
                                     <div class="single-feature-info" style="width: 100%;">
@@ -245,8 +227,8 @@
                                             <span id="priceProduct">
                                                 @price
                                             </span> TL
-
                                         </h2>
+                                        <span style="text-align: center; background: #fff; display: block;" class="txt-kdv">+KDV Dahil</span>
                                         @if (Model.Discount > 0)
                                         {
                                             <span style="font-size:15px;">
