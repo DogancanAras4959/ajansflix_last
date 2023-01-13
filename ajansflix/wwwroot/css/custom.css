@@ -1,12 +1,89 @@
 ﻿@media only screen and (max-width: 768px) {
+    .height-title-product {
+        height: 50px;
+    }
+
+    .container-section-image-float {
+        position: relative;
+        width: 620px;
+        height: 447px;
+        background: transparent url(/img/numune-kutusu-image.png) 0 0 no-repeat padding-box;
+        left: -50% !important;
+        top: -84px !important;
+    }
+
+    .display-container-flex {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+
+    .container-back-height{
+        height:800px !important;
+    }
+
+    .container-info {
+        width: 100% !important;
+        transform: translate(-50%, 50%) !important;
+    }
+
+    .container-right{
+        width:100% !important;
+    }
+
+    .btn-group-container{
+        width:100% !important;
+    }
+
+    .product-padding-top {
+        padding-top: 15px !important;
+    }
+
+    .title-top-banner {
+        font-family: 'Urbanist Bold' !important;
+        color: #fff !important;
+        text-align: center !important;
+        margin: 0 auto !important;
+        font-size: 15px !important;
+    }
+
+    .title-home {
+        border-radius: 0 !important;
+        height: 25px !important;
+        width: 25px !important;
+        background: #8711a5;
+        margin-bottom: 25px;
+        padding: 0 !important;
+    }
+
+    .btn-navigate-product {
+        border: 1px solid #000;
+        background-color: #fff;
+        padding: 5px 10px !important;
+        font-size: 12px !important;
+    }
+
+    .title-rotated {
+        position: relative;
+        top: 25px !important;
+        z-index: 800;
+        left: 33px !important;
+        font-size: 17px !important;
+        font-weight: 800;
+        font-family: 'MadeTommy Bold';
+    }
+
     .product-middle {
         font-size: 15px !important;
         text-transform: capitalize;
         margin-bottom: 12px;
     }
-    .cursor-table-variant{
-        display:none !important; 
+
+    .cursor-table-variant {
+        display: none !important;
     }
+
     .table-price-mobile-tr {
         display: flex;
         table-layout: fixed;
@@ -15,9 +92,11 @@
         flex-wrap: nowrap;
         justify-content: center;
     }
-    .btn-calc{
-        width:97% !important;
+
+    .btn-calc {
+        width: 97% !important;
     }
+
     .table-td-flex-direction {
         display: flex !important;
         justify-content: space-evenly !important;
@@ -28,34 +107,44 @@
         align-content: space-around;
         align-items: center;
     }
+
     .td-info-price-t-a-c {
         text-align: center !important;
         padding-right: 0 !important;
     }
+
     .m-right-pl {
         margin-right: 0px !important;
     }
+
     .price-font {
         font-size: 11px;
     }
+
     .p-left-mobile {
         padding-left: 10px;
     }
-    .td-info-text-price{
-        float:none !important;
-        position:inherit !important;
-        bottom:inherit !important;;
+
+    .td-info-text-price {
+        float: none !important;
+        position: inherit !important;
+        bottom: inherit !important;
+        ;
     }
+
     .td-info-mobile {
         width: 99% !important;
     }
+
     .table-price-padding {
         padding-left: 15px !important;
         padding-right: 15px !important;
     }
-    .td-width-mobile{
-        width:100% !important;
+
+    .td-width-mobile {
+        width: 100% !important;
     }
+
     .td-title-mobile {
         text-align: center;
         vertical-align: middle;
@@ -65,50 +154,70 @@
         height: 50px;
         align-items: center;
     }
+
     .modal-content-mobile {
         width: 91% !important;
     }
+
     .mobile-slider-image {
         height: 44vh !important;
     }
+
     .header-sub-element.row img {
         width: 100%;
     }
+
     .custom-titlebar-mobile {
         width: 100% !important;
     }
+
     .header-center-mobile {
         padding: 0px 0px 15px 0px !important;
     }
+
     .banner-mobile {
         position: relative;
         top: -2px;
     }
-    .logo-mobile{
-        width:180px !important;
+
+    .logo-mobile {
+        width: 145px !important;
     }
+
+    .cart-position {
+        margin-top: 20px !important;
+    }
+
     .slide-fullw {
         margin-bottom: 15px;
+        padding: 15px 0;
     }
+
     .card-mobile-height {
         height: 39vh;
     }
+
     .mobile-slider-h {
-        height: 14vh;
+        height: 18vh;
         object-fit: cover;
     }
-    .mobile-category-container{
-        padding-top:20px !important;
+
+    .mobile-category-container {
+        padding-top: 20px !important;
     }
-    .detail-card-images{
-        height:390px !important;
+
+    .detail-card-images {
+        height: 390px !important;
     }
-    .detail-card-image-link{
-        margin-top:20px !important;
+
+    .detail-card-image-link {
+        margin-top: 20px !important;
     }
-    .img-detail-card{
-        height:39vh !important;
+
+    .img-detail-card {
+        height: 39vh !important;
     }
+
     .desktopView {
         display: none !important;
     }
@@ -117,13 +226,14 @@
         display: block !important;
     }
 
-/*    .mobileViewContainer {
+    /*    .mobileViewContainer {
         padding-top: 0px !important;
     }*/
     .mobile-Container {
         padding-top: 20px !important;
         padding-bottom: 0px !important;
     }
+
     .mobile-eproduct {
         padding-top: 0px !important;
     }
@@ -141,6 +251,7 @@
         box-shadow: 0px 10px 20px 0px #000;
         display: block;
     }
+
     .custom-prod-detail {
         max-width: 100% !important;
         border-radius: 0;
@@ -148,12 +259,13 @@
         display: grid;
         justify-content: center;
     }
+
     .txt-kdv {
         position: relative;
         left: 0;
         width: 24%;
         top: 15px;
-        text-align:left !important;
+        text-align: left !important;
     }
 
     .txt-price {
@@ -161,7 +273,7 @@
         left: 0px;
         width: 40%;
         top: 5px;
-        text-align:left !important;
+        text-align: left !important;
     }
 
     .btn-cart-go {
@@ -205,9 +317,26 @@
         border: 1px solid #ebebeb;
         padding: 17px 17px 21px 22px;
     }
+
     .showPayButton {
         display: none !important;
     }
+}
+
+.title-top-banner {
+    font-family: 'Urbanist Bold';
+    color: #fff;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 25px;
+}
+
+.title-banner {
+    background: #8711a5;
+    height: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .btn_clear {
@@ -218,16 +347,16 @@
     padding: 10px;
 }
 
-.product-col-custom{
-    margin:10px 0px 0px 6px !important;
+.product-col-custom {
+    margin: 10px 0px 0px 6px !important;
 }
 
 .desktopView {
     display: block;
 }
 
-.padding-t-b{
-    padding:30px 0;
+.padding-t-b {
+    padding: 30px 0;
 }
 
 .mobileView {
@@ -252,26 +381,26 @@
     background: #9d9d9d;
 }
 
-#payButton{
-    display:none;
+#payButton {
+    display: none;
 }
 
-.showPayButton{
-    display:block;
+.showPayButton {
+    display: block;
 }
 
-.btn-active{
-    background-color:red;
+.btn-active {
+    background-color: red;
 }
 
-.distd{
-    background-color:#ddd;
-    cursor:not-allowed;
+.distd {
+    background-color: #ddd;
+    cursor: not-allowed;
 }
 
-.mobile-Container{
-    padding-top:50px;
-    padding-bottom:40px;
+.mobile-Container {
+    padding-top: 50px;
+    padding-bottom: 40px;
 }
 
 .mobile-eproduct {

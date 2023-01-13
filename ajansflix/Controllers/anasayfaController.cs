@@ -42,10 +42,10 @@ namespace ajansflix.Controllers
             var allProducts = _productService.GetAll();
             ViewBag.ProductForMenu = allProducts;
 
-            //ViewBag.Product1 = _productService.getProduct(4);
-            //ViewBag.Product2 = _productService.getProduct(6);
-            //ViewBag.Product3 = _productService.getProduct(59);
-            //ViewBag.Product4 = _productService.getProduct(112);
+            ViewBag.Product4 = _productService.getProduct(4);
+            ViewBag.Product5 = _productService.getProduct(5);
+            ViewBag.Product7 = _productService.getProduct(7);
+            ViewBag.Product10 = _productService.getProduct(10);
 
             return View();
         }
