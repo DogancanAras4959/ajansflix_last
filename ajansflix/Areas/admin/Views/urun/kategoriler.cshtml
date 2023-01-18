@@ -20,6 +20,7 @@
                                 <th>Görünüm</th>
                                 <th>Kod</th>
                                 <th>Oluşturulma</th>
+                                <th>Kampanya?</th>
                                 <th>Durum</th>
                                 <th>İşlem</th>
                             </tr>
@@ -27,33 +28,46 @@
                         <tbody>
                             @foreach (var item in categories)
                             {
-                            <tr>
-                                <th scope="row"><strong>@item.Id</strong></th>
-                                <td>@item.CategoryName</td>
-                                <td>@Html.Raw(item.CategoryDescription)</td>
-                                <td>@item.CategoryStatus</td>
-                                <td>@item.StatusCode</td>
-                                <td>@item.CreatedTime.ToString("MM/dd/yyyy HH:mm")</td>
-                                @if (item.IsActive == true)
-                                {
-                                    <td><span class="text-success">Aktif</span></td>
-                                }
-                                else
-                                {
-                                    <td><span class="text-danger">Pasif</span></td>
-                                } 
-                                <td>
-                                    <a class="btn btn-outline-secondary btn-sm edit" title="Düzenle" href="/admin/urun/kategoriduzenle?Id=@item.Id">
-                                        <i class="fas fa-pencil-alt" title="Edit"></i>
-                                    </a>
+                                <tr>
+                                    <th scope="row"><strong>@item.Id</strong></th>
+                                    <td>@item.CategoryName</td>
+                                    <td>@Html.Raw(item.CategoryDescription)</td>
+                                    <td>@item.CategoryStatus</td>
+                                    <td>@item.StatusCode</td>
+                                    <td>@item.CreatedTime.ToString("MM/dd/yyyy HH:mm")</td>
+                                    <td>
+                                        @if (item.IsCampaign == true)
+                                        {
+                                            <span class="text-success">Aktif</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">Pasif</span>
+                                        }
+                                    </td>
+                                    @if (item.IsActive == true)
+                                    {
+                                        <td><span class="text-success">Aktif</span></td>
+                                    }
+                                    else
+                                    {
+                                        <td><span class="text-danger">Pasif</span></td>
+                                    }
+                                    <td>
+                                        <a class="btn btn-outline-secondary btn-sm edit" title="Düzenle" href="/admin/urun/kategoriduzenle?Id=@item.Id">
+                                            <i class="fas fa-pencil-alt" title="Edit"></i>
+                                        </a>
                                         <a class="btn btn-outline-secondary btn-sm deleted" onclick="return confirm('Bu kategoriyi silmek istiyor musunuz?')" title="Sil" href="/admin/urun/kategorisil?Id=@item.Id">
-                                        <i class="fas fa-trash" title="Delete"></i>
-                                    </a>
-                                    <a class="btn btn-outline-secondary btn-sm above" title="Aktif/Pasif" href="/admin/urun/kategoridurumduzenle?Id=@item.Id">
-                                        <i class="fas fa-wifi" title="Aktif/Pasif"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                                            <i class="fas fa-trash" title="Delete"></i>
+                                        </a>
+                                        <a class="btn btn-outline-secondary btn-sm above" title="Aktif/Pasif" href="/admin/urun/kategoridurumduzenle?Id=@item.Id">
+                                            <i class="fas fa-wifi" title="Aktif/Pasif"></i>
+                                        </a>
+                                        <a class="btn btn-outline-secondary btn-sm above" title="KampanyaAktif/Pasif" href="/admin/urun/kategoriKampanyasiAktiflestir?Id=@item.Id">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>

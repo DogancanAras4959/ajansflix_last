@@ -223,7 +223,7 @@ option {
 
 .slide-cover-img {
     width: 93%;
-    height: 296px;
+    height: 100%;
     margin: 0 auto;
     border: 1px solid #e7e7e7;
     object-fit: cover;

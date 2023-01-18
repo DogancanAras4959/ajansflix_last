@@ -4,10 +4,6 @@
 @{
     List<ProductDto> products = ViewBag.Products as List<ProductDto>;
     List<CategoryDto> categoryList = ViewBag.CategoryList as List<CategoryDto>;
-    ProductDto product4 = ViewBag.product4 as ProductDto;
-    ProductDto product5 = ViewBag.Product5 as ProductDto;
-    ProductDto product7 = ViewBag.product7 as ProductDto;
-    ProductDto product10 = ViewBag.Product10 as ProductDto;
 }
 
 <style>
@@ -21,8 +17,24 @@
         font-family: 'MadeTommy Bold';
     }
 
+    .ribbon-price.v3 {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        top: -14px;
+        left: 9px;
+    }
+
+    .ribbon-price span {
+        font-size: 15px;
+        color: #fff;
+        bottom: 0px;
+        font-weight: 500;
+        position: relative;
+    }
+
     .title-home {
-        border-radius: 0 !important;
+        border-radius: 5px !important;
         height: 30px;
         width: 30px;
         background: #8711a5;
@@ -147,10 +159,34 @@
         justify-content: space-evenly;
         align-items: center;
     }
-</style>
 
-<link rel="stylesheet" type="text/css" href="~/css/slick.css">
-<link rel="stylesheet" type="text/css" href="~/css/slick-theme.css">
+    .product-info .product-price.v3 {
+        width: 210px;
+        margin: 0 auto;
+        border-radius: 999px;
+        background: #f5f5f5;
+        text-align: center;
+        height: 50px;
+        line-height: 54px;
+    }
+
+    .product-info .product-price.thin-price {
+        font-weight: 300;
+        font-size: 18px;
+    }
+
+    .product-item-countd .product-head {
+        margin-top: 20px;
+        position: relative;
+    }
+
+    .product-countd.pd-bd {
+        padding: 0 25px 25px;
+        margin-top: 0px;
+        max-height: 420px;
+        border: 1px solid #afafaf;
+    }
+</style>
 
 @foreach (var item in categoryList.Where(x => x.IsActive == true))
 {
@@ -170,48 +206,61 @@
                     @foreach (var item2 in products.Where(x => x.CategoryId == item.Id && x.IsActive == true).OrderByDescending(x => x.CreatedTime).Take(4))
                     {
                         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 product-item">
-                            <div class="pd-bd product-inner" style="background:#fff;">
-                                <div class="product-img">
-                                    @if (item2.Discount > 0)
-                                    {
-                                        <div class="ribbon-price red"><span>-@item2.Discount% </span></div>
-                                    }
-                                    <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">
-                                        <img src="@item2.ImagePath" alt="@item2.ProductMetaName" loading="lazy" title="@item2.ProductMetaName" class="img-reponsive" id="image_@item2.Id">
-                                    </a>
-                                </div>
-                                <div class="product-info" style="margin-top: 20px;">
-                                    <div class="element-list element-list-middle">
-                                        <h3 class="product-title"><a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" id="itemName_@item2.Id">@item2.ProductName</a></h3>
-                                        <div class="product-bottom">
+                            @if (item2.Discount > 0)
+                            {
+                                <div class="product-countd pd-bd product-inner" style="background:#fff;">
+                                    <div class="product-item-countd">
+                                        <div class="product-head">
+                                            <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">
+                                                <img src="@item2.ImagePath" style="border-radius: 5px;margin-bottom: 15px;" alt="@item2.ProductMetaName" loading="lazy" title="@item2.ProductMetaName" class="img-reponsive" id="image_@item2.Id">
+                                            </a>
+                                            <div class="ribbon-price v3 red"><span>-@item2.Discount% </span></div>
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="product-price thin-price v3">
 
-                                            <div class="product-price" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                @if (item2.Discount > 0)
-                                                {
+                                                @{
                                                     decimal ilkfiyat = item2.Price;
                                                     decimal indirimOrani = item2.Discount;
                                                     decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
+                                                }
 
-                                                    <span style="font-weight: 800; color:#000;" class="red" id="basePrice_@item2.Id">@Convert.ToInt32(indirimli_fiyat) TL <span style="font-weight:800; font-size:17px;">+KDV</span> </span>
-                                                    <span class="old" style="font-weight:500; font-size:17px; margin-left:0; text-decoration:line-through">@Convert.ToInt32(item2.Price) TL</span>
-                                                }
-                                                else if (item2.Discount == 0)
-                                                {
-                                                    <span style="font-weight:800;" id="basePrice_@item2.Id">@Convert.ToInt32(item2.Price) TL</span>
-                                                    <span style="font-size: 14px; font-weight: 300;"> +KDV</span>
-                                                }
-                                                else
-                                                {
+                                                <span style="font-weight: 800; color:#000;" class="red" id="basePrice_@item2.Id">@Convert.ToInt32(indirimli_fiyat) TL <span style="font-weight:800; font-size:15px;">+KDV</span> </span>
+                                                <span class="old" style="font-weight:500; font-size:17px; margin-left:0; text-decoration:line-through">@Convert.ToInt32(item2.Price) TL</span>
 
-                                                }
                                             </div>
-                                            <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" class="btn-icon">
-                                                <span class="icon-bg icon-view"></span>
-                                            </a>
+                                            <h3 class="product-title text-center v2" style="margin-top: 14px;"><a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">@item2.ProductName</a></h3>
+
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                            <div class="pd-bd product-inner" style="background:#fff; height: 420px; max-height: 420px; padding:20px;">
+                                    <div class="product-img">
+                                        <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">
+                                            <img src="@item2.ImagePath" alt="@item2.ProductMetaName" loading="lazy" title="@item2.ProductMetaName" class="img-reponsive" style="border-radius: 5px;" id="image_@item2.Id">
+                                        </a>
+                                    </div>
+                                    <div class="product-info" style="margin-top: 20px;">
+                                        <div class="element-list element-list-middle">
+                                            <h3 class="product-title"><a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" id="itemName_@item2.Id">@item2.ProductName</a></h3>
+                                            <div class="product-bottom">
+
+                                                <div class="product-price" style="display: flex; flex-direction: row; align-items: center; justify-content: space-evenly; width: 125px; flex-wrap: nowrap;">
+                                                    <span style="font-weight:800;" id="basePrice_@item2.Id">@Convert.ToInt32(item2.Price) TL</span>
+                                                    <span style="font-size: 14px; font-weight: 300;"> +KDV</span>
+                                                </div>
+                                                <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" class="btn-icon">
+                                                    <span class="icon-bg icon-view"></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
                         </div>
                     }
 
@@ -219,375 +268,4 @@
             </div>
         </div>
     </div>
-
 }
-
-<div class="feature" style="background: #fff; width: 100%; margin: 0px auto; padding: 30px;">
-    <div class="container container-240">
-        <div class="ecome-heading style2 spc4" style="margin-bottom:30px;">
-            <div class="title-icon t-inline t-line">
-                <h1>Sezonluk Kampanya</h1>
-            </div>
-        </div>
-        <div class="bg-img-campaign">
-            <a href="#" class="pn01">
-                <div class="pd-bd product-inner product-flex">
-                    <div class="product-img">
-                        @if (product4.Discount > 0)
-                        {
-                            <div class="ribbon-price red"><span>-@product4.Discount% </span></div>
-                        }
-                        <img src="@product4.ImagePath" style="width: 110px; padding: 10px 15px 10px 8px; " alt="@product4.ProductMetaName" loading="lazy" title="@product4.ProductMetaName" class="img-reponsive" id="image_@product4.Id">
-                    </div>
-                    <div class="product-info">
-                        <div class="element-list element-list-middle">
-                            <h5 style="font-size:16px; margin-bottom:5px;" class="product-title">@product4.ProductName</h5>
-                            <div class="product-bottom">
-
-                                <div class="product-price" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                    @if (product4.Discount > 0)
-                                    {
-                                        decimal ilkfiyat = product4.Price;
-                                        decimal indirimOrani = product4.Discount;
-                                        decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
-
-                                        <span style="font-weight: 800; color:#000;" class="red" id="basePrice_@product4.Id">@Convert.ToInt32(indirimli_fiyat) TL <span style="font-weight:800; font-size:17px;">+KDV</span> </span>
-                                        <span class="old" style="font-weight:500; font-size:17px; margin-left:0; text-decoration:line-through">@Convert.ToInt32(product4.Price) TL</span>}
-                                    else if (product4.Discount == 0)
-                                    {
-                                        <span style="font-weight:800;" id="basePrice_@product4.Id">@Convert.ToInt32(product4.Price) TL <span style="font-size: 14px; font-weight: 300;"> +KDV</span> </span>
-                                    }
-                                    else
-                                    {
-
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="pn02">
-                <div class="pd-bd product-inner product-flex">
-                    <div class="product-img">
-                        @if (product5.Discount > 0)
-                        {
-                            <div class="ribbon-price red"><span>-@product5.Discount% </span></div>
-                        }
-                        <img src="@product5.ImagePath" style="width: 110px; padding: 10px 15px 10px 8px; " alt="@product5.ProductMetaName" loading="lazy" title="@product5.ProductMetaName" class="img-reponsive" id="image_@product5.Id">
-                    </div>
-                    <div class="product-info">
-                        <div class="element-list element-list-middle">
-                            <h5 style="font-size:16px; margin-bottom:5px;" class="product-title">@product5.ProductName</h5>
-                            <div class="product-bottom">
-
-                                <div class="product-price" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                    @if (product5.Discount > 0)
-                                    {
-                                        decimal ilkfiyat = product5.Price;
-                                        decimal indirimOrani = product5.Discount;
-                                        decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
-
-                                        <span style="font-weight: 800; color:#000;" class="red" id="basePrice_@product5.Id">@Convert.ToInt32(indirimli_fiyat) TL <span style="font-weight:800; font-size:17px;">+KDV</span> </span>
-                                        <span class="old" style="font-weight:500; font-size:17px; margin-left:0; text-decoration:line-through">@Convert.ToInt32(product5.Price) TL</span>}
-                                    else if (product5.Discount == 0)
-                                    {
-                                        <span style="font-weight:800;" id="basePrice_@product5.Id">@Convert.ToInt32(product5.Price) TL <span style="font-size: 14px; font-weight: 300;"> +KDV</span> </span>
-                                    }
-                                    else
-                                    {
-
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="pn03">
-                <div class="pd-bd product-inner product-flex">
-                    <div class="product-img">
-                        @if (product7.Discount > 0)
-                        {
-                            <div class="ribbon-price red"><span>-@product7.Discount% </span></div>
-                        }
-                        <img src="@product7.ImagePath" style="width: 110px; padding: 10px 15px 10px 8px; " alt="@product7.ProductMetaName" loading="lazy" title="@product7.ProductMetaName" class="img-reponsive" id="image_@product7.Id">
-                    </div>
-                    <div class="product-info">
-                        <div class="element-list element-list-middle">
-                            <h5 style="font-size:16px; margin-bottom:5px;" class="product-title">@product7.ProductName</h5>
-                            <div class="product-bottom">
-
-                                <div class="product-price" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                    @if (product7.Discount > 0)
-                                    {
-                                        decimal ilkfiyat = product7.Price;
-                                        decimal indirimOrani = product7.Discount;
-                                        decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
-
-                                        <span style="font-weight: 800; color:#000;" class="red" id="basePrice_@product7.Id">@Convert.ToInt32(indirimli_fiyat) TL <span style="font-weight:800; font-size:17px;">+KDV</span> </span>
-                                        <span class="old" style="font-weight:500; font-size:17px; margin-left:0; text-decoration:line-through">@Convert.ToInt32(product7.Price) TL</span>}
-                                    else if (product7.Discount == 0)
-                                    {
-                                        <span style="font-weight:800;" id="basePrice_@product7.Id">@Convert.ToInt32(product7.Price) TL <span style="font-size: 14px; font-weight: 300;"> +KDV</span> </span>
-                                    }
-                                    else
-                                    {
-
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <a href="#" class="pn04">
-                <div class="pd-bd product-inner product-flex">
-                    <div class="product-img">
-                        @if (product10.Discount > 0)
-                        {
-                            <div class="ribbon-price red"><span>-@product10.Discount% </span></div>
-                        }
-                        <img src="@product10.ImagePath" style="width: 110px; padding: 10px 15px 10px 8px; " alt="@product10.ProductMetaName" loading="lazy" title="@product10.ProductMetaName" class="img-reponsive" id="image_@product10.Id">
-                    </div>
-                    <div class="product-info">
-                        <div class="element-list element-list-middle">
-                            <h5 style="font-size:16px; margin-bottom:5px;" class="product-title">@product10.ProductName</h5>
-                            <div class="product-bottom">
-
-                                <div class="product-price" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                    @if (product10.Discount > 0)
-                                    {
-                                        decimal ilkfiyat = product10.Price;
-                                        decimal indirimOrani = product10.Discount;
-                                        decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
-
-                                        <span style="font-weight: 800; color:#000;" class="red" id="basePrice_@product10.Id">@Convert.ToInt32(indirimli_fiyat) TL <span style="font-weight:800; font-size:17px;">+KDV</span> </span>
-                                        <span class="old" style="font-weight:500; font-size:17px; margin-left:0; text-decoration:line-through">@Convert.ToInt32(product10.Price) TL</span>}
-                                    else if (product10.Discount == 0)
-                                    {
-                                        <span style="font-weight:800;" id="basePrice_@product10.Id">@Convert.ToInt32(product10.Price) TL <span style="font-size: 14px; font-weight: 300;"> +KDV</span> </span>
-                                    }
-                                    else
-                                    {
-
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-</div>
-
-<div class="feature container-back-height" style="background: #ffed00; height: 368px; width: 100%; margin: 0px auto; padding: 30px; ">
-    <div class="container container-240 display-container-flex" style="max-width:1136px; position:relative; height:100%; margin:0 auto;">
-        <div class="container-left container-section-image-float"></div>
-        <div class="container-right">
-            <div class="container-info">
-                <h2 style="font-family:Urbanist Bold;">Web Tasarım ve Kodlama</h2>
-                <div class="ctn-spacer"></div>
-                <p style="font-size: 20px; margin-bottom:5px; line-height: 25px;">Markanız ve işiniz için istediğiniz web sayfalarını sizler için hazırlıyoruz! Şimdi hizmetimizi inceleyin</p>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                    molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-                    numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-                    optio, eaque rerum! Provident similique accusantium nemo autem.
-                </p>
-                <div class="btn-group-container">
-                    <a href="#" class="btn btn-add-cart" style="background:transparent; border:2px solid #000; width:100%;">Hizmeti İncele</a>
-                    <a href="#" class="btn btn-add-cart" style="width: 100%; border: 2px solid #000; margin: 0 5px;">Ürüne Git</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container container-240">
-    <div class="brand">
-        <div class="ecome-heading style2 spc4" style="margin-bottom:30px;">
-            <div class="title-icon t-inline t-line">
-                <h1 style="background:#e0dfda;">Referanslar</h1>
-            </div>
-        </div>
-        <div class="brand-slick">
-            <div>
-                <div class="brand-item">
-                    <a href="#" class="hover-images"><img src="~/img/brand/brand.png" alt="brand_1" title="brand_1" loading="lazy"></a>
-                </div>
-            </div>
-            <div>
-                <div class="brand-item">
-                    <a href="#" class="hover-images"><img src="~/img/brand/brand_2.png" alt="brand_2" title="brand_2" loading="lazy"></a>
-                </div>
-            </div>
-            <div>
-                <div class="brand-item">
-                    <a href="#" class="hover-images"><img src="~/img/brand/brand_3.png" alt="brand_3" title="brand_3" loading="lazy"></a>
-                </div>
-            </div>
-            <div>
-                <div class="brand-item">
-                    <a href="#" class="hover-images"><img src="~/img/brand/brand_4.png" alt="brand_4" title="brand_4" loading="lazy"></a>
-                </div>
-            </div>
-            <div>
-                <div class="brand-item">
-                    <a href="#" class="hover-images"><img src="~/img/brand/brand_5.png" alt="brand_5" title="brand_5" loading="lazy"></a>
-                </div>
-            </div>
-            <div>
-                <div class="brand-item">
-                    <a href="#" class="hover-images"><img src="~/img/brand/brand_7.png" alt="brand_6" title="brand_6" loading="lazy"></a>
-                </div>
-            </div>
-            <div>
-                <div class="brand-item">
-                    <a href="#" class="hover-images"><img src="~/img/brand/brand_8.png" alt="brand_7" title="brand_7" loading="lazy"></a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<div class="feature" style="background: #ffed00;">
-    <div class="container container-240">
-        <div class="feature-inside">
-            <div class="feature-block text-center">
-                <div class="feature-block-img"><img src="~/img/feature/insertcart.png" style="height:100px;" alt="b_truck" loading="lazy" class="img-reponsive"></div>
-                <div class="feature-info" style="color:#000;">
-                    <h3>Tekliflerinizi Oluşturun</h3>
-                    <p>Markanız için tek tıkla tekliflerinizi oluşturun. Size markanız için en iyi hizmeti verelim!</p>
-                </div>
-            </div>
-            <div class="feature-block text-center">
-                <div class="feature-block-img"><img src="~/img/feature/brandstart.png" style="height:100px;" alt="b_credit" title="b_credit" loading="lazy" class="img-reponsive"></div>
-                <div class="feature-info" style="color:#000;">
-                    <h3>Reklam Lütfende Markanız Zirvede</h3>
-                    <p>Birçok alanda hizmet vererek dijital dünyada markanızı zirveye çıkarıyoruz</p>
-                </div>
-            </div>
-            <div class="feature-block text-center">
-                <div class="feature-block-img"><img src="~/img/feature/securepay.png" style="height:100px;" alt="b_truck" title="b_truck" loading="lazy" class="img-reponsive"></div>
-                <div class="feature-info" style="color:#000;">
-                    <h3>Güvenli Alışveriş</h3>
-                    <p>Güvenli alışverişin adresi Reklam Lütfen hizmetinizde!</p>
-                </div>
-            </div>
-            <div class="feature-block text-center">
-                <div class="feature-block-img"><img src="~/img/feature/b-tele.png" alt="b-tele" title="b-tele" loading="lazy" class="img-reponsive"></div>
-                <div class="feature-info" style="color:#000;">
-                    <h3>7/24 Destek</h3>
-                    <p>Tekliflerinizi oluştururken yanınızdayız. Destek ekibimiz 7/24 hizmetinizde!</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="slide-fullw" style="width: 85%; margin: 20px auto; display: block;">
-    <div class="js-slider-home2">
-        <div class="e-slide-img">
-            <div class="content-slider">
-                <img src="~/img/megamenu-img.png"
-                     style="width: 35%; position: relative; padding: 25px 0 0 0px; border:0 !important;" loading="lazy" alt="banner-reklamlutfen" title="banner-reklamlutfen" class="mobile-slider-h">
-                <div class="content-slider-prg">
-                    <h3 style="margin-bottom: 10px; font-size: 25px; font-weight: 600;">Lorem ipsum dolor sit amet consectetur adipisicing elit</h3>
-                    <p style="line-height:19px;">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                        molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-                        numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-                        optio, eaque rerum! Provident similique accusantium nemo autem.
-                    </p>
-                    <a href="#" class="btn btn-navigate" style="border: 1px solid #000; margin-top: 15px;">Yazıyı Oku</a>
-
-                </div>
-            </div>
-        </div>
-        <div class="e-slide-img">
-            <div class="content-slider">
-                <img src="~/img/megamenu-img.png"
-                     style="width: 35%; position: relative; padding: 25px 0 0 0px; border:0 !important;" loading="lazy" alt="banner-reklamlutfen" title="banner-reklamlutfen" class="mobile-slider-h">
-                <div class="content-slider-prg">
-                    <h3 style="margin-bottom: 10px; font-size: 25px; font-weight: 600;">Lorem ipsum dolor sit amet consectetur adipisicing elit</h3>
-                    <p style="line-height:19px;">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                        molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-                        numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-                        optio, eaque rerum! Provident similique accusantium nemo autem.
-                    </p>
-                    <a href="#" class="btn btn-navigate" style="border: 1px solid #000; margin-top: 15px;">Yazıyı Oku</a>
-
-                </div>
-            </div>
-        </div>
-        <div class="e-slide-img">
-            <div class="content-slider">
-                <img src="~/img/megamenu-img.png"
-                     style="width: 35%; position: relative; padding: 25px 0 0 0px; border:0 !important;" loading="lazy" alt="banner-reklamlutfen" title="banner-reklamlutfen" class="mobile-slider-h">
-                <div class="content-slider-prg">
-                    <h3 style="margin-bottom: 10px; font-size: 25px; font-weight: 600;">Lorem ipsum dolor sit amet consectetur adipisicing elit</h3>
-                    <p style="line-height:19px;">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                        molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-                        numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-                        optio, eaque rerum! Provident similique accusantium nemo autem.
-                    </p>
-                    <a href="#" class="btn btn-navigate" style="border: 1px solid #000; margin-top: 15px;">Yazıyı Oku</a>
-
-                </div>
-            </div>
-        </div>
-        <div class="e-slide-img">
-            <div class="content-slider">
-                <img src="~/img/megamenu-img.png"
-                     style="width: 35%; position: relative; padding: 25px 0 0 0px; border:0 !important;" loading="lazy" alt="banner-reklamlutfen" title="banner-reklamlutfen" class="mobile-slider-h">
-                <div class="content-slider-prg">
-                    <h3 style="margin-bottom: 10px; font-size: 25px; font-weight: 600;">Lorem ipsum dolor sit amet consectetur adipisicing elit</h3>
-                    <p style="line-height:19px;">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                        molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-                        numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-                        optio, eaque rerum! Provident similique accusantium nemo autem.
-                    </p>
-                    <a href="#" class="btn btn-navigate" style="border:1px solid #000; margin-top:15px;">Yazıyı Oku</a>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="feature" style="background: #f0f0f4; width: 100%; margin: 0px auto; padding: 30px;">
-    <div class="container container-240">
-        <div class="feature-inside" style="width: 84%; height: 95px; flex-wrap: wrap; overflow-y: scroll; margin: 0 auto; ">
-            <h3 style="margin-bottom: 10px; font-size: 27px; font-weight: 600;">Lorem ipsum dolor sit amet consectetur adipisicing elit</h3>
-            <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-                numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-                optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-                obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-                nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-                tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
-                quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos
-                sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
-                recusandae alias error harum maxime adipisci amet laborum. Perspiciatis
-                minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit
-                quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur
-                fugiat, temporibus enim commodi iusto libero magni deleniti quod quam
-                consequuntur! Commodi minima excepturi repudiandae velit hic maxime
-                doloremque. Quaerat provident commodi consectetur veniam similique ad
-                earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo
-                fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore
-                suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium
-                modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam
-                totam ratione voluptas quod exercitationem fuga. Possimus quis earum veniam
-                quasi aliquam eligendi, placeat qui corporis!
-            </p>
-        </div>
-    </div>
-</div>

@@ -1,34 +1,260 @@
 ﻿@using ajansflix.SERVICES.Dtos.CategoryData
+@using ajansflix.SERVICES.Dtos.ProductsData
 
 @{
+    List<ProductDto> products = ViewBag.Products as List<ProductDto>;
     List<CategoryDto> categoryList = ViewBag.CategoryList as List<CategoryDto>;
 }
 
-<div class="container container-240 mobileViewContainer mobile-category-container" style="padding-top: 50px; padding-bottom: 40px;">
-    <div class="e-product">
-        <div class="product-collection-grid spc1">
-            <div class="row" style="margin:0;">
+<style>
+    .title-rotated {
+        position: relative;
+        top: 30px;
+        z-index: 800;
+        left: 42px;
+        font-size: 20px;
+        font-weight: 800;
+        font-family: 'MadeTommy Bold';
+    }
 
-                @foreach (var item in categoryList.Where(x=> x.IsActive == true))
-                {
-                    <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 product-item" style="width: 50%; padding-left: 5px; padding-right: 5px; margin-bottom:10px;">
-                        <div class="pd-bd product-inner" style="padding: 5px;">
-                            <div class="product-img">
-                                <a href="/hizmetler?id=@item.Id">
-                                <img src="@item.CategoryImage.Replace("thumbnail","fullscreen")" 
-                                     style="margin: 0 auto; display: block;" loading="lazy" 
-                                     title="@item.CategoryName" alt="@item.CategoryName" class="img-reponsive"></a>
-                            </div>
-                            <div class="product-info">
-                                <div class="element-list element-list-middle">
-                                    <h3 class="product-title product-middle" style="text-align:center;"><a href="/hizmetler?id=@item.Id">@item.CategoryName</a></h3>
-                                </div>
-                            </div>
-                        </div>
+    .title-home {
+        border-radius: 5px !important;
+        height: 30px;
+        width: 30px;
+        background: #8711a5;
+        margin-bottom: 25px;
+        padding: 0 !important;
+    }
+
+    .head-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .feature-inside .feature-block {
+        width: 100%;
+        padding: 0 25px;
+        border-right: 1px solid rgb(0 0 0 / 30%);
+    }
+
+    .content-slider {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: nowrap;
+        align-items: center;
+        flex-direction: row;
+        width: 945px;
+        position: relative;
+        left: 50%;
+        top: 165px;
+        right: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .content-slider-prg {
+        padding: 0 25px 0 45px;
+    }
+
+    .pn01, .pn02, .pn03, .pn04 {
+        position: absolute;
+    }
+
+    a.pn01 {
+        left: 0px;
+        top: 110px;
+    }
+
+    a.pn02 {
+        right: 30px;
+        top: 120px;
+    }
+
+    a.pn03 {
+        bottom: 90px;
+        left: 0;
+    }
+
+    a.pn04 {
+        right: 0;
+        bottom: 60px;
+    }
+
+    .product-flex {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 300px;
+        padding: 10px;
+        flex-wrap: nowrap;
+        align-content: space-around;
+    }
+
+    .bg-img-campaign {
+        background-image: url(/img/seasonal-main.png);
+        background-origin: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: relative;
+        height: 570px;
+    }
+
+    .container-left {
+        position: absolute;
+        width: 620px;
+        height: 447px;
+        background: transparent url(/img/numune-kutusu-image.png) 0 0 no-repeat padding-box;
+        left: -40px;
+        top: -65px;
+    }
+
+    .container-right {
+        width: 550px;
+        float: right;
+        color: #000;
+    }
+
+    .container-info {
+        margin: 0 auto;
+        width: 500px;
+        text-align: center;
+        position: relative;
+        transform: translate(-50%, 5%);
+        left: 50%;
+        right: 50%;
+    }
+
+    .ctn-spacer {
+        width: 100px;
+        height: 2px;
+        background-color: #000;
+        margin: 20px auto;
+        display: block;
+    }
+
+    .btn-group-container {
+        margin: 15px auto;
+        width: 80%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+</style>
+
+@foreach (var item in categoryList.Where(x => x.IsActive == true))
+{
+    <div class="product-tab bg-insinde" style="background-color:#e0dfda;">
+        <div class="container container-240" style=" padding-top: 0px; padding-bottom: 0px;">
+            <div class="head-title height-title-product">
+                <div class="title-ecome">
+                    <span class="title-rotated">@Html.Raw(item.CategoryDescription)</span>
+                    <div class="title-home">
                     </div>
-                }
-
+                </div>
+                <a class="btn btn-navigate btn-navigate-product" style="border:1px solid #000; background-color:#fff;" href="/hizmetler?id=@item.Id">Tümünü Gör</a>
             </div>
+            <div class="tab-content" style="margin-top:15px;">
+                <div id="feature" class="tab-pane fade in active">
+                    <div class="product-tab-pd js-multiple-row2">
+                        @foreach (var item2 in products.Where(x => x.CategoryId == item.Id && x.IsActive == true).OrderByDescending(x => x.CreatedTime).Take(4))
+                        {
+                            @if(item2.Discount > 0)
+                            {
+                                <div class="product-countd pd-bd product-inner" style="background:#fff;">
+                                    <div class="product-item-countd">
+                                        <div class="product-head">
+                                            <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">
+                                                <img src="@item2.ImagePath" style="border-radius: 5px;margin-bottom: 15px;" alt="@item2.ProductMetaName" loading="lazy" title="@item2.ProductMetaName" class="img-reponsive" id="image_@item2.Id">
+                                            </a>
+                                            <div class="ribbon-price v3 red"><span>-@item2.Discount% </span></div>
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="product-price thin-price v3">
+
+                                                @{
+                                                    decimal ilkfiyat = item2.Price;
+                                                    decimal indirimOrani = item2.Discount;
+                                                    decimal indirimli_fiyat = ilkfiyat - (ilkfiyat * (indirimOrani / 100));
+                                                }
+
+                                                <span style="font-weight: 800; color:#000;" class="red" id="basePrice_@item2.Id">@Convert.ToInt32(indirimli_fiyat) TL <span style="font-weight:800; font-size:17px;">+KDV</span> </span>
+                                                <span class="old" style="font-weight:500; font-size:17px; margin-left:0; text-decoration:line-through">@Convert.ToInt32(item2.Price) TL</span>
+
+                                            </div>
+                                            <h3 class="product-title text-center v2" style="margin-top: 14px;"><a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">@item2.ProductName</a></h3>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="product-item">
+                                    <div class="pd-bd product-inner" style="background: #fff;">
+                                        <div class="product-img">
+                                            <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">
+                                                <img src="@item2.ImagePath"
+                                         style="border-radius: 5px;margin-bottom: 15px;"
+                                         alt="@item2.ProductMetaName" loading="lazy"
+                                         title="@item2.ProductMetaName" class="img-reponsive" id="image_@item2.Id">
+                                            </a>
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="element-list element-list-middle">
+                                                <h3 class="product-title">
+                                                    <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">@item2.ProductName</a>
+                                                </h3>
+                                                <div class="product-bottom">
+                                                    <div class="product-price"><span>@Convert.ToInt32(item2.Price) TL + KDV</span></div>
+                                                </div>
+                                                <div class="product-bottom-group">
+                                                    <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" class="btn-icon btn-view">
+                                                        <span class="icon-bg icon-wishlist"></span>
+                                                    </a>
+                                                    <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })" class="btn-icon btn-view">
+                                                        <span class="icon-bg icon-view"></span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                      
+                        }
+                    </div>
+                </div>
+            </div>
+
+            @if (item.IsCampaign == true)
+            {
+                <div class="banner-img banner-img2 hidden-sm hidden-md hidden-lg">
+                    <a href="#"><img src="~/img/banner/h1_b2.jpg" alt="" class="img-responsive"></a>
+                    <div class="h-banner-content">
+                        <p class="content-name">Smart speaker for music lovers</p>
+                        <p class="content-price">From <span class="red">39.99</span></p>
+                        <a href="#" class="btn-banner">Shop now<i class="ion-ios-arrow-forward"></i></a>
+                    </div>
+                </div>
+                <div class="banner-img banner-img2 hidden-sm hidden-md hidden-lg">
+                    <a href="#"><img src="~/img/banner/h1_b3.jpg" alt="" class="img-responsive"></a>
+                    <div class="h-banner-content">
+                        <p class="content-name">Smart speaker for music lovers</p>
+                        <p class="content-price">From <span class="red">39.99</span></p>
+                        <a href="#" class="btn-banner">Shop now<i class="ion-ios-arrow-forward"></i></a>
+                    </div>
+                </div>
+            }
+
+            else
+            {
+
+            }
         </div>
     </div>
-</div>
+}
+

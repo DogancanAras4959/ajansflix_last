@@ -52,14 +52,14 @@
                 @foreach (var item2 in products.OrderByDescending(x => x.CreatedTime).Where(x=> x.IsActive == true))
                 {
                     <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 product-item">
-                        <div class="pd-bd product-inner" style="padding:20px;">
+                        <div class="pd-bd product-inner" style="padding:20px; height:390px;">
                             <div class="product-img">
                                 @if (item2.Discount > 0)
                                 {
                                     <div class="ribbon-price red"><span>-@item2.Discount% </span></div>
                                 }
                                 <a href="@Url.Action("detay","hizmet", new { Id = item2.Id, productname = item2.GenerateSlug() })">
-                                    <img src="@item2.ImagePath" alt="@item2.ProductMetaName" loading="lazy" title="@item2.ProductMetaName" id="image_@item2.Id" class="img-reponsive card-mobile-height">
+                                    <img src="@item2.ImagePath" alt="@item2.ProductMetaName" style="border-radius: 5px;" loading="lazy" title="@item2.ProductMetaName" id="image_@item2.Id" class="img-reponsive card-mobile-height">
                                 </a>
                             </div>
                             <div class="product-info" style="margin-top:15px;">

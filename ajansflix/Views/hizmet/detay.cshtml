@@ -87,7 +87,7 @@
                         <div class="e-slide-img">
                             <img src="@Model.ImagePath.Replace("thumbnail","fullscreen")" id="imageProduct" style="cursor:pointer;"
                                  onclick="openModal();currentSlide(1)" alt="@Model.ProductName"
-                                 title="@Model.ProductName" class="hover-shadow mobile-slider-h slide-cover-img" loading="lazy">
+                                 title="@Model.ProductName" class="hover-shadow mobile-image-detail slide-cover-img" loading="lazy">
                         </div>
                         @foreach (var item in images)
                         {
@@ -95,7 +95,7 @@
                             <div class="e-slide-img">
                                 <img src="@item.Replace("thumbnail","fullscreen")" style="cursor:pointer;"
                                  onclick="openModal();currentSlide(@countSlider)" alt="galleryProduct_@countSlider" title="galleryProduct_@countSlider"
-                                 class="hover-shadow mobile-slider-h slide-cover-img" loading="lazy">
+                                 class="hover-shadow mobile-image-detail slide-cover-img" loading="lazy">
                             </div>
                         }
 
@@ -103,28 +103,28 @@
                 </div>
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 table-price-padding" style="padding-left:0px; padding-right:0px;">
-                <div class="single-flex" style="width: 100%; max-width: 100%; display: block;">
+                <div class="single-flex" style="width: 100%; display: block;">
                     <div class="single-product-info product-info product-grid-v2">
                         <div class="shopping-cart">
                             <div class="table-responsive" style="overflow-x:hidden;">
 
-                                <table class="table table-bordered cart-table" style="empty-cells: hide;" id="productsTable">
-                                    <tbody disabled="true">
-                                        <tr class="item_cart">
+                                <table class="table-bordered cart-table" style="empty-cells: hide;" id="productsTable">
+                                    <tbody>
+                                        <tr>
                                             <td colspan="4" class="td-width-mobile">
-                                                <h3 class="product-title td-width-mobile td-title-mobile" style="padding: 10px; margin-bottom: 0px; display: block; vertical-align: middle; text-align: center;">
+                                                <h3 class="product-title td-title-mobile" style="padding: 10px; margin-bottom: 0px; display: block; vertical-align: middle; text-align: center;">
                                                     <a href='@Url.Action("detay","hizmet", new { Id = Model.Id, productname = Model.GenerateSlug() })'>@Model.ProductName </a>
                                                 </h3>
                                             </td>
                                         </tr>
                                         <tr class="item_cart">
-                                            <td colspan="4" class="td-width-mobile">
-                                                <div class="row td-info-mobile m-right-pl" style=" display: flex; flex-direction: row; flex-wrap: wrap; align-content: space-around; align-items: center; margin-right: 0; margin-left: 0;">
-                                                    <div class="col-sm-8">
+                                            <td colspan="4" class="td-width-mobile" style="border: 1px solid #e9e9e9;">
+                                                <div class="td-info-mobile m-right-pl" style="padding:10px; display: flex; flex-direction: row; flex-wrap: wrap; align-content: space-around; align-items: center; margin-right: 0; margin-left: 0;">
+                                                    <div style="width:75%">
                                                         <p>@Html.Raw(Model.ProductAlternateDesc)</p>
                                                     </div>
-                                                    <div class="col-sm-4 td-info-price-t-a-c">
-                                                        <span class="td-info-text-price price-info" style="font-weight:600">@Convert.ToInt32(Model.Price) TL</span>
+                                                    <div class="td-info-price-t-a-c" style="width:25%;">
+                                                        <span class="td-info-text-price p-price-position">@Convert.ToInt32(Model.Price) TL</span>
                                                     </div>
                                                 </div>
                                             </td>
@@ -132,7 +132,7 @@
                                         @foreach (var item in productDetails.Where(x => x.ProductId == Model.Id).OrderBy(x => x.Sorted))
                                         {
                                             <tr class="item_cart table-price-mobile-tr">
-                                                <td class="td-width-mobile" style="vertical-align: middle; padding:0; width:100%; background-color:#ffed00; color:#000; position:relative;">
+                                                <td class="td-width-mobile" style="vertical-align: middle; padding:0 5px; width:100%; background-color:#ffed00; color:#000; position:relative;">
                                                     <strong class="td-title-mobile" style="text-align:center; vertical-align:middle; display:block;">@item.detail.DetailName</strong>
                                                     <div class="cursor-table-variant"><span class="fa fa-play cusor-table-variant-icon"></span></div>
                                                 </td>
@@ -215,7 +215,7 @@
                     <div class="single-product-feature hidden-sm" id="fixed" style="width:100%; padding-left:15px;">
                         @if (Model.Discount > 0)
                         {
-                            <div class="ribbon-price red"><span>-@Model.Discount% </span></div>
+                            <div class="ribbon-price red hidden-xs"><span>-@Model.Discount% </span></div>
                         }
                         <div class="hot-line hot-line-mobile" style="margin-top: 0px; border-radius: 0; padding: 1px; background: #b7b7b785;">
                             <p class="hidden-xs" style="text-align: center;">Toplam Fiyat</p>
@@ -231,6 +231,7 @@
                                         <span style="text-align: center; background: #fff; display: block;" class="txt-kdv">+KDV Dahil</span>
                                         @if (Model.Discount > 0)
                                         {
+                                            <input type="hidden" id="discount_@Model.Id" value="@Model.Discount">
                                             <span style="font-size:15px;">
                                                 <em style="display: block; text-align: center;">(Sepette indirim var!)</em>
                                             </span>
@@ -262,73 +263,74 @@
                 </div>
             </div>
         </div>
-
     </div>
 
-    <div class="single-product-tab bd-7 mobileView">
-        <div class="wrapper center-block">
-            <div class="panel-group" style="margin-bottom:0px;" id="accordion" role="tablist" aria-multiselectable="true">
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingTwo">
-                        <h4 class="panel-title">
-                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Fiyat Politikası
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
+</div>
+
+<div class="single-product-tab bd-7 mobileView margin-table">
+    <div class="wrapper center-block">
+        <div class="panel-group" style="margin-bottom:0px;" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingTwo">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Fiyat Politikası
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                    <div class="panel-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                     </div>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading active" role="tab" id="headingOne">
-                        <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                Hizmet Hakkında
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading active" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Hizmet Hakkında
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                     </div>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingThree">
-                        <h4 class="panel-title">
-                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                Çalışma Süreci
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingThree">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Çalışma Süreci
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                    <div class="panel-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                     </div>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingfour">
-                        <h4 class="panel-title">
-                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                Ödeme Planı
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfour">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingfour">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            Ödeme Planı
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfour">
+                    <div class="panel-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="padding-t-b mobileView"></div>
+<div class="padding-t-b mobileView"></div>
 
 </div>
 

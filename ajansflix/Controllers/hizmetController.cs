@@ -9,9 +9,14 @@ using ajansflix.SERVICES.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -613,14 +618,19 @@ namespace ajansflix.Controllers
             {
                 decimal total = 0;
 
+                Random code = new();
+                string numberCode = code.Next(50000, 70000).ToString();
+
                 var cookieIsHave = Request.Cookies["CartItems"];
                 List<CartItem> resultList = JsonSerializer.Deserialize<List<CartItem>>(cookieIsHave);
+
+                #region Register
 
                 foreach (var item in resultList)
                 {
                     count += 1;
                     li = "";
-                    foreach (var item2 in item._compItems.Where(x=> x.CompId == item.Id))
+                    foreach (var item2 in item._compItems.Where(x => x.CompId == item.Id))
                     {
                         li += $"<li>{item2.CompName}: {item2.CompValue}</li>";
                     }
@@ -645,14 +655,12 @@ namespace ajansflix.Controllers
                 //contactMessage.Content = $@"<p>{contactMessage.NameSurname} iletişim formunu doldurdu. (Bu form https://ikifikir.net/fiyatpaketleri üzerinden gelmiştir.) <p> <hr/> <p><strong>Email Adresi:</strong> {contactMessage.EmailAdress}</p> <hr/> <p>{contactMessage.Message}</p> <hr/> <p><strong>Telefon: </strong>{contactMessage.PhoneNumber}</p> <hr/> <p><strong>Toplam Teklif:</strong> {contactMessage.Total}TL</p> <hr/> <p><strong>Hizmetler:</strong></p> <table style='table-layout: auto; width: 215px;'><thead><tr><th style='text-align:center; border: 1px solid black; border-collapse: collapse; padding:5px;'>Hizmet Adı</th><th style='text-align:left; border: 1px solid black; padding:5px; border-collapse: collapse;'>Fiyat</th></tr></thead><tbody>{items}</tbody></table>";
 
                 result = await _emailSender.SendEmailAsync(contactMessage);
-                Random code = new();
-                string numberCode = code.Next(50000, 70000).ToString();
 
                 CustomerDto cust = new()
                 {
                     EmailAddress = contactMessage.Email,
                     Messagess = contactMessage.Content,
-                    NameSurname = contactMessage.Name +" "+ contactMessage.Surname,
+                    NameSurname = contactMessage.Name + " " + contactMessage.Surname,
                     PhoneNumber = contactMessage.Phone,
                     IsActive = true
                 };
@@ -673,10 +681,75 @@ namespace ajansflix.Controllers
                 _orderService.Insert(newOrder);
 
                 Response.Cookies.Delete("CartItems");
-                return RedirectToAction("sonuc", "anasayfa");
+
+                #endregion
+
+                #region PayTR
+
+                string merchant_id = "325820";
+                string merchant_key = "iq6xcsArWLjKQBZR";
+                string merchant_salt = "HTNJz5k8FDbkmJDu";
+
+                string emailstr = "dogancanaras49@gmail.com";
+                decimal payment_amountstr = total;
+                //int payment_amountstr = 4444;
+
+                string merchant_oid = numberCode.ToString();
+                string user_ip = Response.HttpContext.Connection.RemoteIpAddress.ToString();
+
+                if (user_ip == "" || user_ip == null)
+                {
+                    user_ip = Response.HttpContext.Connection.RemoteIpAddress.ToString();
+                }
+
+                string timeout_limit = "30";
+                string debug_on = "1";
+                string test_mode = "0";
+                string payment_type = "eft";
+
+                NameValueCollection data = new NameValueCollection();
+                data["merchant_id"] = merchant_id;
+                data["user_ip"] = user_ip;
+                data["merchant_oid"] = merchant_oid;
+                data["email"] = emailstr;
+                data["payment_amount"] = payment_amountstr.ToString();
+                data["payment_type"] = payment_type;
+
+                string Birlestir = string.Concat(merchant_id, user_ip, merchant_oid, emailstr, payment_amountstr.ToString(), payment_type, test_mode, merchant_salt);
+
+                HMACSHA256 hmac = new HMACSHA256(Encoding.UTF8.GetBytes(merchant_key));
+                byte[] b = hmac.ComputeHash(Encoding.UTF8.GetBytes(Birlestir));
+                data["paytr_token"] = Convert.ToBase64String(b);
+
+                data["debug_on"] = debug_on;
+                data["test_mode"] = test_mode;
+                data["timeout_limit"] = timeout_limit;
+
+                using (WebClient client = new WebClient())
+                {
+                    client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                    byte[] resultPay = client.UploadValues("https://www.paytr.com/odeme/api/get-token", "POST", data);
+                    string ResultAuthTicket = Encoding.UTF8.GetString(resultPay);
+                    dynamic json = JValue.Parse(ResultAuthTicket);
+
+                    if (json.status == "success")
+                    {
+                        return Redirect("https://www.paytr.com/odeme/api/" + json.token + "");
+                    }
+
+                    else
+                    {
+                        Response.Body.Write("PAYTR EFT IFRAME failed. reason:" + json.reason + "");
+                    }
+
+                    return RedirectToAction("sonuc", "anasayfa");
+
+                }
+
+                #endregion
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Response.Cookies.Delete("CartItems");
                 return RedirectToAction("sonuc", "anasayfa");

@@ -167,6 +167,23 @@ namespace ajansflix.Areas.admin.Controllers
             return Redirect("/admin/urun/kategoriler");
         }
 
+        public IActionResult kategoriKampanyasiAktiflestir(int Id)
+        {
+
+            var category = _categoryService.Get(Id);
+            if (category.IsCampaign == true)
+            {
+                category.IsCampaign = false;
+            }
+            else
+            {
+                category.IsCampaign = true;
+            }
+
+            _categoryService.Update(category);
+            return Redirect("/admin/urun/kategoriler");
+        }
+
         #endregion
 
         #region Urunler

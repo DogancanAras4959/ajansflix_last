@@ -47,6 +47,9 @@ namespace ajansflix.DOMAIN.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsCampaign")
+                        .HasColumnType("bit");
+
                     b.Property<string>("StatusCode")
                         .HasColumnType("nvarchar(max)");
 

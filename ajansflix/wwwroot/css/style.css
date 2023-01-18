@@ -93,6 +93,13 @@
 }
 
 @font-face {
+    font-family: 'Inconsolata-Medium';
+    font-style:normal;
+    font-weight:normal;
+    src: url('Inconsolata-Medium.ttf') format('truetype');
+}
+
+@font-face {
     font-family: 'Urbanist Medium';
     font-style: normal;
     font-weight: normal;
@@ -6534,9 +6541,9 @@ button.close {
 
 .scroll_top {
   display: inline-block;
-  bottom: 65px;
+  bottom: 40px;
   position: fixed;
-  right: 15px;
+  right: 40px;
   width: 44px;
   height: 44px;
   text-align: center;

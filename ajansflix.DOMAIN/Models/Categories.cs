@@ -21,6 +21,7 @@ namespace ajansflix.DOMAIN.Models
         public string CategoryDescription { get; set; }
         public string CategoryStatus { get; set; }
         public string StatusCode { get; set; }
+        public bool IsCampaign { get; set; }
         public int CategorySorted { get; set; }
         public virtual ICollection<Products> products { get; set; } 
         

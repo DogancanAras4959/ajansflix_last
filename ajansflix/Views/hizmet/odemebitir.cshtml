@@ -16,18 +16,17 @@
 }
 
 <style>
-    .credit-row{
+    .credit-row {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: space-around;
         align-items: center;
     }
-    }
 </style>
 
 <div class="main-content space1">
-    <div class="container container-240">
+    <div class="container container-240" style="width:90%">
         <ul class="breadcrumb">
             <li><a href="@Url.Action("sayfa","anasayfa")">Ana Sayfa</a></li>
             <li><a href="/sepet">Sepet</a></li>
@@ -36,75 +35,52 @@
 
         <div class="cart-box-container-ver2" style="margin-top:20px;">
             <div class="row">
-                <div class="col-md-8">
-                    <div class="tab_container" style="width:100%; margin:0 auto;">
+                <form name="checkout" method="post" action="@Url.Action("fiyatformgonder","hizmet")" class="co">
+                    <div class="col-md-8">
+                        <div class="tab_container" style="width:100%; margin:0 auto;">
 
-                        <input id="tab4" type="radio" name="tabs" checked>
+                            @*                            <form action="" method="post">
+                            *@
+                            <div class="pymt-radio">
 
-                        <section id="content4" class="tab-content">
-                            <form action="" method="post">
-
-                                <div class="pymt-radio">
-
-                                    <div class="row-payment-method payment-row-last">
-                                        <div class="select-icon hr">
-                                            <input type="radio" id="radio2" name="radios" value="pp" checked>
-                                            <label for="radio2"></label>
-                                        </div>
-                                        <div class="select-txt hr">
-                                            <p class="pymt-type-name">Banka / Kredi Kartı ile Ödeme</p>
-                                            <p class="pymt-type-desc">Banka hesabınızı kullanarak güvenli para transferi. Çevrimiçi güvenli ödeme. Kredi kartı gerekli. Visa, Maestro, Keşfet, American Express</p>
-                                        </div>
-                                        <div class="select-logo">
-                                            <div class="select-logo-sub logo-spacer">
-                                                <img src="https://www.dropbox.com/s/by52qpmkmcro92l/logo-visa.png?raw=1" alt="Visa" />
-                                            </div>
-                                            <div class="select-logo-sub">
-                                                <img src="https://www.dropbox.com/s/6f5dorw54xomw7p/logo-mastercard.png?raw=1" alt="MasterCard" />
-                                            </div>
-                                        </div>
-
+                                <div class="row-payment-method payment-row-last">
+                                    @*  <div class="select-icon">
+                                    <input type="radio" id="radio2" name="radios" value="pp" checked>
+                                    <label for="radio2"></label>
+                                    </div>*@
+                                    <div class="select-txt">
+                                        <p class="pymt-type-name">Banka / Kredi Kartı ile Ödeme</p>
+                                        <p class="pymt-type-desc">Banka hesabınızı kullanarak güvenli para transferi. Çevrimiçi güvenli ödeme. Kredi kartı gerekli. Visa, Maestro, Keşfet, American Express</p>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="credit-row">
-                                    <div class="form-cc">
-                                        <div class="row-cc">
-                                            <div class="cc-field">
-                                                <div class="cc-title">
-                                                    Kart Sahibi
-                                                </div>
-                                                <input type="text" class="input cc-txt" />
+                            <div class="credit-row">
+                                <div class="form-cc">
+                                    <div class="row-cc">
+                                        <div class="cc-field">
+                                            <div class="cc-title">
+                                                Kart Sahibi
                                             </div>
+                                            <input type="text" maxlength="30" id="card-holder" class="input cc-txt js-card-holder" />
                                         </div>
-                                        <div class="row-cc">
-                                            <div class="cc-field">
-                                                <div class="cc-title">
-                                                    Kredi Kartı Numarası
-                                                </div>
-                                                <input type="text" class="input cc-txt" placeholder="**** **** **** ****" />
+                                    </div>
+                                    <div class="row-cc">
+                                        <div class="cc-field">
+                                            <div class="cc-title">
+                                                Kart Numarası
                                             </div>
+                                            <input type="text" maxlength="25" id="card-number" class="input cc-txt js-input-cart-number" placeholder="**** **** **** ****" />
                                         </div>
-                                        <div class="row-cc">
-                                            <div class="cc-field">
-                                                <div class="cc-title">
-                                                    Son Kullanma Tarihi
-                                                </div>
-                                                <select class="input cc-ddl">
-                                                    <option selected>01</option>
-                                                    <option>02</option>
-                                                    <option>03</option>
-                                                    <option>04</option>
-                                                    <option>05</option>
-                                                    <option>06</option>
-                                                    <option>07</option>
-                                                    <option>08</option>
-                                                    <option>09</option>
-                                                    <option>10</option>
-                                                    <option>11</option>
-                                                    <option>12</option>
-                                                </select>
-                                                <select class="input cc-ddl">
+                                    </div>
+                                    <div class="row-cc">
+                                        <div class="cc-field">
+                                            <div class="cc-title">
+                                                Son Kullanma Tarihi
+                                            </div>
+                                            <div class="select">
+                                                <select id="card-expiration-month" class="input cc-ddl js-card-expiration-month">
+                                                    <option></option>
                                                     <option>01</option>
                                                     <option>02</option>
                                                     <option>03</option>
@@ -117,45 +93,46 @@
                                                     <option>10</option>
                                                     <option>11</option>
                                                     <option>12</option>
-                                                    <option>13</option>
-                                                    <option>14</option>
-                                                    <option>15</option>
-                                                    <option selected>16</option>
-                                                    <option>17</option>
-                                                    <option>18</option>
-                                                    <option>19</option>
-                                                    <option>20</option>
-                                                    <option>21</option>
-                                                    <option>22</option>
-                                                    <option>23</option>
-                                                    <option>24</option>
-                                                    <option>25</option>
-                                                    <option>26</option>
-                                                    <option>27</option>
-                                                    <option>28</option>
-                                                    <option>29</option>
-                                                    <option>30</option>
-                                                    <option>31</option>
+                                                </select>
+                                                <select id="card-expiration-year" class="input cc-ddl js-card-expiration-year">
+                                                    <option></option>
+                                                    <option>2016</option>
+                                                    <option>2017</option>
+                                                    <option>2018</option>
+                                                    <option>2019</option>
+                                                    <option>2020</option>
+                                                    <option>2021</option>
+                                                    <option>2022</option>
+                                                    <option>2023</option>
+                                                    <option>2024</option>
+                                                    <option>2025</option>
+                                                    <option>2026</option>
+                                                    <option>2027</option>
+                                                    <option>2028</option>
+                                                    <option>2029</option>
+                                                    <option>2030</option>
+                                                    <option>2031</option>
                                                 </select>
                                             </div>
-                                            <div class="cc-field">
-                                                <div class="cc-title">
-                                                    CVV Kodu<span class="numberCircle">?</span>
-                                                </div>
-                                                <input type="text" class="input cc-txt" />
+                                        </div>
+                                        <div class="cc-field">
+                                            <div class="cc-title">
+                                                CVV Kodu<span class="numberCircle">?</span>
                                             </div>
+                                            <input type="text" id="card-ccv" class="input cc-txt js-card-ccv" maxlength="3" />
                                         </div>
                                     </div>
-                                    <div class="checkout">
-                                        <div class="credit-card-box">
-                                            <div class="flip">
-                                                <div class="front">
-                                                    <div class="chip"></div>
-                                                    <div class="logo">
-                                                        <svg version="1.1" id="visa" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                             width="47.834px" height="47.834px" viewBox="0 0 47.834 47.834" style="enable-background:new 0 0 47.834 47.834;">
-                                                            <g>
-                                                                <path d="M44.688,16.814h-3.004c-0.933,0-1.627,0.254-2.037,1.184l-5.773,13.074h4.083c0,0,0.666-1.758,0.817-2.143
+                                </div>
+                                <div class="checkout">
+                                    <div class="credit-card-box">
+                                        <div class="flip">
+                                            <div class="front">
+                                                <div class="chip"></div>
+                                                <div class="logo">
+                                                    <svg version="1.1" id="visa" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                         width="47.834px" height="47.834px" viewBox="0 0 47.834 47.834" style="enable-background:new 0 0 47.834 47.834;">
+                                                        <g>
+                                                            <path d="M44.688,16.814h-3.004c-0.933,0-1.627,0.254-2.037,1.184l-5.773,13.074h4.083c0,0,0.666-1.758,0.817-2.143
                                 c0.447,0,4.414,0.006,4.979,0.006c0.116,0.498,0.474,2.137,0.474,2.137h3.607L44.688,16.814z M39.893,26.01
                                 c0.32-0.819,1.549-3.987,1.549-3.987c-0.021,0.039,0.317-0.825,0.518-1.362l0.262,1.23c0,0,0.745,3.406,0.901,4.119H39.893z
                                 M34.146,26.404c-0.028,2.963-2.684,4.875-6.771,4.875c-1.743-0.018-3.422-0.361-4.332-0.76l0.547-3.193l0.501,0.228
@@ -166,25 +143,25 @@
                                 C7.795,20.842,4.691,18.099,0,16.962z M17.581,16.812l-6.123,14.239l-4.114,0.007L3.862,19.161
                                 c2.503,1.602,4.635,4.144,5.386,5.914l0.406,1.469l3.808-9.729L17.581,16.812L17.581,16.812z M19.153,16.8h3.89L20.61,31.066
                                 h-3.888L19.153,16.8z" />
-                                                            </g>
-                                                        </svg>
-                                                    </div>
-                                                    <div class="number"></div>
-                                                    <div class="card-holder">
-                                                        <label>Card holder</label>
-                                                        <div></div>
-                                                    </div>
-                                                    <div class="card-expiration-date">
-                                                        <label>Expires</label>
-                                                        <div></div>
-                                                    </div>
+                                                        </g>
+                                                    </svg>
                                                 </div>
-                                                <div class="back">
-                                                    <div class="strip"></div>
-                                                    <div class="logo">
-                                                        <svg version="1.1" id="visa" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="47.834px" height="47.834px" viewBox="0 0 47.834 47.834" style="enable-background:new 0 0 47.834 47.834;">
-                                                            <g>
-                                                                <path d="M44.688,16.814h-3.004c-0.933,0-1.627,0.254-2.037,1.184l-5.773,13.074h4.083c0,0,0.666-1.758,0.817-2.143
+                                                <div class="number"></div>
+                                                <div class="card-holder">
+                                                    <label>KART SAHİBİ</label>
+                                                    <div></div>
+                                                </div>
+                                                <div class="card-expiration-date">
+                                                    <label>SON KULLANIM</label>
+                                                    <div></div>
+                                                </div>
+                                            </div>
+                                            <div class="back">
+                                                <div class="strip"></div>
+                                                <div class="logo">
+                                                    <svg version="1.1" id="visa" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="47.834px" height="47.834px" viewBox="0 0 47.834 47.834" style="enable-background:new 0 0 47.834 47.834;">
+                                                        <g>
+                                                            <path d="M44.688,16.814h-3.004c-0.933,0-1.627,0.254-2.037,1.184l-5.773,13.074h4.083c0,0,0.666-1.758,0.817-2.143
                                 c0.447,0,4.414,0.006,4.979,0.006c0.116,0.498,0.474,2.137,0.474,2.137h3.607L44.688,16.814z M39.893,26.01
                                 c0.32-0.819,1.549-3.987,1.549-3.987c-0.021,0.039,0.317-0.825,0.518-1.362l0.262,1.23c0,0,0.745,3.406,0.901,4.119H39.893z
                                 M34.146,26.404c-0.028,2.963-2.684,4.875-6.771,4.875c-1.743-0.018-3.422-0.361-4.332-0.76l0.547-3.193l0.501,0.228
@@ -195,28 +172,46 @@
                                 C7.795,20.842,4.691,18.099,0,16.962z M17.581,16.812l-6.123,14.239l-4.114,0.007L3.862,19.161
                                 c2.503,1.602,4.635,4.144,5.386,5.914l0.406,1.469l3.808-9.729L17.581,16.812L17.581,16.812z M19.153,16.8h3.89L20.61,31.066
                                 h-3.888L19.153,16.8z" />
-                                                            </g>
-                                                        </svg>
-                                                    </div>
-                                                    <div class="ccv">
-                                                        <label>CCV</label>
-                                                        <div></div>
-                                                    </div>
+                                                        </g>
+                                                    </svg>
+                                                </div>
+                                                <div class="ccv">
+                                                    <label>CCV</label>
+                                                    <div></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>          
+                                </div>
+                            </div>
 
-                            </form>
-                        </section>
+                            @*                            </form>
+                            *@
+
+                        </div>
+                        <div class="tab_container" style="width:100%; margin:10px auto;">
+                            <div class="pymt-radio">
+
+                                <div class="row-payment-method payment-row-last">
+                                    <div class="select-txt">
+                                        <p class="pymt-type-name">3D Secure Ödeme Yöntemi</p>
+                                        <p class="pymt-type-desc">
+                                            3D Secure yöntemi ile ödeme yapmak istiyorum.
+                                        </p>
+                                    </div><div class="select-logo">
+                                        <div class="select-logo-sub">
+                                            <img src="/img/kare-logo-paytr.jpg" alt="MasterCard" style="height: 55px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <!-- End contact-form -->
-                <div class="col-md-4">
-                    <div class="cart-total" style="border: 1px solid #e3e3e3b0; border-radius: 7px;">
-                        <form name="checkout" action="@Url.Action("fiyatformgonder","hizmet")" method="post" class="co">
-                            <div class="table-responsive">
+                    <!-- End contact-form -->
+                    <div class="col-md-4">
+                        <div class="cart-total" style="border: 1px solid #e3e3e3b0; border-radius: 7px;">
+                            @*                        <form name="checkout" action="@Url.Action("fiyatformgonder","hizmet")" method="post" class="co">
+                            *@                            <div class="table-responsive">
                                 <div class="co-pd">
                                     <p class="co-title">
                                         Ürün<span>Tutar</span>
@@ -306,12 +301,15 @@
                             <div class="cart-total-bottom v2">
                                 <button type="submit" class="btn-gradient btn_primary_color btn-checkout btn-co-order">Siparişi Tamamla</button>
                             </div>
-                        </form>
+                            @*                        </form>
+                            *@
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
 <link href="~/css/credit.css" rel="stylesheet" />
+<script src="~/js/credit.js"></script>

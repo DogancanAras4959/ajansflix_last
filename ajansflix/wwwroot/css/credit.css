@@ -59,16 +59,12 @@ label {
     font-size: 14px;
     display: block;
     float: left;
-    padding: 20px 14px;
-    color: #ccc;
     cursor: pointer;
     text-decoration: none;
     text-align: center;
-    background: #fff;
     margin-bottom: 2px;
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
-    border-bottom: 2px solid #eee;
 }
 
 #tab1:checked ~ #content1,
@@ -133,7 +129,7 @@ label:hover {
 }
 
 .payment-row-last {
-    margin-left: 30px;
+    margin-left: 15px;
     margin-right: 30px;
     width: 100%;
 }
@@ -166,7 +162,7 @@ label:hover {
 .select-logo {
     padding-right: 0px;
     vertical-align: top;
-    right: 35px;
+    right: 15px;
     position: absolute;
 }
 
@@ -187,8 +183,8 @@ label:hover {
 }
 
 .pymt-type-desc {
-    padding-bottom: 22px;
-    width: 70%;
+    padding-bottom: 0px;
+    width: 90%;
     font-size: 14px;
 }
 
@@ -199,7 +195,7 @@ label:hover {
 
 .form-cc {
     display: table;
-    width: 60%;
+    width: 55%;
     text-align: left;
     padding: 0px 0px 30px 30px;
 }
@@ -241,8 +237,8 @@ input[type="text"] {
 .cc-ddl {
     border-color: #f0f4f7;
     background-color: #f0f4f7;
-    width: 100px;
-    margin-right: 10px;
+    width: 80px;
+    margin-right: 0px;
 }
 
 .cc-title {
@@ -252,7 +248,7 @@ input[type="text"] {
 
 .cc-field {
     padding-top: 15px;
-    padding-right: 30px;
+    padding-right: 14px;
     display: table-cell;
 }
 
@@ -326,12 +322,12 @@ p.credit {
 }
 
 .checkout {
-    margin: 150px auto 30px;
+    margin: 0px;
     position: relative;
     width: 460px;
     background: white;
     border-radius: 15px;
-    padding: 160px 45px 30px;
+    padding: 15px;
 }
 
 .credit-card-box {
@@ -340,8 +336,8 @@ p.credit {
     height: 280px;
     position: absolute;
     top: -112px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 5px;
+    transform: translateX(0%);
 }
 
     .credit-card-box:hover .flip,
@@ -355,7 +351,7 @@ p.credit {
         height: 250px;
         border-radius: 15px;
         backface-visibility: hidden;
-        background: linear-gradient(135deg, #bd6772, #53223f);
+        background: linear-gradient(135deg, #bf60fb, #522253);
         position: absolute;
         color: #fff;
         font-family: Inconsolata;
@@ -449,6 +445,8 @@ p.credit {
         top: 103px;
         left: 19px;
         font-size: 38px;
+        color: #fff;
+        font-family: 'Inconsolata-Medium';
     }
 
     .credit-card-box label {
@@ -460,6 +458,7 @@ p.credit {
         opacity: 0.5;
         display: block;
         margin-bottom: 3px;
+        font-family: 'Inconsolata-Medium';
     }
 
     .credit-card-box .card-holder,
@@ -470,6 +469,7 @@ p.credit {
         left: 19px;
         font-size: 22px;
         text-transform: capitalize;
+        font-family: 'Inconsolata-Medium';
     }
 
     .credit-card-box .card-expiration-date {
@@ -491,9 +491,11 @@ p.credit {
         color: #000;
         text-align: right;
         padding: 10px;
+        font-family: 'Inconsolata-Medium';
     }
 
         .credit-card-box .ccv label {
             margin: -25px 0 14px;
             color: #fff;
+            font-family: 'Inconsolata-Medium';
         }
